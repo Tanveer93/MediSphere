@@ -364,7 +364,7 @@ export default function LabDashboard() {
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', color: 'var(--text-secondary)' }}>
-                    <th style={{ padding: '12px' }}>Patient Name</th>
+                    <th style={{ padding: '12px' }}>Student / Faculty Name</th>
                     <th style={{ padding: '12px' }}>Doctor Name</th>
                     <th style={{ padding: '12px' }}>Prescribed Tests</th>
                     <th style={{ padding: '12px' }}>Status</th>
@@ -374,7 +374,7 @@ export default function LabDashboard() {
                 <tbody>
                   {pendingRequests.map(p => (
                     <tr key={p.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                      <td data-label="Patient Name" style={{ padding: '16px 12px', fontWeight: 600 }}>{p.patientName}</td>
+                      <td data-label="Student / Faculty Name" style={{ padding: '16px 12px', fontWeight: 600 }}>{p.patientName}</td>
                       <td data-label="Doctor Name" style={{ padding: '16px 12px' }}>{p.doctorName}</td>
                       <td data-label="Prescribed Tests" style={{ padding: '16px 12px' }}>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
@@ -442,7 +442,7 @@ export default function LabDashboard() {
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', color: 'var(--text-secondary)' }}>
-                    <th style={{ padding: '12px' }}>Patient Name</th>
+                    <th style={{ padding: '12px' }}>Student / Faculty Name</th>
                     <th style={{ padding: '12px' }}>Doctor Name</th>
                     <th style={{ padding: '12px' }}>Prescribed Tests</th>
                     <th style={{ padding: '12px' }}>Uploaded Files</th>
@@ -458,7 +458,7 @@ export default function LabDashboard() {
 
                     return (
                       <tr key={p.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                        <td data-label="Patient Name" style={{ padding: '16px 12px', fontWeight: 600 }}>{p.patientName}</td>
+                        <td data-label="Student / Faculty Name" style={{ padding: '16px 12px', fontWeight: 600 }}>{p.patientName}</td>
                         <td data-label="Doctor Name" style={{ padding: '16px 12px' }}>{p.doctorName}</td>
                         <td data-label="Prescribed Tests" style={{ padding: '16px 12px' }}>
                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>

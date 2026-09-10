@@ -137,7 +137,7 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
           >
-            An all-in-one healthcare platform that connects doctors, pharmacies, labs, and an AI health assistant — so booking, medicines, tests, recovery, and emergencies all happen in one place. Powered by AI, available in your language, and built to work even offline. Every family's 24/7 health friend.
+            An all-in-one healthcare platform that connects doctors, pharmacies, labs, and an AI health assistant — so booking, medicines, tests, recovery, and emergencies all happen in one place. Powered by AI, available in your language, and built to work even offline. Every student & teacher's 24/7 health friend.
           </motion.p>
         </header>
 
@@ -150,7 +150,7 @@ export default function AboutPage() {
                 Our mission is to make quality healthcare reachable for every person — no matter where they live, what language they speak, or whether they have an internet connection.
               </p>
               <p className="mission-text">
-                We're uniting doctors, pharmacies, labs, and AI into one seamless platform, so getting care is never again slow, scattered, or out of reach. From a simple consultation to a life-saving emergency, we want every family to have trusted health support in their pocket, 24/7.
+                We're uniting doctors, pharmacies, labs, and AI into one seamless platform, so getting care is never again slow, scattered, or out of reach. From a simple consultation to a life-saving emergency, we want every student, teacher, and campus member to have trusted health support in their pocket, 24/7.
               </p>
             </div>
             <div className="mission-graphic-box">

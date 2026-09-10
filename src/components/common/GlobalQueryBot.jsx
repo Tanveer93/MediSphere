@@ -44,7 +44,7 @@ export default function GlobalQueryBot() {
 
   const quickTags = [
     { label: '📅 Book Appointment', query: 'How do I book a doctor appointment on the platform?' },
-    { label: '📝 Sign Up Guide', query: 'How can I register an account as a patient or doctor?' },
+    { label: '📝 Sign Up Guide', query: 'How can I register an account as a student, teacher or doctor?' },
     { label: '💊 Buy Medicines', query: 'How can I order medicines online using my prescriptions?' },
     { label: '🏆 Earn Rewards', query: 'How does the EXP checklist and streak rewards program work?' }
   ];

@@ -541,7 +541,7 @@ export default function DoctorDashboard() {
     doc.setFontSize(12);
     doc.setTextColor(50, 50, 50);
     doc.text(`Doctor: Dr. ${user.name || 'Unknown'}`, margin, y);
-    doc.text(`Patient ID: ${selectedPatientId || 'N/A'}`, pageWidth / 2, y);
+    doc.text(`Student / Faculty ID: ${selectedPatientId || 'N/A'}`, pageWidth / 2, y);
     y += 10;
     doc.text(`Diagnosis: ${diagnosis}`, margin, y);
     y += 15;
@@ -658,7 +658,7 @@ export default function DoctorDashboard() {
   const handleCreatePrescription = async (e) => {
     e.preventDefault();
     if (!selectedPatientId || !diagnosis) {
-      toast.error('Patient and Diagnosis fields are required');
+      toast.error('Student/Faculty and Diagnosis fields are required');
       return;
     }
 
@@ -677,7 +677,7 @@ export default function DoctorDashboard() {
       };
 
       await prescriptionAPI.create(payload);
-      toast.success('Prescription created and sent to patient!');
+      toast.success('Prescription created and sent to student/faculty!');
       
       setDiagnosis('');
       setMedicines([{ name: '', dosage: '', frequency: '', duration: '' }]);
@@ -944,7 +944,7 @@ export default function DoctorDashboard() {
     doc.setTextColor(50, 50, 50);
 
     doc.setFont('Helvetica', 'bold');
-    doc.text('Patient Name:', margin, y);
+    doc.text('Student / Faculty Name:', margin, y);
     doc.setFont('Helvetica', 'normal');
     doc.text(appt.patientName || 'N/A', margin + 28, y);
 
@@ -1112,7 +1112,7 @@ export default function DoctorDashboard() {
     doc.setTextColor(50, 50, 50);
 
     doc.setFont('Helvetica', 'bold');
-    doc.text('Patient Name:', margin, y);
+    doc.text('Student / Faculty Name:', margin, y);
     doc.setFont('Helvetica', 'normal');
     doc.text(appt.patientName || 'N/A', margin + 28, y);
 
@@ -2510,7 +2510,7 @@ export default function DoctorDashboard() {
                     <input
                       type="number"
                       className="form-input"
-                      placeholder="Enter Patient ID"
+                      placeholder="Enter Student / Faculty ID"
                       value={selectedPatientId}
                       onChange={(e) => setSelectedPatientId(e.target.value)}
                       required

@@ -58,12 +58,12 @@ export default function LandingPage() {
 
   const cards = [
     {
-      title: "For Patients",
+      title: "For Students & Teachers",
       description: "Book appointments instantly. Choose between in-person hospital visits or remote video consultations, secure your slots, and manage your health records in a central dashboard.",
       link: "/login",
       icon: <FaUser />,
       color: "var(--primary)",
-      actionText: "Access Patient Portal"
+      actionText: "Access Student / Teacher Portal"
     },
     {
       title: "For Doctors",
@@ -108,7 +108,7 @@ export default function LandingPage() {
             Technology that <span className="text-accent">heals.</span>
           </h1>
           <p className="hero-subtitle">
-            MediSphere bridges patients, doctors, and pharmacies together. Book appointments, manage records, and get care — all in one secure platform.
+            MediSphere bridges students, teachers, hospitals, and pharmacies together. Book appointments, manage records, and get care — all in one secure platform.
           </p>
           <div className="hero-actions">
             <Link to="/login" className="btn btn-primary btn-lg">
@@ -127,7 +127,7 @@ export default function LandingPage() {
               </div>
               <div className="stat-info">
                 <span className="stat-number">10,000+</span>
-                <span className="stat-label">Patients Served</span>
+                <span className="stat-label">Students & Teachers Served</span>
               </div>
             </div>
             <div className="stat-item">
@@ -170,7 +170,7 @@ export default function LandingPage() {
           <div className="doctor-patient-visual-container">
             <div className="doctor-patient-glow"></div>
             <div className="image-frame">
-              <img src={doctorPatientImg} alt="Empathetic Doctor Patient Interaction" className="doctor-patient-photo" />
+              <img src={doctorPatientImg} alt="Doctor Consultation with Student or Teacher" className="doctor-patient-photo" />
             </div>
 
 
@@ -491,7 +491,7 @@ export default function LandingPage() {
             <div className="footer-logo-row">
               <img src={MediSphereLogo} alt="MediSphere" className="footer-logo-img" style={{ height: '115px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
             </div>
-            <p className="footer-tagline">Making Quality Healthcare Accessible for Every Family.</p>
+            <p className="footer-tagline">Making Quality Healthcare Accessible for Every Student, Teacher & Campus Member.</p>
             <div className="footer-social-row">
               <a href="#" aria-label="Twitter" className="footer-social-btn">𝕏</a>
               <a href="#" aria-label="LinkedIn" className="footer-social-btn">in</a>

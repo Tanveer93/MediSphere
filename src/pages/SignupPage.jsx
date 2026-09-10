@@ -760,11 +760,11 @@ export default function SignupPage() {
   };
 
   const roles = [
-    { key: 'PATIENT', label: 'Student', icon: <FaUser />, desc: 'Book consultations & manage health' },
-    { key: 'FACULTY', label: 'Faculty', icon: <FaUser />, desc: 'Book consultations & manage health as faculty' },
-    { key: 'DOCTOR', label: 'Doctor', icon: <FaUserMd />, desc: 'Manage hospital & prescriptions' },
+    { key: 'PATIENT', label: 'Student', icon: <FaUser />, desc: 'Campus student health portal & checkups' },
+    { key: 'FACULTY', label: 'Teacher / Faculty', icon: <FaUser />, desc: 'Faculty occupational health & checkup benefits' },
+    { key: 'DOCTOR', label: 'Campus Doctor', icon: <FaUserMd />, desc: 'Campus clinic doctors & consultations' },
     { key: 'PHARMACY', label: 'Pharmacy', icon: <FaStore />, desc: 'View prescriptions & set prices' },
-    { key: 'HOSPITAL', label: 'Hospital', icon: <FaHospital />, desc: 'Register a hospital and manage listings' },
+    { key: 'HOSPITAL', label: 'Hospital / Health Center', icon: <FaHospital />, desc: 'Campus health center & hospital bed listings' },
   ];
 
   const stepLabels = ['Role', 'Details', 'Account', 'Verify'];

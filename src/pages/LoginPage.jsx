@@ -299,7 +299,7 @@ export default function LoginPage() {
 
   const roles = [
     { key: 'PATIENT',  label: 'Student',  icon: <FaUser />,     demo: 'naina24bcf10013@cuchd.in' },
-    { key: 'FACULTY',  label: 'Faculty',  icon: <FaUser />,     demo: 'naina24bcf10013@cuchd.in' },
+    { key: 'FACULTY',  label: 'Teacher / Faculty',  icon: <FaUser />,     demo: 'naina24bcf10013@cuchd.in' },
     { key: 'DOCTOR',   label: 'Doctor',   icon: <FaUserMd />,   demo: 'doctor@demo.com' },
     { key: 'PHARMACY', label: 'Pharmacy', icon: <FaStore />,    demo: 'pharmacy@demo.com' },
     { key: 'HOSPITAL', label: 'Hospital', icon: <FaHospital />, demo: 'hospital@demo.com' },

@@ -759,7 +759,7 @@ export default function PharmacyDashboard() {
                   <thead>
                     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', color: 'var(--text-secondary)' }}>
                       <th style={{ padding: '12px' }}>ID</th>
-                      <th style={{ padding: '12px' }}>Patient Name</th>
+                      <th style={{ padding: '12px' }}>Student / Faculty Name</th>
                       <th style={{ padding: '12px' }}>Doctor Name</th>
                       <th style={{ padding: '12px' }}>Medicines</th>
                       <th style={{ padding: '12px', whiteSpace: 'nowrap' }}>Actions</th>
@@ -769,7 +769,7 @@ export default function PharmacyDashboard() {
                     {queue.map(p => (
                       <tr key={p.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
                         <td data-label="ID" style={{ padding: '16px 12px' }}>#{p.id}</td>
-                        <td data-label="Patient Name" style={{ padding: '16px 12px', fontWeight: 600 }}>{p.patientName}</td>
+                        <td data-label="Student / Faculty Name" style={{ padding: '16px 12px', fontWeight: 600 }}>{p.patientName}</td>
                         <td data-label="Doctor Name" style={{ padding: '16px 12px' }}>{p.doctorName}</td>
                         <td data-label="Medicines" style={{ padding: '16px 12px', color: 'var(--text-secondary)' }}>
                           {formatMedicines(p.medicines)}
@@ -1136,7 +1136,7 @@ export default function PharmacyDashboard() {
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', color: 'var(--text-secondary)' }}>
                     <th style={{ padding: '12px' }}>Order ID</th>
                     <th style={{ padding: '12px' }}>Date &amp; Time</th>
-                    <th style={{ padding: '12px' }}>Patient Name</th>
+                    <th style={{ padding: '12px' }}>Student / Faculty Name</th>
                     <th style={{ padding: '12px' }}>Medicines</th>
                     <th style={{ padding: '12px' }}>Region</th>
                     <th style={{ padding: '12px' }}>Grand Total</th>
@@ -1149,7 +1149,7 @@ export default function PharmacyDashboard() {
                     <tr key={order.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
                       <td data-label="Order ID" style={{ padding: '16px 12px', fontWeight: 'bold' }}>#{order.id}</td>
                       <td data-label="Date & Time" style={{ padding: '16px 12px', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{order.time}</td>
-                      <td data-label="Patient Name" style={{ padding: '16px 12px', fontWeight: 600 }}>{order.patientName}</td>
+                      <td data-label="Student / Faculty Name" style={{ padding: '16px 12px', fontWeight: 600 }}>{order.patientName}</td>
                       <td data-label="Medicines" style={{ padding: '16px 12px', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{order.medicine}</td>
                       <td data-label="Region" style={{ padding: '16px 12px' }}><span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}><FiMapPin size={12} color="var(--secondary)" /> {order.region}</span></td>
                       <td data-label="Grand Total" style={{ padding: '16px 12px', fontWeight: 'bold', color: 'var(--primary)' }}>₹{order.amount.toFixed(2)}</td>

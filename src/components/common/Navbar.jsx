@@ -280,7 +280,7 @@ export default function Navbar() {
     if (isDoctor) {
       return [
         { id: 1, title: 'New booking', message: 'You have a new booking request for 5:00 PM today.', time: '15m ago', read: false },
-        { id: 2, title: 'Prescription review', message: 'Please review the prescription for patient Mr. Shah before 6:00 PM.', time: '1h ago', read: false },
+        { id: 2, title: 'Prescription review', message: 'Please review the prescription for student Mr. Shah before 6:00 PM.', time: '1h ago', read: false },
         { id: 3, title: 'System notice', message: 'Your doctor dashboard has a new feature for appointment summaries.', time: 'Yesterday', read: true },
       ];
     }
@@ -491,7 +491,7 @@ export default function Navbar() {
     try {
       setAddingMember(true);
       await familyMemberAPI.add(familyForm);
-      toast.success('Family member added successfully!');
+      toast.success('Campus profile added successfully!');
       setFamilyForm({
         name: '',
         dob: '',
@@ -510,7 +510,7 @@ export default function Navbar() {
       setShowAddUserModal(false);
       await refreshFamilyMembers();
     } catch (error) {
-      const errMsg = error.response?.data?.message || 'Failed to add family member';
+      const errMsg = error.response?.data?.message || 'Failed to add campus profile';
       toast.error(errMsg);
     } finally {
       setAddingMember(false);
@@ -928,13 +928,13 @@ export default function Navbar() {
                                     if (window.confirm(`Are you sure you want to delete ${member.name}?`)) {
                                       try {
                                         await familyMemberAPI.delete(member.id);
-                                        toast.success('Family member removed');
+                                        toast.success('Campus profile removed');
                                         if (activeProfile?.id === member.id) {
                                           switchProfile(null);
                                         }
                                         await refreshFamilyMembers();
                                       } catch (err) {
-                                        const errMsg = err.response?.data?.message || err.message || 'Failed to remove family member';
+                                        const errMsg = err.response?.data?.message || err.message || 'Failed to remove campus profile';
                                         toast.error(errMsg);
                                       }
                                     }
@@ -1142,7 +1142,7 @@ export default function Navbar() {
             <div className="schedule-panel-header">
               <div>
                 <div className="schedule-panel-title">Doctor Schedule</div>
-                <div className="schedule-panel-subtitle">Set your availability for patients.</div>
+                <div className="schedule-panel-subtitle">Set your availability for students & faculty.</div>
               </div>
               <button className="notification-mark-read" onClick={handleSaveSchedule}>
                 Save
@@ -1229,7 +1229,7 @@ export default function Navbar() {
       <div className="modal-overlay" onClick={() => setShowAddUserModal(false)}>
         <div className="modal-card" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
-            <h3 className="heading-sm" style={{ margin: 0, color: '#0F172A' }}>Add Family Member</h3>
+            <h3 className="heading-sm" style={{ margin: 0, color: '#0F172A' }}>Add Student / Faculty Profile</h3>
             <button className="btn btn-ghost btn-sm" onClick={() => setShowAddUserModal(false)} style={{ padding: '4px' }}>
               <FiX size={20} />
             </button>
