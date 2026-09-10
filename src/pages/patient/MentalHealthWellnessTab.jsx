@@ -23,15 +23,23 @@ export default function MentalHealthWellnessTab({
   navigate, 
   setSidebarTab, 
   activeTab: externalActiveTab, 
-  setActiveTab: externalSetActiveTab 
+  setActiveTab: externalSetActiveTab,
+  _currSelectedTab,
+  _switchTabState,
+  _studentProfileData,
+  _currAuthProfile
 }) {
   const [selectedPsychologist, setSelectedPsychologist] = useState(null);
   const [scheduledSuccess, setScheduledSuccess] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   
   const [internalActiveTab, setInternalActiveTab] = useState('counselors');
-  const activeTab = externalActiveTab || internalActiveTab;
-  const setActiveTab = externalSetActiveTab || setInternalActiveTab;
+  const activeTab = _currSelectedTab || externalActiveTab || internalActiveTab;
+  const setActiveTab = (newTab) => {
+    setInternalActiveTab(newTab);
+    if (externalSetActiveTab) externalSetActiveTab(newTab);
+    if (_switchTabState) _switchTabState(newTab);
+  };
 
   const userTypeRole = localStorage.getItem('user_type');
   const isFaculty = user?.role === 'FACULTY' || profileData?.role === 'FACULTY' || userTypeRole === 'FACULTY';
@@ -485,7 +493,92 @@ Your stress index is elevated. You are carrying a heavy cognitive and emotional 
         </div>
       </div>
 
+      {/* Wellness Center In-Page Tab Navigation */}
+      <div style={{
+        display: 'flex',
+        gap: '10px',
+        background: '#f8fafc',
+        padding: '6px',
+        borderRadius: '12px',
+        marginBottom: '24px',
+        border: '1px solid #e2e8f0',
+        flexWrap: 'wrap'
+      }}>
+        <button
+          type="button"
+          onClick={() => setActiveTab('counselors')}
+          style={{
+            flex: '1 1 200px',
+            padding: '10px 16px',
+            borderRadius: '8px',
+            border: 'none',
+            fontWeight: 700,
+            fontSize: '0.86rem',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            background: activeTab === 'counselors' ? '#0f766e' : 'transparent',
+            color: activeTab === 'counselors' ? '#ffffff' : '#475569',
+            boxShadow: activeTab === 'counselors' ? '0 2px 8px rgba(15, 118, 110, 0.25)' : 'none',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          <FiUserCheck size={16} />
+          <span>Connect with Campus Psychologist</span>
+        </button>
 
+        <button
+          type="button"
+          onClick={() => setActiveTab('mood-tracker')}
+          style={{
+            flex: '1 1 200px',
+            padding: '10px 16px',
+            borderRadius: '8px',
+            border: 'none',
+            fontWeight: 700,
+            fontSize: '0.86rem',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            background: activeTab === 'mood-tracker' ? '#0f766e' : 'transparent',
+            color: activeTab === 'mood-tracker' ? '#ffffff' : '#475569',
+            boxShadow: activeTab === 'mood-tracker' ? '0 2px 8px rgba(15, 118, 110, 0.25)' : 'none',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          <FiSmile size={16} />
+          <span>Mood Tracker</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('stress-assessment')}
+          style={{
+            flex: '1 1 200px',
+            padding: '10px 16px',
+            borderRadius: '8px',
+            border: 'none',
+            fontWeight: 700,
+            fontSize: '0.86rem',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            background: activeTab === 'stress-assessment' ? '#0f766e' : 'transparent',
+            color: activeTab === 'stress-assessment' ? '#ffffff' : '#475569',
+            boxShadow: activeTab === 'stress-assessment' ? '0 2px 8px rgba(15, 118, 110, 0.25)' : 'none',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          <FiActivity size={16} />
+          <span>Stress Level Assessment</span>
+        </button>
+      </div>
 
       {scheduledSuccess ? (
         /* Confirmation Screen */
