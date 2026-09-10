@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiRefreshCw, FiShield, FiX, FiCheck } from 'react-icons/fi';
 import { FaUserMd, FaUser, FaStore, FaHospital, FaFlask } from 'react-icons/fa';
 import { useGoogleLogin } from '@react-oauth/google';
-import logo from '../assets/MedAstraCU-logo.png';
+import logo from '../assets/MediSphere-logo.png';
 import './Auth.css';
 
 const generateCaptcha = () => {
@@ -123,7 +123,7 @@ export default function LoginPage() {
   const navigate  = useNavigate();
 
   useEffect(() => {
-    const saved = localStorage.getItem('MedAstraX_remember_email') || localStorage.getItem('MedAstraX_remember_email');
+    const saved = localStorage.getItem('MediSphere_remember_email') || localStorage.getItem('MediSphere_remember_email');
     if (saved) {
       setEmail(saved);
       setRememberMe(true);
@@ -177,11 +177,11 @@ export default function LoginPage() {
       const response = await authAPI.login({ email, password });
 
       if (rememberMe) {
-        localStorage.setItem('MedAstraX_remember_email', email);
-        localStorage.setItem('MedAstraX_remember_email', email);
+        localStorage.setItem('MediSphere_remember_email', email);
+        localStorage.setItem('MediSphere_remember_email', email);
       } else {
-        localStorage.removeItem('MedAstraX_remember_email');
-        localStorage.removeItem('MedAstraX_remember_email');
+        localStorage.removeItem('MediSphere_remember_email');
+        localStorage.removeItem('MediSphere_remember_email');
       }
 
       setPendingLoginData(response.data);
@@ -339,7 +339,7 @@ export default function LoginPage() {
         {/* Header */}
         <div className="auth-header">
           <Link to="/" className="auth-logo">
-            <img src={logo} alt="MedAstraX Logo" className="auth-logo-img" style={{ height: '140px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
+            <img src={logo} alt="MediSphere Logo" className="auth-logo-img" style={{ height: '140px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
           </Link>
           <h1 className="auth-title">Welcome Back</h1>
           <p className="auth-subtitle">Sign in to continue to your health portal</p>

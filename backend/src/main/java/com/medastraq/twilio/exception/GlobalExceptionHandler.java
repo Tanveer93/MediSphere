@@ -1,6 +1,6 @@
-package com.medastraq.twilio.exception;
+package com.medisphere.twilio.exception;
 
-import com.medastraq.twilio.dto.ApiResponse;
+import com.medisphere.twilio.dto.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

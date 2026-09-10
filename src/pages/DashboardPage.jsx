@@ -7,7 +7,7 @@ import {
   FiUpload, FiChevronRight, FiMapPin, FiHeart, FiDollarSign, FiLogOut 
 } from 'react-icons/fi';
 import { FaStethoscope, FaFlask, FaClinicMedical } from 'react-icons/fa';
-import logo from '../assets/medastrax-logo-new.png';
+import logo from '../assets/medisphere-logo-new.png';
 import './DashboardPage.css';
 
 export default function DashboardPage() {
@@ -46,7 +46,7 @@ export default function DashboardPage() {
 
   const [coupons, setCoupons] = useState([
     { id: 1, code: 'STUDENTFIT25', desc: '25% off General Health Checkup at Campus Clinic', category: 'Consultation', claimed: false },
-    { id: 2, code: 'MEDASTRA50', desc: '50% off Preventive Dental Cleaning services', category: 'Wellness', claimed: false },
+    { id: 2, code: 'MEDISPHERE50', desc: '50% off Preventive Dental Cleaning services', category: 'Wellness', claimed: false },
     { id: 3, code: 'CAMPUSCHEM10', desc: '10% discount on generic medicine purchases', category: 'Pharmacy', claimed: false }
   ]);
 
@@ -180,8 +180,8 @@ export default function DashboardPage() {
         {/* Sidebar navigation */}
         <aside className="dashboard-sidebar">
           <div className="brand-header-sidebar">
-            <img src={logo} alt="MedAstraX Logo" className="sidebar-logo-img" />
-            <h3>MedAstraX</h3>
+            <img src={logo} alt="MediSphere Logo" className="sidebar-logo-img" style={{ filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
+            <h3>MediSphere</h3>
           </div>
 
           <div className="user-profile-summary">

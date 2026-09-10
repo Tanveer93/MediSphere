@@ -99,6 +99,6 @@ export async function queryOfflineModel(query) {
       return OFFLINE_CORPUS[bestMatchIdx].answer;
     }
 
-    return "🤖 **MedAstraX Clinical Engine (Offline):**\n\nI couldn't find a direct match for your query offline. Here is some general information:\n- You can view your **[Medicine Schedule & Diet](/care-plan)** offline.\n- You can access the **[Emergency SOS Portal](/emergency)** offline.\n- Once you're online again, I can search the entire database and assist you with live consultations!";
+    return "🤖 **MediSphere Clinical Engine (Offline):**\n\nI couldn't find a direct match for your query offline. Here is some general information:\n- You can view your **[Medicine Schedule & Diet](/care-plan)** offline.\n- You can access the **[Emergency SOS Portal](/emergency)** offline.\n- Once you're online again, I can search the entire database and assist you with live consultations!";
   });
 }

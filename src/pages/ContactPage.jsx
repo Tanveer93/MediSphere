@@ -95,7 +95,7 @@ export default function ContactPage() {
               </div>
               <div className="info-text">
                 <h4>Our Office</h4>
-                <p>MedAstraX HQ, Health Innovation Park,<br />Bengaluru, Karnataka — 560001</p>
+                <p>MediSphere HQ, Health Innovation Park,<br />Bengaluru, Karnataka — 560001</p>
               </div>
             </motion.div>
 
@@ -109,7 +109,7 @@ export default function ContactPage() {
               </div>
               <div className="info-text">
                 <h4>Support</h4>
-                <p>support@MedAstraX.com<br />+91 79887XXXXX</p>
+                <p>support@MediSphere.com<br />+91 79887XXXXX</p>
               </div>
             </motion.div>
 
@@ -131,7 +131,7 @@ export default function ContactPage() {
             <div className="contact-quote-box">
               <span className="contact-quote-mark">"</span>
               <p>Every family deserves trusted health support in their pocket, 24/7.</p>
-              <span className="contact-quote-author">— MedAstraX</span>
+              <span className="contact-quote-author">— MediSphere</span>
             </div>
           </motion.div>
 

@@ -26,7 +26,7 @@ const categories = [
 const faqs = [
   {
     cat: 'appointments',
-    q: 'How do I book an appointment on MedAstraX?',
+    q: 'How do I book an appointment on MediSphere?',
     a: 'Log in to your patient account, navigate to the Hospitals section, search for a doctor or specialty, select an available slot, and confirm your booking. You\'ll get a confirmation SMS and email instantly.'
   },
   {
@@ -47,7 +47,7 @@ const faqs = [
   {
     cat: 'appointments',
     q: 'Will I receive a reminder before my appointment?',
-    a: 'Yes, MedAstraX sends automated reminders via SMS and email 24 hours and 1 hour before your scheduled appointment.'
+    a: 'Yes, MediSphere sends automated reminders via SMS and email 24 hours and 1 hour before your scheduled appointment.'
   },
 
   {
@@ -79,7 +79,7 @@ const faqs = [
   {
     cat: 'pharmacy',
     q: 'Can I compare pharmacy prices?',
-    a: 'Yes! MedAstraX shows nearby pharmacies with prices and estimated delivery times so you can choose the best option for you.'
+    a: 'Yes! MediSphere shows nearby pharmacies with prices and estimated delivery times so you can choose the best option for you.'
   },
   {
     cat: 'pharmacy',
@@ -89,7 +89,7 @@ const faqs = [
   {
     cat: 'pharmacy',
     q: 'Can I order medicines without a prescription?',
-    a: 'Over-the-counter (OTC) medicines can be ordered without a prescription. Prescription medicines require a valid digital prescription from a verified MedAstraX doctor.'
+    a: 'Over-the-counter (OTC) medicines can be ordered without a prescription. Prescription medicines require a valid digital prescription from a verified MediSphere doctor.'
   },
 
   {
@@ -105,13 +105,13 @@ const faqs = [
   {
     cat: 'prescriptions',
     q: 'Are digital prescriptions legally valid in India?',
-    a: 'Yes. Digital prescriptions issued by verified doctors on MedAstraX comply with applicable regulations and are legally valid for dispensing medicines at pharmacies.'
+    a: 'Yes. Digital prescriptions issued by verified doctors on MediSphere comply with applicable regulations and are legally valid for dispensing medicines at pharmacies.'
   },
 
   {
     cat: 'payments',
     q: 'What payment methods are accepted?',
-    a: 'MedAstraX accepts UPI, debit/credit cards, net banking, and popular wallets. All transactions are secured via Razorpay with HMAC signature verification.'
+    a: 'MediSphere accepts UPI, debit/credit cards, net banking, and popular wallets. All transactions are secured via Razorpay with HMAC signature verification.'
   },
   {
     cat: 'payments',
@@ -120,8 +120,8 @@ const faqs = [
   },
   {
     cat: 'payments',
-    q: 'Is it safe to enter my payment details on MedAstraX?',
-    a: 'Absolutely. MedAstraX never stores your card or bank details. All payments go through Razorpay\'s PCI-DSS compliant gateway with full encryption.'
+    q: 'Is it safe to enter my payment details on MediSphere?',
+    a: 'Absolutely. MediSphere never stores your card or bank details. All payments go through Razorpay\'s PCI-DSS compliant gateway with full encryption.'
   },
   {
     cat: 'payments',
@@ -131,7 +131,7 @@ const faqs = [
 
   {
     cat: 'account',
-    q: 'Is my health data safe on MedAstraX?',
+    q: 'Is my health data safe on MediSphere?',
     a: 'All health data is end-to-end encrypted and stored on secure servers. We never share your data with third parties without your explicit consent, and we comply with all healthcare data protection regulations.'
   },
   {
@@ -157,7 +157,7 @@ const faqs = [
 
   {
     cat: 'doctors',
-    q: 'How are doctors verified on MedAstraX?',
+    q: 'How are doctors verified on MediSphere?',
     a: 'Every doctor goes through a multi-step verification including medical registration validation, document checks, and onboarding review by our medical advisory board.'
   },
   {
@@ -174,28 +174,28 @@ const faqs = [
   {
     cat: 'emergency',
     q: 'How does the emergency ambulance feature work?',
-    a: 'Open the MedAstraX app, tap Emergency, and the platform locates the nearest available ambulance and dispatches it to your GPS location automatically.'
+    a: 'Open the MediSphere app, tap Emergency, and the platform locates the nearest available ambulance and dispatches it to your GPS location automatically.'
   },
   {
     cat: 'emergency',
-    q: 'Can MedAstraX help find an available hospital bed in an emergency?',
+    q: 'Can MediSphere help find an available hospital bed in an emergency?',
     a: 'Yes. The Emergency dashboard shows real-time bed availability at nearby hospitals so you or emergency responders can make informed decisions quickly.'
   },
   {
     cat: 'emergency',
     q: 'Is the emergency feature available 24/7?',
-    a: 'Yes. Emergency services are available around the clock. For life-threatening situations, always call 112 (India national emergency) in addition to using MedAstraX.'
+    a: 'Yes. Emergency services are available around the clock. For life-threatening situations, always call 112 (India national emergency) in addition to using MediSphere.'
   },
 
   {
     cat: 'ai',
-    q: 'What can the MedAstraX AI Health Assistant do?',
+    q: 'What can the MediSphere AI Health Assistant do?',
     a: 'The AI assistant can answer health queries, analyse your reports, suggest urgency levels, recommend doctors, remind you about medicines, and guide you through health plans — in your own language.'
   },
   {
     cat: 'ai',
     q: 'Does the AI assistant work offline?',
-    a: 'Yes! MedAstraX includes an offline guardian bot that works without internet. It can handle common health queries, medication reminders, and first-aid guidance even in low-connectivity areas.'
+    a: 'Yes! MediSphere includes an offline guardian bot that works without internet. It can handle common health queries, medication reminders, and first-aid guidance even in low-connectivity areas.'
   },
   {
     cat: 'ai',
@@ -256,7 +256,7 @@ export default function FAQPage() {
             We've got answers.
           </h1>
           <p className="faq-subtitle">
-            Everything you need to know about MedAstraX — appointments, pharmacy, payments, AI features, and more.
+            Everything you need to know about MediSphere — appointments, pharmacy, payments, AI features, and more.
           </p>
 
           {/* Search */}

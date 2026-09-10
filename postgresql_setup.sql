@@ -1,4 +1,4 @@
--- PostgreSQL Schema Setup for MedAstraX Faculty Portal
+-- PostgreSQL Schema Setup for MediSphere Faculty Portal
 
 -- 1. Table for Faculty Members
 CREATE TABLE IF NOT EXISTS faculty_profiles (

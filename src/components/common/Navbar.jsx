@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMenu, FiX, FiLogOut, FiUser, FiHome, FiCalendar, FiFileText, FiShoppingBag, FiTrash2, FiCamera, FiActivity, FiBell, FiSettings, FiSun, FiMoon, FiMonitor, FiShield } from 'react-icons/fi';
-import logo from '../../assets/MedAstraCU-logo.png';
+import logo from '../../assets/MediSphere-logo.png';
 import toast from 'react-hot-toast';
 import { familyMemberAPI, fileAPI, authAPI, notificationAPI } from '../../services/api';
 import './Navbar.css';
@@ -76,7 +76,7 @@ export default function Navbar() {
 
     const checkGlobalReminders = () => {
       try {
-        const REMINDER_KEY = 'medastrax_med_reminders';
+        const REMINDER_KEY = 'medisphere_med_reminders';
         const savedReminders = JSON.parse(localStorage.getItem(REMINDER_KEY));
         if (!savedReminders || !savedReminders.enabled) return;
 
@@ -91,7 +91,7 @@ export default function Navbar() {
 
         slots.forEach((slot) => {
           if (savedReminders[slot] === current) {
-            const cachedMeds = localStorage.getItem('medastrax_all_medicines');
+            const cachedMeds = localStorage.getItem('medisphere_all_medicines');
             let medNames = [];
             if (cachedMeds) {
               const meds = JSON.parse(cachedMeds);
@@ -105,7 +105,7 @@ export default function Navbar() {
               }
             }
 
-            const title = `💊 MedAstraX Medicine Reminder`;
+            const title = `💊 MediSphere Medicine Reminder`;
             let body = `${emojis[slot]} Time to take your ${labels[slot]} medicines!`;
             if (medNames.length > 0) {
               body = `${emojis[slot]} Time to take: ${medNames.join(', ')}`;
@@ -113,13 +113,13 @@ export default function Navbar() {
 
             if ('Notification' in window && Notification.permission === 'granted') {
               try {
-                const lastTriggeredKey = `medastrax_last_trigger_${slot}_${current}`;
+                const lastTriggeredKey = `medisphere_last_trigger_${slot}_${current}`;
                 if (!localStorage.getItem(lastTriggeredKey)) {
                   localStorage.setItem(lastTriggeredKey, 'true');
                   
                   for (let i = 0; i < localStorage.length; i++) {
                     const k = localStorage.key(i);
-                    if (k && k.startsWith('medastrax_last_trigger_') && !k.endsWith(current)) {
+                    if (k && k.startsWith('medisphere_last_trigger_') && !k.endsWith(current)) {
                       localStorage.removeItem(k);
                     }
                   }
@@ -267,8 +267,8 @@ export default function Navbar() {
     }
   };
 
-  const scheduleStorageKey = user?.id ? `medastrax_doctor_busy_${user.id}` : 'medastrax_doctor_busy';
-  const notificationStorageKey = user?.role ? `medastrax_notifications_${user.role}` : 'medastrax_notifications';
+  const scheduleStorageKey = user?.id ? `medisphere_doctor_busy_${user.id}` : 'medisphere_doctor_busy';
+  const notificationStorageKey = user?.role ? `medisphere_notifications_${user.role}` : 'medisphere_notifications';
   const getDefaultNotifications = () => {
     if (isPatient) {
       return [
@@ -643,7 +643,7 @@ export default function Navbar() {
       <nav className="navbar">
       <div className="navbar-container">
         <Link to={isAuthenticated ? '/dashboard' : '/'} className="navbar-brand brand-glow" onClick={() => handleNavLinkClick('/')}>
-          <img src={logo} alt="MedAstraX Logo" className="navbar-logo-img" style={{ height: '56px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
+          <img src={logo} alt="MediSphere Logo" className="navbar-logo-img" style={{ height: '56px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
         </Link>
 
         {/* Desktop Right Navigation & Actions */}
@@ -753,7 +753,7 @@ export default function Navbar() {
                 <button 
                   type="button" 
                   title="Active Health Camp Announcement - Click to view details"
-                  onClick={() => window.dispatchEvent(new Event('medastrax_reopen_camp_popup'))}
+                  onClick={() => window.dispatchEvent(new Event('medisphere_reopen_camp_popup'))}
                   style={{ 
                     fontSize: '1.15rem', 
                     position: 'relative',

@@ -21,7 +21,7 @@ export default function LabDashboard() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      window.dispatchEvent(new Event('medastrax_reopen_camp_popup'));
+      window.dispatchEvent(new Event('medisphere_reopen_camp_popup'));
     }, 300);
     return () => clearTimeout(timer);
   }, []);
@@ -90,7 +90,7 @@ export default function LabDashboard() {
       
       const updatedUser = { ...user, avatarUrl: imageUrl };
       login({
-        token: localStorage.getItem('MedAstraX_token'),
+        token: localStorage.getItem('MediSphere_token'),
         ...updatedUser
       });
       toast.success('Lab profile picture updated!');
@@ -250,7 +250,7 @@ export default function LabDashboard() {
             type="button" 
             className="cuims-icon-btn"
             title="Active Health Camp Announcement - Click to view details"
-            onClick={() => window.dispatchEvent(new Event('medastrax_reopen_camp_popup'))}
+            onClick={() => window.dispatchEvent(new Event('medisphere_reopen_camp_popup'))}
             style={{ 
               fontSize: '1.15rem', 
               position: 'relative',

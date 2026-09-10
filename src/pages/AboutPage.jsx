@@ -88,7 +88,7 @@ export default function AboutPage() {
     },
     {
       title: "Voice Assistant",
-      description: "Talk to MedAstraX in your own language, anytime.",
+      description: "Talk to MediSphere in your own language, anytime.",
       icon: <FiMic />,
       class: "icon-voice"
     },
@@ -129,7 +129,7 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            About <span className="brand-med">Med</span><span className="brand-astra">Astra</span><span className="brand-x">CU</span>
+            About <span className="brand-logo-medi">Medi</span><span className="brand-logo-sphere">Sphere</span>
           </motion.h1>
           <motion.p 
             className="about-intro"

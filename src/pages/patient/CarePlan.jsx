@@ -125,7 +125,7 @@ export default function CarePlan() {
       setMedicineHelpResponse(reply);
     } catch (err) {
       console.error(err);
-      setMedicineHelpResponse('⚠️ Unable to reach MedAstraX. Please try again later.');
+      setMedicineHelpResponse('⚠️ Unable to reach MediSphere. Please try again later.');
     } finally {
       setMedicineHelpLoading(false);
     }
@@ -133,7 +133,7 @@ export default function CarePlan() {
 
   const loadPrescriptions = async () => {
     try {
-      const storedUser = localStorage.getItem('MedAstraX_user');
+      const storedUser = localStorage.getItem('MediSphere_user');
       let userId = null;
       if (storedUser) {
         try {
@@ -236,7 +236,7 @@ export default function CarePlan() {
         doc.setFont('Helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(150, 150, 150);
-        doc.text(`MedAstraX AI Report Comparison`, margin, 10);
+        doc.text(`MediSphere AI Report Comparison`, margin, 10);
         doc.setDrawColor(220, 220, 220);
         doc.line(margin, 12, pageWidth - margin, 12);
         y = 20;
@@ -325,7 +325,7 @@ export default function CarePlan() {
     doc.setTextColor(150, 150, 150);
     doc.text('This is an AI-generated medical report comparison and is for informational review.', margin, y);
     y += 4;
-    doc.text('Powered by MedAstraX Clinical Intelligence.', margin, y);
+    doc.text('Powered by MediSphere Clinical Intelligence.', margin, y);
 
     doc.save(`Medical_Report_Comparison.pdf`);
   };
@@ -387,7 +387,7 @@ export default function CarePlan() {
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
           <div style={{ flex: 1, minWidth: '220px' }}>
             <p className="text-muted" style={{ marginBottom: '6px', fontWeight: '700', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.8rem' }}>Personal Care Tracker</p>
-            <h1 className="heading-lg" style={{ margin: 0 }}>MedAstraX Care & Recovery Hub</h1>
+            <h1 className="heading-lg" style={{ margin: 0 }}>MediSphere Care & Recovery Hub</h1>
             <p style={{ marginTop: '8px', color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
               Access your personalized diet guides, daily medication schedules, and clinical progress reports. Compare old and new reports with AI to track your healing.
             </p>
@@ -498,11 +498,11 @@ export default function CarePlan() {
                 </div>
               </div>
 
-              {/* Ask MedAstraX Assistant */}
+              {/* Ask MediSphere Assistant */}
               <div style={{ padding: '24px', borderRadius: '18px', background: 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(124,58,237,0.03))', border: '1px solid var(--border-color)' }}>
-                <h3 className="heading-sm" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>🤖 Ask MedAstraX AI Medicine Helper</h3>
+                <h3 className="heading-sm" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>🤖 Ask MediSphere AI Medicine Helper</h3>
                 <p style={{ marginTop: '10px', color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: '1.6' }}>
-                  Not sure why you are taking a specific medicine or need to verify potential food interactions? Ask MedAstraX for a simple explanation.
+                  Not sure why you are taking a specific medicine or need to verify potential food interactions? Ask MediSphere for a simple explanation.
                 </p>
                 <div style={{ marginTop: '18px', display: 'grid', gap: '14px' }}>
                   <textarea
@@ -519,11 +519,11 @@ export default function CarePlan() {
                     disabled={medicineHelpLoading || !medicineHelpQuery.trim()}
                     style={{ width: 'fit-content', borderRadius: '999px', padding: '10px 24px' }}
                   >
-                    {medicineHelpLoading ? 'Asking MedAstraX...' : 'Ask MedAstraX'}
+                    {medicineHelpLoading ? 'Asking MediSphere...' : 'Ask MediSphere'}
                   </button>
                   {medicineHelpResponse && (
                     <div style={{ padding: '20px', borderRadius: '16px', background: '#FFFFFF', border: '1px solid rgba(15, 23, 42, 0.08)', boxShadow: 'var(--shadow-sm)' }}>
-                      <div style={{ fontWeight: '700', color: 'var(--primary-dark)', marginBottom: '8px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}><FiInfo /> MedAstraX Explanation</div>
+                      <div style={{ fontWeight: '700', color: 'var(--primary-dark)', marginBottom: '8px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}><FiInfo /> MediSphere Explanation</div>
                       <div style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: '1.7' }}>
                         {parseMarkdown(medicineHelpResponse)}
                       </div>
@@ -542,7 +542,7 @@ export default function CarePlan() {
           <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '20px', marginBottom: '24px' }}>
             <h2 className="heading-md" style={{ margin: 0 }}>AI Medical Report Comparison</h2>
             <p style={{ marginTop: '8px', color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: '1.6' }}>
-              Submit your older medical prescription/report alongside your latest one. The MedAstraX AI will analyze both, compare your recovery progress, vital signs, and medication adjustments side-by-side.
+              Submit your older medical prescription/report alongside your latest one. The MediSphere AI will analyze both, compare your recovery progress, vital signs, and medication adjustments side-by-side.
             </p>
           </div>
 
@@ -688,7 +688,7 @@ export default function CarePlan() {
               <div className="animate-fade-in" style={{ padding: '28px', borderRadius: '18px', background: '#FFFFFF', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-md)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', borderBottom: '1px solid var(--border-color)', paddingBottom: '14px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary-dark)', fontWeight: 'bold' }}>
-                    <FiCpu /> MedAstraX AI Clinical Comparison Report
+                    <FiCpu /> MediSphere AI Clinical Comparison Report
                   </div>
                   <button 
                     onClick={handleDownloadComparisonPDF} 

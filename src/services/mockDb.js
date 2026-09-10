@@ -1,5 +1,5 @@
 
-const MOCK_STORAGE_KEY = 'MedAstraX_mock_db';
+const MOCK_STORAGE_KEY = 'MediSphere_mock_db';
 
 const defaultDb = {
   users: [
@@ -1069,7 +1069,7 @@ export const mockDb = {
     getProfile: async () => {
       await delay(200);
       const db = getDb();
-      const token = localStorage.getItem('MedAstraX_token') || localStorage.getItem('MedAstraX_token');
+      const token = localStorage.getItem('MediSphere_token') || localStorage.getItem('MediSphere_token');
       const userId = token ? token.split('mock-jwt-token-for-')[1] : 'patient-123';
       const user = db.users.find(u => u.id === userId) || db.users[0];
       return user;
@@ -1078,7 +1078,7 @@ export const mockDb = {
     updateProfile: async (data) => {
       await delay(300);
       const db = getDb();
-      const token = localStorage.getItem('MedAstraX_token') || localStorage.getItem('MedAstraX_token');
+      const token = localStorage.getItem('MediSphere_token') || localStorage.getItem('MediSphere_token');
       const userId = token ? token.split('mock-jwt-token-for-')[1] : 'patient-123';
       const userIdx = db.users.findIndex(u => u.id === userId);
       if (userIdx !== -1) {
@@ -1092,7 +1092,7 @@ export const mockDb = {
     updateAvatar: async (avatarUrl) => {
       await delay(200);
       const db = getDb();
-      const token = localStorage.getItem('MedAstraX_token') || localStorage.getItem('MedAstraX_token');
+      const token = localStorage.getItem('MediSphere_token') || localStorage.getItem('MediSphere_token');
       const userId = token ? token.split('mock-jwt-token-for-')[1] : 'patient-123';
       const userIdx = db.users.findIndex(u => u.id === userId);
       if (userIdx !== -1) {
@@ -1143,7 +1143,7 @@ export const mockDb = {
     getReferralStats: async () => {
       await delay(200);
       const db = getDb();
-      const token = localStorage.getItem('MedAstraX_token') || localStorage.getItem('MedAstraX_token');
+      const token = localStorage.getItem('MediSphere_token') || localStorage.getItem('MediSphere_token');
       const userId = token ? token.split('mock-jwt-token-for-')[1] : 'patient-123';
       const currentUser = db.users.find(u => u.id === userId) || db.users[0];
       const referralCode = currentUser.referralCode || ('REF-' + (currentUser.collegeUid ? currentUser.collegeUid.toUpperCase() : currentUser.id.replace(/[^a-zA-Z0-9]/g, '').slice(-6).toUpperCase()));
@@ -1263,7 +1263,7 @@ export const mockDb = {
     create: async (data) => {
       await delay(300);
       const db = getDb();
-      const userRaw = localStorage.getItem('MedAstraX_user') || localStorage.getItem('MedAstraX_user');
+      const userRaw = localStorage.getItem('MediSphere_user') || localStorage.getItem('MediSphere_user');
       let currentUserId = 'student-10024';
       let currentUserName = 'Rashika';
       if (userRaw) {
@@ -1306,7 +1306,7 @@ export const mockDb = {
     getPatientBookings: async (familyMemberId) => {
       await delay(200);
       const db = getDb();
-      const userRaw = localStorage.getItem('MedAstraX_user') || localStorage.getItem('MedAstraX_user');
+      const userRaw = localStorage.getItem('MediSphere_user') || localStorage.getItem('MediSphere_user');
       let currentUserId = 'student-10024';
       let currentUserName = 'Rashika';
       if (userRaw) {
@@ -1683,7 +1683,7 @@ export const mockDb = {
       const msg = message.toLowerCase();
       
       const db = getDb();
-      const token = localStorage.getItem('MedAstraX_token') || localStorage.getItem('MedAstraX_token');
+      const token = localStorage.getItem('MediSphere_token') || localStorage.getItem('MediSphere_token');
       const userId = token ? token.split('mock-jwt-token-for-')[1] : 'patient-123';
       const user = db.users.find(u => u.id === userId) || db.users.find(u => u.role === 'PATIENT') || db.users[0];
 
@@ -1870,9 +1870,256 @@ ${donts.map(item => `- ${item}`).join('\n')}
       return { sessionId: 'mock-session-new' };
     },
     queryChat: async (message, sessionId) => {
-      await delay(500);
+      await delay(300);
+      const lower = (message || '').toLowerCase().trim();
+
+      // 1. Account / Registration / Signup / Login
+      if (
+        lower.includes('register') || 
+        lower.includes('sign up') || 
+        lower.includes('signup') || 
+        lower.includes('create account') || 
+        lower.includes('join') ||
+        lower.includes('account as')
+      ) {
+        return {
+          reply: `### 🔐 Registering an Account on MediSphere
+
+Creating an account on MediSphere is quick and tailored to your role:
+
+1. **Go to Sign Up**: Click on **[Sign Up](/signup)** in the top navigation bar.
+2. **Select Your Role**:
+   - 🧑‍🦱 **Patient / Student**: Book doctor appointments, manage care plans, order medicines, and track wellness.
+   - 👨‍⚕️ **Doctor**: Manage appointment queues, conduct video consultations, and use AI prescription scribes.
+   - 🏥 **Hospital / Clinic**: Oversee doctor rosters, emergency beds, and patient checkups.
+   - 💊 **Pharmacy**: Receive digitized prescriptions and manage medicine dispatch.
+   - 🔬 **Diagnostic Lab**: Process test bookings and upload pathology reports.
+3. **Fill in Details**: Provide your name, contact email, phone number, and password.
+4. **Complete Verification**: Verify your details to access your personalized dashboard!
+
+👉 *Already registered?* You can **[Log In here](/login)** directly.`,
+          sessionId: sessionId || 'query-session-' + Date.now()
+        };
+      }
+
+      if (lower.includes('login') || lower.includes('log in') || lower.includes('sign in') || lower.includes('signin') || lower.includes('password')) {
+        return {
+          reply: `### 🔑 Logging Into MediSphere
+
+To log into your account:
+1. Visit the **[Login Page](/login)**.
+2. Select your registered role (**Patient**, **Doctor**, **Hospital**, **Pharmacy**, or **Lab**).
+3. Enter your email/phone and password, or use quick Google One-Tap authentication.
+4. You will be redirected directly to your customized healthcare dashboard!
+
+💡 *Don't have an account yet?* Create one at **[Sign Up](/signup)**.`,
+          sessionId: sessionId || 'query-session-' + Date.now()
+        };
+      }
+
+      // 2. Doctor Appointment / Booking / Consultation
+      if (
+        lower.includes('book') || 
+        lower.includes('appointment') || 
+        lower.includes('doctor') || 
+        lower.includes('consultation') || 
+        lower.includes('schedule') || 
+        lower.includes('physician') ||
+        lower.includes('slot')
+      ) {
+        return {
+          reply: `### 📅 Booking a Doctor Appointment
+
+You can easily schedule in-clinic or online video consultations on MediSphere:
+
+1. **Explore Doctors & Hospitals**: Go to the **[Hospitals & Clinics](/dashboard)** tab or the **[Consultation Booking](/book/HOS101)** page.
+2. **Select Specialist**: Browse verified doctors across General Medicine, Cardiology, Dermatology, Orthopedics, Pediatrics, and Mental Health.
+3. **Pick Date & Time**: Choose your preferred appointment date and available time slot.
+4. **Choose Mode**:
+   - 📹 **Video Consultation**: Connect directly via our secure telehealth video room.
+   - 🏥 **In-Clinic Visit**: Receive an instant token and queue tracking for hospital visits.
+5. **Instant Confirmation**: Your appointment is confirmed with automated reminders.
+
+👉 *View your existing appointments under **[My Bookings](/dashboard?tab=bookings)**.*`,
+          sessionId: sessionId || 'query-session-' + Date.now()
+        };
+      }
+
+      // 3. Medicine & Pharmacy / Prescriptions / Ordering
+      if (
+        lower.includes('medicine') || 
+        lower.includes('pharmacy') || 
+        lower.includes('prescription') || 
+        lower.includes('rx') || 
+        lower.includes('pill') || 
+        lower.includes('drug') || 
+        lower.includes('dawai') || 
+        lower.includes('order')
+      ) {
+        return {
+          reply: `### 💊 Ordering Medicines & Prescriptions
+
+MediSphere connects you with verified pharmacies for seamless medicine delivery:
+
+1. **Access Prescriptions**: Go to **[My Prescriptions](/my-prescriptions)** or **[Prescriptions Tab](/dashboard?tab=prescriptions)**.
+2. **Select or Upload Prescription**: Choose a digital prescription issued by your doctor or upload an existing paper prescription image/PDF.
+3. **Compare & Save**: View smart **Generic Alternatives** powered by AI to save up to 70% on drug costs.
+4. **Choose Partner Pharmacy**: Select from on-campus and local partner pharmacies.
+5. **Checkout & Delivery**: Apply your **MedCoins** for discounts, choose doorstep delivery or campus pickup, and track your order in real time!
+
+👉 *Set automated dosage alerts in your **[Care Plan & Pill Reminders](/dashboard?tab=care-plan)**.*`,
+          sessionId: sessionId || 'query-session-' + Date.now()
+        };
+      }
+
+      // 4. EXP Checklist, Streak & MedCoins Rewards
+      if (
+        lower.includes('exp') || 
+        lower.includes('reward') || 
+        lower.includes('streak') || 
+        lower.includes('medcoin') || 
+        lower.includes('point') || 
+        lower.includes('leaderboard') || 
+        lower.includes('badge') ||
+        lower.includes('coin')
+      ) {
+        return {
+          reply: `### 🏆 EXP Checklist, Streaks & MedCoins Rewards
+
+MediSphere rewards your daily healthy habits:
+
+- 🌟 **Daily Health Checklist**: Complete daily goals like drinking 8 glasses of water, 15-minute walking, and recording vitals to earn daily EXP points.
+- 🔥 **Health Streaks**: Maintain unbroken daily check-in streaks to multiply your EXP gain and unlock rare badges (e.g. *Wellness Champion*, *Guardian of Health*).
+- 🪙 **MedCoins**: Every 100 EXP automatically converts to **MedCoins**.
+- 🎁 **Redeem Rewards**: Use your MedCoins as direct currency discounts at pharmacy checkout, diagnostic tests, or premium doctor consultations.
+- 🏅 **Leaderboard**: Compete with friends and peers on the **[Rewards Leaderboard](/dashboard?tab=rewards)**!`,
+          sessionId: sessionId || 'query-session-' + Date.now()
+        };
+      }
+
+      // 5. Emergency / SOS / Ambulance
+      if (
+        lower.includes('emergency') || 
+        lower.includes('sos') || 
+        lower.includes('ambulance') || 
+        lower.includes('urgent') ||
+        lower.includes('help me')
+      ) {
+        return {
+          reply: `### 🚨 Emergency SOS & Ambulance Protocols
+
+If you or someone nearby requires urgent medical assistance:
+
+1. **Trigger SOS**: Go to the **[Emergency Hub](/emergency)** or click the red SOS button.
+2. **Instant Dispatch**: Automated GPS distress signals are transmitted to the nearest hospital ambulance unit.
+3. **Emergency Helplines**:
+   - 🚑 **National Ambulance**: \`108\` / \`102\`
+   - 🚨 **MediSphere Emergency Desk**: \`+91 79887XXXXX\`
+   - 🏫 **Campus Health Center ER**: Ext \`101\` / \`102\`
+4. **Live Ambulance Tracking**: Once dispatched, track the ambulance driver live with ETA and direct contact on **[Track Ambulance](/patient/track-ambulance)**.`,
+          sessionId: sessionId || 'query-session-' + Date.now()
+        };
+      }
+
+      // 6. Student & Faculty Campus Health Portal
+      if (
+        lower.includes('student') || 
+        lower.includes('faculty') || 
+        lower.includes('campus') || 
+        lower.includes('leave') || 
+        lower.includes('certificate') || 
+        lower.includes('cu health')
+      ) {
+        return {
+          reply: `### 🎓 Campus Student & Faculty Health Portal
+
+MediSphere provides dedicated campus health integration:
+
+- 🏫 **Campus Health Center**: Book priority on-campus consultations with campus medical officers.
+- 📜 **Medical Leave Certificates**: Apply for verified digital medical leave certificates under **[Medical Leave](/dashboard?tab=medical-leave)**.
+- 👩‍🏫 **Faculty Wellness Portal**: Faculty members can book occupational checkups and health insurance benefits under **[Faculty Portal](/dashboard?tab=faculty-portal)**.
+- 🤝 **Referral Program**: Invite classmates to health checkups and earn bonus MedCoins on **[Refer a Student](/dashboard?tab=refer-a-student)**.`,
+          sessionId: sessionId || 'query-session-' + Date.now()
+        };
+      }
+
+      // 7. Lab Tests & Diagnostic Reports
+      if (
+        lower.includes('lab') || 
+        lower.includes('test') || 
+        lower.includes('diagnostic') || 
+        lower.includes('blood') || 
+        lower.includes('report') || 
+        lower.includes('x-ray') || 
+        lower.includes('mri')
+      ) {
+        return {
+          reply: `### 🔬 Diagnostic Lab Bookings & AI Report Analysis
+
+MediSphere simplifies diagnostics and health analytics:
+
+- 🧪 **Book Lab Tests**: Book CBC, Lipid Profile, Thyroid, Vitamin D, and full-body health packages with home sample collection.
+- 📄 **AI Report Scanner**: Upload your blood test or radiology reports (PDF/JPG) to get an automated, easy-to-understand breakdown of abnormal values and health recommendations.
+- 📊 **Health Analytics**: Track longitudinal trends in your blood sugar, cholesterol, and BMI over time on the **[Health Analytics](/dashboard?tab=analytics)** tab.`,
+          sessionId: sessionId || 'query-session-' + Date.now()
+        };
+      }
+
+      // 8. Mental Health & Wellness
+      if (
+        lower.includes('mental') || 
+        lower.includes('stress') || 
+        lower.includes('anxiety') || 
+        lower.includes('depression') || 
+        lower.includes('mood') || 
+        lower.includes('counselor') || 
+        lower.includes('meditation')
+      ) {
+        return {
+          reply: `### 💆 Mental Health & Wellness Support
+
+Your mental wellbeing is just as important as your physical health:
+
+- 🧘‍♀️ **Wellness Center**: Access guided breathing exercises, stress management soundscapes, and mood trackers under **[Wellness Center](/dashboard?tab=wellness-center)**.
+- 🗣️ **Confidential Counseling**: Schedule 1-on-1 private sessions with certified counselors and psychologists.
+- 📈 **Daily Mood Log**: Record your emotional state daily to view your personal mental wellness score.`,
+          sessionId: sessionId || 'query-session-' + Date.now()
+        };
+      }
+
+      // 9. Symptom Checker & Health Triage
+      if (
+        lower.includes('fever') || 
+        lower.includes('cough') || 
+        lower.includes('cold') || 
+        lower.includes('headache') || 
+        lower.includes('stomach') || 
+        lower.includes('pain') || 
+        lower.includes('throat') || 
+        lower.includes('vomit') || 
+        lower.includes('dizziness') || 
+        lower.includes('symptom') ||
+        lower.includes('sick') ||
+        lower.includes('ill')
+      ) {
+        return mockDb.ai.chat(message, sessionId);
+      }
+
+      // 10. Default Platform Assistant Overview
       return {
-        reply: `Here is a structured overview of your query regarding "${message}". Seek immediate medical attention if you experience severe symptoms like shortness of breath or high fever.`
+        reply: `### 🤖 MediSphere 24/7 Platform Guide
+
+Hello! I am **Astra**, your AI healthcare assistant. Here is how I can help you:
+
+- 📅 **[Book Doctor Appointment](/dashboard)**: Find specialists and schedule video or in-clinic visits.
+- 🔐 **[Account & Sign Up](/signup)**: Register as Patient, Doctor, Hospital, Pharmacy, or Lab.
+- 💊 **[Pharmacy & Medicines](/my-prescriptions)**: Upload prescriptions and order medicines with generic savings.
+- 📋 **[Personalized Care Plan](/dashboard?tab=care-plan)**: Track daily medication schedules and dosage reminders.
+- 🏆 **[Health Rewards](/dashboard?tab=rewards)**: Earn MedCoins through daily wellness checklists.
+- 🚨 **[Emergency Hub](/emergency)**: One-touch ambulance dispatch and 24/7 emergency response.
+
+*Ask any specific question or click one of the suggestion tags below!*`,
+        sessionId: sessionId || 'query-session-' + Date.now()
       };
     },
     resetQueryChat: async (sessionId) => {
@@ -1902,7 +2149,7 @@ ${donts.map(item => `- ${item}`).join('\n')}
     analyzePatientReports: async () => {
       await delay(800);
       const db = getDb();
-      const token = localStorage.getItem('MedAstraX_token') || localStorage.getItem('MedAstraX_token');
+      const token = localStorage.getItem('MediSphere_token') || localStorage.getItem('MediSphere_token');
       const userId = token ? token.split('mock-jwt-token-for-')[1] : 'patient-123';
       const idx = db.users.findIndex(u => u.id === userId);
       if (idx !== -1) {
@@ -1922,7 +2169,7 @@ ${donts.map(item => `- ${item}`).join('\n')}
     analyzeBodySymptoms: async (payload) => {
       await delay(600);
       const db = getDb();
-      const token = localStorage.getItem('MedAstraX_token') || localStorage.getItem('MedAstraX_token');
+      const token = localStorage.getItem('MediSphere_token') || localStorage.getItem('MediSphere_token');
       const userId = token ? token.split('mock-jwt-token-for-')[1] : 'patient-123';
       const user = db.users.find(u => u.id === userId) || db.users[0] || {};
 
@@ -1982,7 +2229,7 @@ ${detailedSection}
     updateChecklist: async (data) => {
       await delay(300);
       const db = getDb();
-      const token = localStorage.getItem('MedAstraX_token') || localStorage.getItem('MedAstraX_token');
+      const token = localStorage.getItem('MediSphere_token') || localStorage.getItem('MediSphere_token');
       const userId = token ? token.split('mock-jwt-token-for-')[1] : 'patient-123';
       const idx = db.users.findIndex(u => u.id === userId);
       if (idx !== -1) {
@@ -2018,7 +2265,7 @@ ${detailedSection}
       const hospitalName = data.hospitalName || 'CU Health Center';
       const trackingLink = data.trackingLink || 'http://localhost:5173/track-ambulance';
 
-      const smsText = `🚨 MEDASTRAX EMERGENCY SOS ALERT! Student ${studentName} (${studentUid}) triggered an SOS at CU Campus (${data.userLatitude || 30.7686}, ${data.userLongitude || 76.5754}). Selected Facility: ${hospitalName}. Campus Ambulance Unit AMB-CU-108 dispatched. Track Live: ${trackingLink}`;
+      const smsText = `🚨 MEDISPHERE EMERGENCY SOS ALERT! Student ${studentName} (${studentUid}) triggered an SOS at CU Campus (${data.userLatitude || 30.7686}, ${data.userLongitude || 76.5754}). Selected Facility: ${hospitalName}. Campus Ambulance Unit AMB-CU-108 dispatched. Track Live: ${trackingLink}`;
       
       console.log(`[TWILIO SMS DISPATCHED] To: ${phone} | Body: ${smsText}`);
       console.log(`[TWILIO VOICE CALL DISPATCHED] Calling Emergency Contact: ${phone} | Voice Script: "Emergency SOS Alert! Student ${studentName} has triggered an SOS inside Chandigarh University Campus. Campus Ambulance AMB-CU-108 has been dispatched to ${hospitalName}. Please press 1 to connect with Campus Medical Officer."`);
@@ -2165,7 +2412,7 @@ ${detailedSection}
 
       const userKeys = ['patient-123', 'student-10013', 'doctor-123', 'pharmacy-123', 'hospital-123'];
       userKeys.forEach(uid => {
-        const key = `medastrax_notifications_${uid}`;
+        const key = `medisphere_notifications_${uid}`;
         try {
           const existing = JSON.parse(localStorage.getItem(key) || '[]');
           existing.unshift(newNotice);
@@ -2175,7 +2422,7 @@ ${detailedSection}
         }
       });
 
-      localStorage.setItem('MedAstraX_latest_camp', JSON.stringify(newCamp));
+      localStorage.setItem('MediSphere_latest_camp', JSON.stringify(newCamp));
       saveDb(db);
       return newCamp;
     },

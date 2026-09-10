@@ -20,7 +20,7 @@ import {
 import { FaHospital, FaUserMd } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/MedAstraCU-logo.png';
+import logo from '../../assets/MediSphere-logo.png';
 import '../patient/CuimsDashboard.css';
 
 export default function HospitalDashboard() {
@@ -42,7 +42,7 @@ export default function HospitalDashboard() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      window.dispatchEvent(new Event('medastrax_reopen_camp_popup'));
+      window.dispatchEvent(new Event('medisphere_reopen_camp_popup'));
     }, 300);
     return () => clearTimeout(timer);
   }, []);
@@ -204,7 +204,7 @@ export default function HospitalDashboard() {
             <FiMenu />
           </button>
           <div className="cuims-logo-container" onClick={() => setActiveTab('overview')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <img src={logo} alt="MedAstraX" style={{ height: '52px', objectFit: 'contain' }} />
+            <img src={logo} alt="MediSphere" style={{ height: '52px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
           </div>
         </div>
 
@@ -214,7 +214,7 @@ export default function HospitalDashboard() {
             type="button" 
             className="cuims-icon-btn" 
             title="Active Health Camp Announcement - Click to view details"
-            onClick={() => window.dispatchEvent(new Event('medastrax_reopen_camp_popup'))}
+            onClick={() => window.dispatchEvent(new Event('medisphere_reopen_camp_popup'))}
             style={{ 
               fontSize: '1.15rem', 
               position: 'relative',
@@ -523,7 +523,7 @@ export default function HospitalDashboard() {
                     <FiShield color="var(--primary)" /> Verification Status
                   </h3>
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                    Your hospital registration profile is active and verified. Any doctor signing up on MedAstraX can select your hospital to create their schedules. 
+                    Your hospital registration profile is active and verified. Any doctor signing up on MediSphere can select your hospital to create their schedules. 
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '16px', fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600 }}>
                     <FiCheck /> Real-time search listed
@@ -555,7 +555,7 @@ export default function HospitalDashboard() {
                     <FaUserMd style={{ fontSize: '2.5rem', opacity: 0.3, marginBottom: '12px' }} />
                     <p style={{ fontWeight: 500, fontSize: '0.95rem' }}>No Doctors Associated Yet</p>
                     <p style={{ fontSize: '0.8rem', marginTop: '4px', maxWidth: '400px', margin: '4px auto 0' }}>
-                      When doctors register on MedAstraX, they select their associated hospital. Once they select your hospital, they will automatically appear in this list.
+                      When doctors register on MediSphere, they select their associated hospital. Once they select your hospital, they will automatically appear in this list.
                     </p>
                   </div>
                 ) : (

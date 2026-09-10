@@ -19,7 +19,7 @@ import { prescriptionAPI } from '../../services/api';
 
 /* ───────────────────────────── constants ───────────────────────────── */
 
-const REMINDER_KEY = 'medastrax_med_reminders';
+const REMINDER_KEY = 'medisphere_med_reminders';
 const DEFAULT_REMINDERS = {
   enabled: false,
   morning: '08:00',
@@ -262,10 +262,10 @@ export default function CarePlanPage() {
           parsed.forEach((m) => meds.push({ ...m, prescriptionId: rx.id, doctorName: rx.doctorName, diagnosis: rx.diagnosis }));
         });
         setAllMedicines(meds);
-        localStorage.setItem('medastrax_all_medicines', JSON.stringify(meds));
+        localStorage.setItem('medisphere_all_medicines', JSON.stringify(meds));
       } catch (err) {
         console.error('Failed to load prescriptions:', err);
-        const cached = localStorage.getItem('medastrax_all_medicines');
+        const cached = localStorage.getItem('medisphere_all_medicines');
         if (cached) {
           try {
             const meds = JSON.parse(cached);

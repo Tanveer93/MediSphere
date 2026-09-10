@@ -27,7 +27,7 @@ const faqs = [
     category: 'Appointments',
     items: [
       {
-        q: 'How do I book an appointment on MedAstraX?',
+        q: 'How do I book an appointment on MediSphere?',
         a: 'Log in to your patient account, go to the Hospitals section, search for a doctor or hospital, select an available slot, and confirm your booking. You\'ll receive a confirmation SMS and email instantly.'
       },
       {
@@ -62,7 +62,7 @@ const faqs = [
       },
       {
         q: 'Can I compare prices across pharmacies?',
-        a: 'Yes, MedAstraX shows you available pharmacies near you along with their prices and estimated delivery time so you can choose the best option.'
+        a: 'Yes, MediSphere shows you available pharmacies near you along with their prices and estimated delivery time so you can choose the best option.'
       },
     ]
   },
@@ -70,7 +70,7 @@ const faqs = [
     category: 'Account & Privacy',
     items: [
       {
-        q: 'Is my health data safe on MedAstraX?',
+        q: 'Is my health data safe on MediSphere?',
         a: 'Absolutely. All your health data is encrypted end-to-end and stored securely. We never share your data with third parties without your explicit consent. We comply with all applicable healthcare data protection regulations.'
       },
       {

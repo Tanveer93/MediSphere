@@ -47,7 +47,7 @@ import { useAuth } from '../../context/AuthContext';
 import { jsPDF } from 'jspdf';
 import toast from 'react-hot-toast';
 import aiBotIcon from '../../assets/ai-bot-icon.png';
-import logo from '../../assets/MedAstraCU-logo.png';
+import logo from '../../assets/MediSphere-logo.png';
 import rashikaAvatar from '../../assets/rashika-avatar.jpg';
 import { rashikaBase64 } from '../../assets/rashikaAvatarDataUrl';
 import './CuimsDashboard.css';
@@ -710,7 +710,7 @@ function FacultyPortalTab({ _studentProfileData, fetchBookings }) {
         gender: _studentProfileData?.gender || 'Male'
       };
       
-      const dbStr = localStorage.getItem('MedAstraX_mock_db');
+      const dbStr = localStorage.getItem('MediSphere_mock_db');
       if (dbStr) {
         const db = JSON.parse(dbStr);
         const newBooking = {
@@ -735,7 +735,7 @@ function FacultyPortalTab({ _studentProfileData, fetchBookings }) {
           aiReport: '### Occupational Assessment\nFull body screening booked.'
         };
         db.bookings.push(newBooking);
-        localStorage.setItem('MedAstraX_mock_db', JSON.stringify(db));
+        localStorage.setItem('MediSphere_mock_db', JSON.stringify(db));
         
         console.log(`[POSTGRESQL INSERT] INSERT INTO faculty_checkup_bookings (patient_id, patient_name, checkup_frequency, center_name, booking_date, time_slot, status) VALUES ('${bookingData.patientId}', '${bookingData.patientName}', '${frequency}', '${center}', '${date}', '${timeSlot}', 'CONFIRMED')`);
       }
@@ -1191,7 +1191,7 @@ function MainDashboardPanel(props) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      window.dispatchEvent(new Event('medastrax_reopen_camp_popup'));
+      window.dispatchEvent(new Event('medisphere_reopen_camp_popup'));
     }, 300);
     return () => clearTimeout(timer);
   }, []);
@@ -1383,7 +1383,7 @@ function MainDashboardPanel(props) {
       doc.setFont('Helvetica', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(255, 255, 255);
-      doc.text('MEDASTRAX', 16, 10);
+      doc.text('MEDISPHERE', 16, 10);
       doc.setFont('Helvetica', 'normal');
       doc.setFontSize(6.5);
       doc.setTextColor(0, 217, 166);
@@ -1726,7 +1726,7 @@ function MainDashboardPanel(props) {
     doc.setTextColor(255, 255, 255);
     doc.text('This is a digitally generated card & does not require physical signature.', 42.8, 132.5, { align: 'center' });
 
-    const pdfFilename = `MedAstraX_Digital_Health_ID_${studentUid}.pdf`;
+    const pdfFilename = `MediSphere_Digital_Health_ID_${studentUid}.pdf`;
     try {
       doc.save(pdfFilename);
     } catch (saveErr) {
@@ -2023,7 +2023,7 @@ function MainDashboardPanel(props) {
         doc.setFont('Helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(150, 150, 150);
-        doc.text(`MedAstraX Clinical Report - Patient: ${appt.patientName}`, margin, 10);
+        doc.text(`MediSphere Clinical Report - Patient: ${appt.patientName}`, margin, 10);
         doc.setDrawColor(220, 220, 220);
         doc.line(margin, 12, pageWidth - margin, 12);
         y = 20;
@@ -2033,7 +2033,7 @@ function MainDashboardPanel(props) {
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(18);
     doc.setTextColor(29, 158, 117);
-    doc.text('MedAstraX AI CLINICAL REPORT', pageWidth / 2, y, { align: 'center' });
+    doc.text('MediSphere AI CLINICAL REPORT', pageWidth / 2, y, { align: 'center' });
     y += 8;
 
     doc.setDrawColor(29, 158, 117);
@@ -2165,7 +2165,7 @@ function MainDashboardPanel(props) {
     doc.setTextColor(150, 150, 150);
     doc.text('This is an AI-generated consultation report and is intended for clinical review.', margin, y);
     y += 4;
-    doc.text(`Generated on ${new Date().toLocaleDateString()} by MedAstraX AI Scribe companion.`, margin, y);
+    doc.text(`Generated on ${new Date().toLocaleDateString()} by MediSphere AI Scribe companion.`, margin, y);
 
     const filename = `Clinical_Report_${(appt.patientName || 'Patient').replace(/\s+/g, '_')}.pdf`;
     doc.save(filename);
@@ -4555,7 +4555,7 @@ function MainDashboardPanel(props) {
             <FiMenu />
           </button>
           <div className="cuims-logo-container" onClick={() => setSidebarTab('hospitals')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <img src={logo} alt="MedAstraX" style={{ height: '52px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
+            <img src={logo} alt="MediSphere" style={{ height: '52px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
           </div>
         </div>
 
@@ -4578,7 +4578,7 @@ function MainDashboardPanel(props) {
             type="button" 
             className="cuims-icon-btn" 
             title="Active Health Camp Announcement - Click to view details"
-            onClick={() => window.dispatchEvent(new Event('medastrax_reopen_camp_popup'))}
+            onClick={() => window.dispatchEvent(new Event('medisphere_reopen_camp_popup'))}
             style={{ 
               fontSize: '1.15rem', 
               position: 'relative',
@@ -5978,7 +5978,7 @@ function MainDashboardPanel(props) {
             }}>
               <div>
                 <h2 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <FiCpu /> MedAstraX AI Consultation Report
+                  <FiCpu /> MediSphere AI Consultation Report
                 </h2>
                 <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.78rem' }}>
                   Scribe report generated for patient <strong>{selectedReportBooking.patientName}</strong>.

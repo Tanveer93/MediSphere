@@ -668,7 +668,7 @@ textarea.form-input {
 }
 
 /* Custom Table Styles */
-.medastrax-table-container,
+.medisphere-table-container,
 .medisphere-table-container {
   overflow-x: auto;
   border-radius: var(--radius-lg);
@@ -678,14 +678,14 @@ textarea.form-input {
   margin-top: 16px;
 }
 
-.medastrax-table,
+.medisphere-table,
 .medisphere-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
 }
 
-.medastrax-table th,
+.medisphere-table th,
 .medisphere-table th {
   background: rgba(15, 118, 110, 0.05);
   color: var(--text-primary);
@@ -696,7 +696,7 @@ textarea.form-input {
   border-bottom: 1px solid var(--border-color);
 }
 
-.medastrax-table td,
+.medisphere-table td,
 .medisphere-table td {
   padding: 16px 20px;
   border-bottom: 1px solid var(--border-color);
@@ -705,12 +705,12 @@ textarea.form-input {
   vertical-align: middle;
 }
 
-.medastrax-table tr:last-child td,
+.medisphere-table tr:last-child td,
 .medisphere-table tr:last-child td {
   border-bottom: none;
 }
 
-.medastrax-table tr:hover td,
+.medisphere-table tr:hover td,
 .medisphere-table tr:hover td {
   background: rgba(15, 118, 110, 0.02);
 }

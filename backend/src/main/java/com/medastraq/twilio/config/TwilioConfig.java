@@ -1,4 +1,4 @@
-package com.medastraq.twilio.config;
+package com.medisphere.twilio.config;
 
 import com.twilio.Twilio;
 import jakarta.annotation.PostConstruct;

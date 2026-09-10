@@ -8,7 +8,6 @@ import { campAPI } from './services/api';
 import Navbar from './components/common/Navbar';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import GlobalQueryBot from './components/common/GlobalQueryBot';
-import VoiceAssistant from './components/common/VoiceAssistant';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -94,7 +93,7 @@ function BroadcastBanner() {
   const [msg, setMsg] = useState('');
   useEffect(() => {
     const checkBroadcast = () => {
-      const active = localStorage.getItem('MedAstraX_global_broadcast') || localStorage.getItem('MedAstraX_global_broadcast');
+      const active = localStorage.getItem('MediSphere_global_broadcast') || localStorage.getItem('MediSphere_global_broadcast');
       setMsg(active || '');
     };
     checkBroadcast();
@@ -129,8 +128,8 @@ function BroadcastBanner() {
       <span>⚠️ SYSTEM ANNOUNCEMENT: {msg}</span>
       <button 
         onClick={() => {
-          localStorage.removeItem('MedAstraX_global_broadcast');
-          localStorage.removeItem('MedAstraX_global_broadcast');
+          localStorage.removeItem('MediSphere_global_broadcast');
+          localStorage.removeItem('MediSphere_global_broadcast');
           setMsg('');
         }}
         style={{
@@ -169,7 +168,7 @@ function HealthCampPopupModal() {
   const checkCamp = async (forceOpen = false) => {
     try {
       let campData = null;
-      const raw = localStorage.getItem('MedAstraX_latest_camp') || localStorage.getItem('MedAstraX_latest_camp');
+      const raw = localStorage.getItem('MediSphere_latest_camp') || localStorage.getItem('MediSphere_latest_camp');
       if (raw) {
         campData = JSON.parse(raw);
       } else {
@@ -177,7 +176,7 @@ function HealthCampPopupModal() {
         const list = res?.data || res;
         if (Array.isArray(list) && list.length > 0) {
           campData = list[0];
-          localStorage.setItem('MedAstraX_latest_camp', JSON.stringify(campData));
+          localStorage.setItem('MediSphere_latest_camp', JSON.stringify(campData));
         }
       }
 
@@ -186,14 +185,14 @@ function HealthCampPopupModal() {
         if (forceOpen) {
           setIsOpen(true);
         } else {
-          const sessionShown = sessionStorage.getItem('MedAstraX_camp_shown_session') || sessionStorage.getItem('MedAstraX_camp_shown_session');
-          const isDismissed = localStorage.getItem('MedAstraX_dismissed_camp_' + campData.id) || 
-                              localStorage.getItem('MedAstraX_dismissed_camp_' + campData.id) ||
-                              sessionStorage.getItem('MedAstraX_dismissed_camp_' + campData.id) ||
-                              localStorage.getItem('MedAstraX_registered_camp_' + campData.id);
+          const sessionShown = sessionStorage.getItem('MediSphere_camp_shown_session') || sessionStorage.getItem('MediSphere_camp_shown_session');
+          const isDismissed = localStorage.getItem('MediSphere_dismissed_camp_' + campData.id) || 
+                              localStorage.getItem('MediSphere_dismissed_camp_' + campData.id) ||
+                              sessionStorage.getItem('MediSphere_dismissed_camp_' + campData.id) ||
+                              localStorage.getItem('MediSphere_registered_camp_' + campData.id);
           if (!sessionShown && !isDismissed) {
             setIsOpen(true);
-            sessionStorage.setItem('MedAstraX_camp_shown_session', 'true');
+            sessionStorage.setItem('MediSphere_camp_shown_session', 'true');
           } else {
             setIsOpen(false);
           }
@@ -211,11 +210,11 @@ function HealthCampPopupModal() {
 
     const handleUpdated = () => {
       try {
-        const raw = localStorage.getItem('MedAstraX_latest_camp') || localStorage.getItem('MedAstraX_latest_camp');
+        const raw = localStorage.getItem('MediSphere_latest_camp') || localStorage.getItem('MediSphere_latest_camp');
         if (raw) {
           const parsed = JSON.parse(raw);
-          sessionStorage.removeItem('MedAstraX_dismissed_camp_' + parsed.id);
-          localStorage.removeItem('MedAstraX_dismissed_camp_' + parsed.id);
+          sessionStorage.removeItem('MediSphere_dismissed_camp_' + parsed.id);
+          localStorage.removeItem('MediSphere_dismissed_camp_' + parsed.id);
           setCamp(parsed);
           setIsOpen(true);
         } else {
@@ -228,16 +227,16 @@ function HealthCampPopupModal() {
       checkCamp(true);
     };
 
-    window.addEventListener('medastrax_camp_updated', handleUpdated);
-    window.addEventListener('medastrax_camp_updated', handleUpdated);
-    window.addEventListener('medastrax_reopen_camp_popup', handleReopen);
-    window.addEventListener('medastrax_reopen_camp_popup', handleReopen);
+    window.addEventListener('medisphere_camp_updated', handleUpdated);
+    window.addEventListener('medisphere_camp_updated', handleUpdated);
+    window.addEventListener('medisphere_reopen_camp_popup', handleReopen);
+    window.addEventListener('medisphere_reopen_camp_popup', handleReopen);
 
     return () => {
-      window.removeEventListener('medastrax_camp_updated', handleUpdated);
-      window.removeEventListener('medastrax_camp_updated', handleUpdated);
-      window.removeEventListener('medastrax_reopen_camp_popup', handleReopen);
-      window.removeEventListener('medastrax_reopen_camp_popup', handleReopen);
+      window.removeEventListener('medisphere_camp_updated', handleUpdated);
+      window.removeEventListener('medisphere_camp_updated', handleUpdated);
+      window.removeEventListener('medisphere_reopen_camp_popup', handleReopen);
+      window.removeEventListener('medisphere_reopen_camp_popup', handleReopen);
     };
   }, [isAuthenticated, isPublicAuthPage]);
 
@@ -245,17 +244,17 @@ function HealthCampPopupModal() {
 
   const handleClose = () => {
     if (camp?.id) {
-      sessionStorage.setItem('MedAstraX_dismissed_camp_' + camp.id, 'true');
-      localStorage.setItem('MedAstraX_dismissed_camp_' + camp.id, 'true');
+      sessionStorage.setItem('MediSphere_dismissed_camp_' + camp.id, 'true');
+      localStorage.setItem('MediSphere_dismissed_camp_' + camp.id, 'true');
     }
     setIsOpen(false);
   };
 
   const handleRegister = () => {
     if (camp?.id) {
-      localStorage.setItem('MedAstraX_registered_camp_' + camp.id, 'true');
-      localStorage.setItem('MedAstraX_dismissed_camp_' + camp.id, 'true');
-      sessionStorage.setItem('MedAstraX_dismissed_camp_' + camp.id, 'true');
+      localStorage.setItem('MediSphere_registered_camp_' + camp.id, 'true');
+      localStorage.setItem('MediSphere_dismissed_camp_' + camp.id, 'true');
+      sessionStorage.setItem('MediSphere_dismissed_camp_' + camp.id, 'true');
     }
     toast.success(`You are successfully registered for "${camp.title}"! 🎉`, { duration: 5000 });
     setIsOpen(false);
@@ -598,7 +597,6 @@ function App() {
             </Routes>
           </main>
           <GlobalQueryBot />
-          <VoiceAssistant />
         </div>
       </Router>
     </AuthProvider>

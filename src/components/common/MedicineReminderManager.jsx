@@ -27,7 +27,7 @@ export default function MedicineReminderManager() {
       }
 
       if (medicines.length === 0) {
-        const cachedPlanRaw = localStorage.getItem('MedAstraX_care_plan');
+        const cachedPlanRaw = localStorage.getItem('MediSphere_care_plan');
         if (cachedPlanRaw) {
           try {
             const parsed = JSON.parse(cachedPlanRaw);

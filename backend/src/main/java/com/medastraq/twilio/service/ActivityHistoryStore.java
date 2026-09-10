@@ -1,8 +1,8 @@
-package com.medastraq.twilio.service;
+package com.medisphere.twilio.service;
 
-import com.medastraq.twilio.dto.ActivityLog;
-import com.medastraq.twilio.entity.ActivityLogEntity;
-import com.medastraq.twilio.repository.ActivityLogRepository;
+import com.medisphere.twilio.dto.ActivityLog;
+import com.medisphere.twilio.entity.ActivityLogEntity;
+import com.medisphere.twilio.repository.ActivityLogRepository;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;

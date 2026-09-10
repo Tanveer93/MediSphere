@@ -26,7 +26,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      window.dispatchEvent(new Event('medastrax_reopen_camp_popup'));
+      window.dispatchEvent(new Event('medisphere_reopen_camp_popup'));
     }, 300);
     return () => clearTimeout(timer);
   }, []);
@@ -121,8 +121,8 @@ export default function AdminDashboard() {
       const res = await campAPI.create(newCampData);
       const createdCamp = res.data;
 
-      localStorage.setItem('MedAstraX_latest_camp', JSON.stringify(createdCamp || newCampData));
-      window.dispatchEvent(new Event('medastrax_camp_updated'));
+      localStorage.setItem('MediSphere_latest_camp', JSON.stringify(createdCamp || newCampData));
+      window.dispatchEvent(new Event('medisphere_camp_updated'));
 
       toast.success(`Health Camp "${createdCamp.title || title}" scheduled & broadcasted to all portals! 📢`, { duration: 5000 });
 
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
     try {
       await campAPI.delete(campId);
       toast.success('Camp removed successfully.');
-      window.dispatchEvent(new Event('medastrax_camp_updated'));
+      window.dispatchEvent(new Event('medisphere_camp_updated'));
       fetchCamps();
     } catch (err) {
       toast.error('Failed to delete camp.');
@@ -149,8 +149,8 @@ export default function AdminDashboard() {
   };
 
   const handleRebroadcast = (camp) => {
-    localStorage.setItem('MedAstraX_latest_camp', JSON.stringify(camp));
-    window.dispatchEvent(new Event('medastrax_camp_updated'));
+    localStorage.setItem('MediSphere_latest_camp', JSON.stringify(camp));
+    window.dispatchEvent(new Event('medisphere_camp_updated'));
     toast.success(`Re-broadcasted notification for "${camp.title}" to all portals! 📢`);
   };
 
@@ -196,7 +196,7 @@ export default function AdminDashboard() {
             type="button" 
             className="cuims-icon-btn"
             title="Active Health Camp Announcement - Click to view details"
-            onClick={() => window.dispatchEvent(new Event('medastrax_reopen_camp_popup'))}
+            onClick={() => window.dispatchEvent(new Event('medisphere_reopen_camp_popup'))}
             style={{ 
               fontSize: '1.15rem', 
               position: 'relative',

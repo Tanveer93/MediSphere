@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiArrowLeft, FiUser, FiPhone, FiMapPin, FiCheck, FiShield, FiRefreshCw, FiGift } from 'react-icons/fi';
 import { FaHeartbeat, FaUserMd, FaUser, FaStore, FaHospital, FaFlask } from 'react-icons/fa';
 import './Auth.css';
-import logo from '../assets/medastrax-logo-new.png';
+import logo from '../assets/medisphere-logo-new.png';
 
 const cleanPhoneNumber = (val) => {
   if (!val) return '';
@@ -205,7 +205,7 @@ export default function SignupPage() {
       const text = await res.text();
       setTermsContent(text);
     } catch (err) {
-      setTermsContent("MedAstraX Terms and Conditions:\n\nFailed to load terms file. Please try again later.");
+      setTermsContent("MediSphere Terms and Conditions:\n\nFailed to load terms file. Please try again later.");
     } finally {
       setLoadingTerms(false);
     }
@@ -663,7 +663,7 @@ export default function SignupPage() {
       }
 
       if (!agreeToTerms) {
-        toast.error('You must agree to the terms and conditions of MedAstraX to continue.');
+        toast.error('You must agree to the terms and conditions of MediSphere to continue.');
         return;
       }
 
@@ -838,7 +838,7 @@ export default function SignupPage() {
       >
         <div className="auth-header">
           <Link to="/" className="auth-logo">
-            <img src={logo} alt="MedAstraX Logo" className="auth-logo-img" style={{ height: '140px', objectFit: 'contain' }} />
+            <img src={logo} alt="MediSphere Logo" className="auth-logo-img" style={{ height: '140px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
           </Link>
           <h1 className="auth-title">Create Account</h1>
           <p className="auth-subtitle">Join the healthcare revolution</p>
@@ -2187,7 +2187,7 @@ export default function SignupPage() {
                       >
                         terms and conditions
                       </span>{' '}
-                      of MedAstraX.
+                      of MediSphere.
                     </span>
                   </label>
                 </div>

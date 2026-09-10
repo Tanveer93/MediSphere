@@ -275,7 +275,7 @@ Patient: Thank you, doctor. I will follow that.`;
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <FiCpu color="var(--primary)" size={20} />
-              <h2 className="heading-sm" style={{ margin: 0, fontSize: '1.2rem' }}>MedAstraX AI Consultation Co-Pilot</h2>
+              <h2 className="heading-sm" style={{ margin: 0, fontSize: '1.2rem' }}>MediSphere AI Consultation Co-Pilot</h2>
             </div>
             <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
               Live scribe recording and analyzing conversation between <strong>Dr. {doctorName}</strong> and <strong>{patientName}</strong>.

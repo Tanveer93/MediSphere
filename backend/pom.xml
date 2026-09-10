@@ -10,11 +10,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     
-    <groupId>com.medastraq</groupId>
-    <artifactId>medastraq-backend</artifactId>
+    <groupId>com.medisphere</groupId>
+    <artifactId>medisphere-backend</artifactId>
     <version>1.0.0</version>
-    <name>MedAstraQ Twilio Integration Backend</name>
-    <description>Spring Boot Backend for MedAstraQ Twilio SMS and Voice Call Integration</description>
+    <name>MediSphere Twilio Integration Backend</name>
+    <description>Spring Boot Backend for MediSphere Twilio SMS and Voice Call Integration</description>
     
     <properties>
         <java.version>17</java.version>

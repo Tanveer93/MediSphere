@@ -285,7 +285,7 @@ const TrackAmbulancePage = () => {
       <header className="tracker-header">
         <h1 className="tracker-header-title">
           <FiAlertTriangle className="animate-pulse" />
-          <span>MedAstraX Emergency Tracker</span>
+          <span>MediSphere Emergency Tracker</span>
         </h1>
       </header>
 

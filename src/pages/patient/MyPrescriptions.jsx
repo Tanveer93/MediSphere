@@ -280,7 +280,7 @@ export default function MyPrescriptions() {
           ` : ''}
 
           <div class="footer">
-            <p>Generated securely via MedAstraX System. This is an electronically generated report.</p>
+            <p>Generated securely via MediSphere System. This is an electronically generated report.</p>
           </div>
           
           <script>
@@ -661,7 +661,7 @@ export default function MyPrescriptions() {
             <div className="modal-header" style={{ background: 'linear-gradient(135deg, rgba(0, 217, 166, 0.05), rgba(0, 229, 255, 0.05))' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <FiCpu color="var(--primary)" size={24} />
-                <h3 className="heading-sm" style={{ margin: 0 }}>MedAstraX AI Report</h3>
+                <h3 className="heading-sm" style={{ margin: 0 }}>MediSphere AI Report</h3>
               </div>
               <button className="btn btn-ghost btn-sm" onClick={() => setAnalysisResult(null)} style={{ padding: '4px' }}>
                 <FiX size={20} />

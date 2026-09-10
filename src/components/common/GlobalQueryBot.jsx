@@ -30,22 +30,17 @@ export default function GlobalQueryBot() {
   const [chatHistory, setChatHistory] = useState([
     {
       sender: 'ai',
-      text: '👋 **Welcome to MedAstraX!** I am your 24/7 Platform Assistant.\n\nI can help you with:\n- 📅 [Booking an appointment](/dashboard) with a doctor\n- 📝 [Creating an account](/signup) or [logging in](/login)\n- 💊 [Buying & ordering medicines](/my-prescriptions)\n- 🎙️ Using AI clinical tools or diagnostic bookings\n- 🩺 General health and wellness questions\n\n*How can I help you today? You can type your query or click the microphone button next to me to ask with your voice!*'
+      text: '👋 **Welcome to MediSphere!** I am your 24/7 Platform Assistant.\n\nI can help you with:\n- 📅 [Booking an appointment](/dashboard) with a doctor\n- 📝 [Creating an account](/signup) or [logging in](/login)\n- 💊 [Buying & ordering medicines](/my-prescriptions)\n- 🎙️ Using AI clinical tools or diagnostic bookings\n- 🩺 General health and wellness questions\n\n*How can I help you today? You can type your query or click the microphone button next to me to ask with your voice!*'
     }
   ]);
   const [sendingChat, setSendingChat] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [recognition, setRecognition] = useState(null);
+  const [liveSpeechText, setLiveSpeechText] = useState('');
+  const recognitionRef = useRef(null);
   const chatBodyRef = useRef(null);
 
-  const isPatientDashboard = !location.pathname.includes('/doctor') &&
-                             !location.pathname.includes('/pharmacy') &&
-                             !location.pathname.includes('/lab') &&
-                             !location.pathname.includes('/hospital') &&
-                             !location.pathname.includes('/admin') &&
-                             location.pathname !== '/login' &&
-                             location.pathname !== '/signup' &&
-                             location.pathname !== '/';
+  const isPatientDashboard = location.pathname === '/dashboard' || 
+                             location.pathname.startsWith('/dashboard?');
 
   const quickTags = [
     { label: '📅 Book Appointment', query: 'How do I book a doctor appointment on the platform?' },
@@ -55,39 +50,66 @@ export default function GlobalQueryBot() {
   ];
 
   useEffect(() => {
-    if (!SpeechRecognition) return;
-    const rec = new SpeechRecognition();
-    rec.continuous = false; // Stop listening once user pauses speaking
-    rec.interimResults = false;
-    rec.lang = 'en-US';
+    const SpeechClass = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechClass) return;
 
-    rec.onstart = () => {
-      setIsListening(true);
-      toast.success('🎙️ Voice assistant listening... Speak now!', { id: 'voice-active' });
-    };
+    try {
+      const rec = new SpeechClass();
+      rec.continuous = false;
+      rec.interimResults = true;
+      rec.maxAlternatives = 1;
+      rec.lang = navigator.language && navigator.language.startsWith('en') ? navigator.language : 'en-IN';
 
-    rec.onresult = (event) => {
-      const resultText = event.results[0][0].transcript;
-      if (resultText && resultText.trim()) {
-        handleSendVoiceQuery(resultText);
-      }
-    };
+      rec.onstart = () => {
+        setIsListening(true);
+        setLiveSpeechText('');
+        toast.success('🎙️ Voice assistant listening... Please speak now!', { id: 'voice-active', duration: 4000 });
+      };
 
-    rec.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
-      if (event.error === 'not-allowed') {
-        toast.error('Microphone permission denied! Please allow access in browser settings.', { id: 'voice-active' });
-      } else {
-        toast.error('Voice input error. Please try again.', { id: 'voice-active' });
-      }
-      setIsListening(false);
-    };
+      rec.onresult = (event) => {
+        let interim = '';
+        let final = '';
 
-    rec.onend = () => {
-      setIsListening(false);
-    };
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const transcriptPiece = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            final += transcriptPiece;
+          } else {
+            interim += transcriptPiece;
+          }
+        }
 
-    setRecognition(rec);
+        const currentText = final || interim;
+        if (currentText) {
+          setLiveSpeechText(currentText);
+        }
+
+        if (final && final.trim()) {
+          handleSendVoiceQuery(final.trim());
+        }
+      };
+
+      rec.onerror = (event) => {
+        console.warn('Speech recognition status/error:', event.error);
+        if (event.error === 'no-speech') {
+          toast('No voice detected. Please speak clearly into your mic.', { icon: '🎙️', id: 'voice-active' });
+        } else if (event.error === 'not-allowed' || event.error === 'permission-denied') {
+          toast.error('Microphone permission denied! Please click the lock icon in your browser URL bar to allow microphone.', { id: 'voice-active', duration: 5000 });
+        } else if (event.error !== 'aborted') {
+          toast.error('Could not capture audio clearly. Please try again.', { id: 'voice-active' });
+        }
+        setIsListening(false);
+        setLiveSpeechText('');
+      };
+
+      rec.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = rec;
+    } catch (e) {
+      console.error('Error initializing speech recognition:', e);
+    }
   }, []);
 
   useEffect(() => {
@@ -97,24 +119,42 @@ export default function GlobalQueryBot() {
   }, [chatHistory, sendingChat, chatOpen]);
 
   const handleToggleListening = () => {
-    if (!SpeechRecognition) {
-      toast.error('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
+    const SpeechClass = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechClass) {
+      toast.error('Speech recognition is not supported in this browser. Please use Google Chrome or Microsoft Edge.');
       return;
     }
 
     if (isListening) {
-      recognition.stop();
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch (e) {}
+      }
+      setIsListening(false);
+      setLiveSpeechText('');
     } else {
-      try {
-        recognition.start();
-      } catch (err) {
-        console.error('Failed to start speech recognition:', err);
+      if (recognitionRef.current) {
+        try {
+          setLiveSpeechText('');
+          recognitionRef.current.start();
+        } catch (err) {
+          console.warn('Recognition start warning:', err);
+          // If already started or in transition, restart safely
+          try {
+            recognitionRef.current.stop();
+            setTimeout(() => {
+              recognitionRef.current?.start();
+            }, 200);
+          } catch (e) {}
+        }
       }
     }
   };
 
   const handleSendVoiceQuery = (text) => {
-    toast.success(`Captured: "${text}"`, { icon: '🎙️', id: 'voice-captured' });
+    setLiveSpeechText('');
+    toast.success(`Voice heard: "${text}"`, { icon: '🎙️', id: 'voice-captured' });
     setChatOpen(true);
     handleSendChat(text);
   };
@@ -188,47 +228,57 @@ export default function GlobalQueryBot() {
       return;
     }
     
-    const routeIntents = [
-      { keywords: ['emergency', 'sos', 'ambulance', 'help'], route: '/emergency', message: '🚨 Triggering Emergency Protocols...' },
-      { keywords: ['book', 'appointment', 'consultation'], route: '/book/HOS101?autoPilot=true', message: '🤖 **Auto-Pilot Engaged:** Navigating to the booking page. I will fill out the details for you now...' },
-      { keywords: ['prescription', 'medicine', 'pharmacy', 'pill', 'dawai'], route: '/dashboard?tab=prescriptions', message: '💊 Opening your prescriptions and pharmacy portal...' },
-      { keywords: ['leave', 'certificate', 'sick leave', 'chutti'], route: '/dashboard?tab=medical-leave', message: '📝 Opening medical leave portal...' },
-      { keywords: ['symptom', 'checker', 'diagnosis', 'diagnose', 'bimari'], route: '/dashboard?tab=symptom-checker', message: '🩺 Opening AI Symptom Checker...' },
-      { keywords: ['dashboard', 'home', 'profile', 'main'], route: '/dashboard', message: '🏠 Taking you to your dashboard...' },
-      { keywords: ['vaccination', 'vaccine', 'immunization', 'tika'], route: '/dashboard?tab=vaccinations', message: '💉 Opening vaccination records...' },
-      { keywords: ['wellness score', 'wellbeing'], route: '/dashboard?tab=wellness-score', message: '🧘‍♀️ Checking your wellness score...' },
-      { keywords: ['map', 'nearby', 'location', 'find', 'rasta'], route: '/dashboard?tab=health-map', message: '🗺️ Opening the health map...' },
-      { keywords: ['my bookings', 'my appointments', 'schedule', 'booking'], route: '/dashboard?tab=bookings', message: '📅 Opening your bookings...' },
-      { keywords: ['care plan', 'care', 'plan'], route: '/dashboard?tab=care-plan', message: '📋 Opening your Personalized Care Plan...' },
-      { keywords: ['complementary checkup', 'free checkup', 'body checkup', 'complementary', 'full body'], route: '/dashboard?tab=full-body-checkup', message: '🎁 Opening Complementary Checkup...' },
-      { keywords: ['reward', 'points', 'leaderboard', 'rank', 'coin'], route: '/dashboard?tab=rewards', message: '🏆 Opening Rewards Leaderboard...' },
-      { keywords: ['refer', 'referral', 'invite', 'dost'], route: '/dashboard?tab=refer-a-student', message: '🤝 Opening Student Referral...' },
-      { keywords: ['student health portal', 'health portal'], route: '/dashboard?tab=student-health-portal', message: '🎓 Opening Student Health Portal...' },
-      { keywords: ['wellness center', 'mental health', 'counselor', 'mood tracker', 'stress', 'depression'], route: '/dashboard?tab=wellness-center', message: '💆 Opening Wellness Center...' },
-      { keywords: ['medicine trends', 'trend', 'trends'], route: '/dashboard?tab=medicine-trends', message: '📈 Opening Medicine Trends...' },
-      { keywords: ['analytics', 'stats', 'statistics', 'graph'], route: '/dashboard?tab=analytics', message: '📊 Opening Health Analytics...' },
-      { keywords: ['faculty portal', 'faculty', 'teacher', 'sir', 'maam'], route: '/dashboard?tab=faculty-portal', message: '👩‍🏫 Opening Faculty Portal...' },
-    ];
+    const isDirectNavigation = 
+      lowerMsg.startsWith('open ') || 
+      lowerMsg.startsWith('go to ') || 
+      lowerMsg.startsWith('take me to ') || 
+      lowerMsg.startsWith('navigate to ') ||
+      lowerMsg === 'emergency' ||
+      lowerMsg === 'sos';
 
-    let matchedIntent = null;
-    for (const intent of routeIntents) {
-      if (intent.keywords.some(keyword => lowerMsg.includes(keyword))) {
-        matchedIntent = intent;
-        break;
+    if (isDirectNavigation) {
+      const routeIntents = [
+        { keywords: ['emergency', 'sos', 'ambulance'], route: '/emergency', message: '🚨 Triggering Emergency Protocols...' },
+        { keywords: ['book', 'appointment', 'consultation'], route: '/book/HOS101?autoPilot=true', message: '🤖 **Auto-Pilot Engaged:** Navigating to the booking page. I will fill out the details for you now...' },
+        { keywords: ['prescription', 'medicine', 'pharmacy', 'pill', 'dawai'], route: '/dashboard?tab=prescriptions', message: '💊 Opening your prescriptions and pharmacy portal...' },
+        { keywords: ['leave', 'certificate', 'sick leave', 'chutti'], route: '/dashboard?tab=medical-leave', message: '📝 Opening medical leave portal...' },
+        { keywords: ['symptom', 'checker', 'diagnosis', 'diagnose', 'bimari'], route: '/dashboard?tab=symptom-checker', message: '🩺 Opening AI Symptom Checker...' },
+        { keywords: ['dashboard', 'home', 'profile', 'main'], route: '/dashboard', message: '🏠 Taking you to your dashboard...' },
+        { keywords: ['vaccination', 'vaccine', 'immunization', 'tika'], route: '/dashboard?tab=vaccinations', message: '💉 Opening vaccination records...' },
+        { keywords: ['wellness score', 'wellbeing'], route: '/dashboard?tab=wellness-score', message: '🧘‍♀️ Checking your wellness score...' },
+        { keywords: ['map', 'nearby', 'location', 'find', 'rasta'], route: '/dashboard?tab=health-map', message: '🗺️ Opening the health map...' },
+        { keywords: ['my bookings', 'my appointments', 'schedule', 'booking'], route: '/dashboard?tab=bookings', message: '📅 Opening your bookings...' },
+        { keywords: ['care plan', 'care', 'plan'], route: '/dashboard?tab=care-plan', message: '📋 Opening your Personalized Care Plan...' },
+        { keywords: ['complementary checkup', 'free checkup', 'body checkup', 'complementary', 'full body'], route: '/dashboard?tab=full-body-checkup', message: '🎁 Opening Complementary Checkup...' },
+        { keywords: ['reward', 'points', 'leaderboard', 'rank', 'coin'], route: '/dashboard?tab=rewards', message: '🏆 Opening Rewards Leaderboard...' },
+        { keywords: ['refer', 'referral', 'invite', 'dost'], route: '/dashboard?tab=refer-a-student', message: '🤝 Opening Student Referral...' },
+        { keywords: ['student health portal', 'health portal'], route: '/dashboard?tab=student-health-portal', message: '🎓 Opening Student Health Portal...' },
+        { keywords: ['wellness center', 'mental health', 'counselor', 'mood tracker', 'stress', 'depression'], route: '/dashboard?tab=wellness-center', message: '💆 Opening Wellness Center...' },
+        { keywords: ['medicine trends', 'trend', 'trends'], route: '/dashboard?tab=medicine-trends', message: '📈 Opening Medicine Trends...' },
+        { keywords: ['analytics', 'stats', 'statistics', 'graph'], route: '/dashboard?tab=analytics', message: '📊 Opening Health Analytics...' },
+        { keywords: ['faculty portal', 'faculty', 'teacher', 'sir', 'maam'], route: '/dashboard?tab=faculty-portal', message: '👩‍🏫 Opening Faculty Portal...' },
+      ];
+
+      let matchedIntent = null;
+      for (const intent of routeIntents) {
+        if (intent.keywords.some(keyword => lowerMsg.includes(keyword))) {
+          matchedIntent = intent;
+          break;
+        }
       }
-    }
 
-    if (matchedIntent) {
-      setChatHistory(prev => [...prev, { 
-        sender: 'ai', 
-        text: matchedIntent.message 
-      }]);
-      setTimeout(() => {
-        setChatOpen(false);
-        setSendingChat(false);
-        navigate(matchedIntent.route);
-      }, 1500);
-      return;
+      if (matchedIntent) {
+        setChatHistory(prev => [...prev, { 
+          sender: 'ai', 
+          text: matchedIntent.message 
+        }]);
+        setTimeout(() => {
+          setChatOpen(false);
+          setSendingChat(false);
+          navigate(matchedIntent.route);
+        }, 1500);
+        return;
+      }
     }
 
     if (!navigator.onLine) {
@@ -274,7 +324,7 @@ export default function GlobalQueryBot() {
     setChatHistory([
       {
         sender: 'ai',
-        text: '👋 **Session reset!** How can I assist you with MedAstraX platform queries or wellness support?'
+        text: '👋 **Session reset!** How can I assist you with MediSphere platform queries or wellness support?'
       }
     ]);
   };
@@ -376,7 +426,7 @@ export default function GlobalQueryBot() {
       {isListening && (
         <div className="voice-listening-toast">
           <div className="mic-pulse-ring"></div>
-          <span>🎙️ Listening to your query...</span>
+          <span>{liveSpeechText ? `🎙️ "${liveSpeechText}"` : '🎙️ Listening... Speak your question!'}</span>
         </div>
       )}
 
@@ -407,7 +457,7 @@ export default function GlobalQueryBot() {
         <button 
           className={`global-chat-fab ${chatOpen ? 'open' : ''}`} 
           onClick={() => setChatOpen(!chatOpen)}
-          title="MedAstraX Platform Assistant"
+          title="MediSphere Platform Assistant"
         >
           {chatOpen ? (
             <FiX size={22} />

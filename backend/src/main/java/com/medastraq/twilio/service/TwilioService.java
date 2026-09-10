@@ -1,6 +1,6 @@
-package com.medastraq.twilio.service;
+package com.medisphere.twilio.service;
 
-import com.medastraq.twilio.config.TwilioConfig;
+import com.medisphere.twilio.config.TwilioConfig;
 import com.twilio.rest.api.v2010.account.Call;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -65,7 +65,7 @@ public class TwilioService {
             PhoneNumber to = new PhoneNumber(phoneNumber);
             PhoneNumber from = new PhoneNumber(twilioConfig.getPhoneNumber());
 
-            String twimlMessage = "Hello! This is a verification call from MedAstraX Health Portal.";
+            String twimlMessage = "Hello! This is a verification call from MediSphere Health Portal.";
             String twimletUrl = "http://twimlets.com/message?Message%5B0%5D=" + URLEncoder.encode(twimlMessage, StandardCharsets.UTF_8);
             
             URI twimletUri = URI.create(twimletUrl);

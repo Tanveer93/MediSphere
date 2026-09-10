@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 const pool = new Pool({
   user: process.env.PGUSER || 'postgres',
   host: process.env.PGHOST || 'localhost',
-  database: process.env.PGDATABASE || 'medastrax_db',
+  database: process.env.PGDATABASE || 'medisphere_db',
   password: process.env.PGPASSWORD || 'postgres',
   port: process.env.PGPORT || 5432,
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false

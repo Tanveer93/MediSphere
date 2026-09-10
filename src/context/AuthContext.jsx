@@ -4,21 +4,21 @@ import { familyMemberAPI } from '../services/api';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem('MedAstraX_token'));
+  const [token, setToken] = useState(() => localStorage.getItem('MediSphere_token'));
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('MedAstraX_user');
+    const saved = localStorage.getItem('MediSphere_user');
     return saved ? JSON.parse(saved) : null;
   });
   const [loading, setLoading] = useState(true);
   const [activeProfile, setActiveProfile] = useState(() => {
-    const saved = localStorage.getItem('MedAstraX_active_profile');
+    const saved = localStorage.getItem('MediSphere_active_profile');
     return saved ? JSON.parse(saved) : null;
   });
   const [familyMembers, setFamilyMembers] = useState([]);
 
   const refreshFamilyMembers = async () => {
-    const savedToken = localStorage.getItem('MedAstraX_token') || token;
-    const savedUserString = localStorage.getItem('MedAstraX_user');
+    const savedToken = localStorage.getItem('MediSphere_token') || token;
+    const savedUserString = localStorage.getItem('MediSphere_user');
     const savedUser = savedUserString ? JSON.parse(savedUserString) : user;
     if (savedToken && savedUser?.role === 'PATIENT') {
       try {
@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
     } else {
       setFamilyMembers([]);
       setActiveProfile(null);
-      localStorage.removeItem('MedAstraX_active_profile');
+      localStorage.removeItem('MediSphere_active_profile');
     }
   }, [token, user]);
 
@@ -50,8 +50,8 @@ export function AuthProvider({ children }) {
 
     setToken(jwt);
     setUser(userData);
-    localStorage.setItem('MedAstraX_token', jwt);
-    localStorage.setItem('MedAstraX_user', JSON.stringify(userData));
+    localStorage.setItem('MediSphere_token', jwt);
+    localStorage.setItem('MediSphere_user', JSON.stringify(userData));
 
 
   };
@@ -61,19 +61,19 @@ export function AuthProvider({ children }) {
     setUser(null);
     setFamilyMembers([]);
     setActiveProfile(null);
-    localStorage.removeItem('MedAstraX_token');
-    localStorage.removeItem('MedAstraX_user');
-    localStorage.removeItem('MedAstraX_active_profile');
+    localStorage.removeItem('MediSphere_token');
+    localStorage.removeItem('MediSphere_user');
+    localStorage.removeItem('MediSphere_active_profile');
     localStorage.removeItem('user_type');
-    sessionStorage.removeItem('MedAstraX_camp_shown_session');
+    sessionStorage.removeItem('MediSphere_camp_shown_session');
   };
 
   const switchProfile = (profile) => {
     setActiveProfile(profile);
     if (profile) {
-      localStorage.setItem('MedAstraX_active_profile', JSON.stringify(profile));
+      localStorage.setItem('MediSphere_active_profile', JSON.stringify(profile));
     } else {
-      localStorage.removeItem('MedAstraX_active_profile');
+      localStorage.removeItem('MediSphere_active_profile');
     }
   };
 
@@ -81,7 +81,7 @@ export function AuthProvider({ children }) {
     setUser(prev => {
       if (!prev) return prev;
       const updated = { ...prev, avatarUrl };
-      localStorage.setItem('MedAstraX_user', JSON.stringify(updated));
+      localStorage.setItem('MediSphere_user', JSON.stringify(updated));
       return updated;
     });
   };
@@ -90,7 +90,7 @@ export function AuthProvider({ children }) {
     setUser(prev => {
       if (!prev) return prev;
       const updated = { ...prev, ...updatedFields };
-      localStorage.setItem('MedAstraX_user', JSON.stringify(updated));
+      localStorage.setItem('MediSphere_user', JSON.stringify(updated));
       return updated;
     });
   };

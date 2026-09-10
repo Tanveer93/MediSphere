@@ -57,7 +57,7 @@ export default function MentalHealthWellnessTab({
 
   const [moodLogs, setMoodLogs] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem('medastrax_mood_logs') || '[]');
+      return JSON.parse(localStorage.getItem('medisphere_mood_logs') || '[]');
     } catch {
       return [];
     }
@@ -241,7 +241,7 @@ export default function MentalHealthWellnessTab({
 
       try {
         const consultationType = formData.mode.toLowerCase().includes('in-person') ? 'IN_PERSON' : 'ONLINE';
-        const storedBookings = JSON.parse(localStorage.getItem('medastrax_custom_bookings') || '[]');
+        const storedBookings = JSON.parse(localStorage.getItem('medisphere_custom_bookings') || '[]');
         storedBookings.unshift({
           id: Date.now(),
           doctorId: selectedPsychologist.id,
@@ -260,7 +260,7 @@ export default function MentalHealthWellnessTab({
           age: profileData?.age || user?.age || '',
           gender: profileData?.gender || user?.gender || ''
         });
-        localStorage.setItem('medastrax_custom_bookings', JSON.stringify(storedBookings));
+        localStorage.setItem('medisphere_custom_bookings', JSON.stringify(storedBookings));
       } catch (err) {
         console.error(err);
       }
@@ -341,7 +341,7 @@ I am really sorry to hear that you are feeling **Down/Sad** today. Your feelings
       };
       const updatedLogs = [newLog, ...moodLogs].slice(0, 10);
       setMoodLogs(updatedLogs);
-      localStorage.setItem('medastrax_mood_logs', JSON.stringify(updatedLogs));
+      localStorage.setItem('medisphere_mood_logs', JSON.stringify(updatedLogs));
 
       setIsAnalyzingMood(false);
       toast.success('Mood logged & analyzed by Astra AI! 🧠💚');

@@ -1,11 +1,11 @@
-package com.medastraq.twilio.controller;
+package com.medisphere.twilio.controller;
 
-import com.medastraq.twilio.dto.ApiResponse;
-import com.medastraq.twilio.dto.CallRequest;
-import com.medastraq.twilio.dto.SmsRequest;
-import com.medastraq.twilio.service.TwilioService;
-import com.medastraq.twilio.service.ActivityHistoryStore;
-import com.medastraq.twilio.dto.ActivityLog;
+import com.medisphere.twilio.dto.ApiResponse;
+import com.medisphere.twilio.dto.CallRequest;
+import com.medisphere.twilio.dto.SmsRequest;
+import com.medisphere.twilio.service.TwilioService;
+import com.medisphere.twilio.service.ActivityHistoryStore;
+import com.medisphere.twilio.dto.ActivityLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ public class TwilioController {
             responseData.put("callSid", callSid);
             responseData.put("toPhoneNumber", callRequest.getPhoneNumber());
             responseData.put("status", "CALL_INITIATED");
-            responseData.put("messageSpoken", "Hello! This is a test call from MedAstraX.");
+            responseData.put("messageSpoken", "Hello! This is a test call from MediSphere.");
 
             activityHistoryStore.logActivity(new ActivityLog(
                 callSid, "MAKE_CALL", "Initiated voice call to " + callRequest.getPhoneNumber(), System.currentTimeMillis(), "SUCCESS", "SYSTEM"

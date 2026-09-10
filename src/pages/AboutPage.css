@@ -64,6 +64,14 @@
   line-height: 1.2;
 }
 
+.brand-logo-medi {
+  color: #f02070;
+}
+
+.brand-logo-sphere {
+  color: #881337;
+}
+
 .about-intro {
   font-size: 1.15rem;
   color: var(--text-secondary);

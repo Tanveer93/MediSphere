@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { FiPlus, FiSettings, FiUsers, FiActivity, FiClock, FiCalendar, FiVideo, FiUser, FiCheckCircle, FiCheck, FiCpu, FiDownload, FiCopy, FiTrash2, FiUpload, FiFileText, FiAlertTriangle, FiInfo, FiEdit2, FiChevronUp, FiChevronDown, FiMenu, FiLogOut, FiBell } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/MedAstraCU-logo.png';
+import logo from '../../assets/MediSphere-logo.png';
 import '../patient/CuimsDashboard.css';
 
 export default function DoctorDashboard() {
@@ -130,7 +130,7 @@ export default function DoctorDashboard() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      window.dispatchEvent(new Event('medastrax_reopen_camp_popup'));
+      window.dispatchEvent(new Event('medisphere_reopen_camp_popup'));
     }, 300);
     return () => clearTimeout(timer);
   }, []);
@@ -187,7 +187,7 @@ export default function DoctorDashboard() {
       
       const updatedUser = { ...user, avatarUrl: imageUrl };
       login({
-        token: localStorage.getItem('MedAstraX_token'),
+        token: localStorage.getItem('MediSphere_token'),
         ...updatedUser
       });
       toast.success('Profile picture updated successfully!');
@@ -441,7 +441,7 @@ export default function DoctorDashboard() {
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(20);
     doc.setTextColor(29, 158, 117);
-    doc.text('MedAstraX Digital Prescription', pageWidth / 2, y, { align: 'center' });
+    doc.text('MediSphere Digital Prescription', pageWidth / 2, y, { align: 'center' });
     y += 15;
 
     doc.setFontSize(12);
@@ -535,7 +535,7 @@ export default function DoctorDashboard() {
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(20);
     doc.setTextColor(29, 158, 117);
-    doc.text('MedAstraX Digital Prescription', pageWidth / 2, y, { align: 'center' });
+    doc.text('MediSphere Digital Prescription', pageWidth / 2, y, { align: 'center' });
     y += 15;
 
     doc.setFontSize(12);
@@ -921,7 +921,7 @@ export default function DoctorDashboard() {
         doc.setFont('Helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(150, 150, 150);
-        doc.text(`MedAstraX Clinical Report - Patient: ${appt.patientName}`, margin, 10);
+        doc.text(`MediSphere Clinical Report - Patient: ${appt.patientName}`, margin, 10);
         doc.setDrawColor(220, 220, 220);
         doc.line(margin, 12, pageWidth - margin, 12);
         y = 20;
@@ -931,7 +931,7 @@ export default function DoctorDashboard() {
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(18);
     doc.setTextColor(29, 158, 117);
-    doc.text('MedAstraX AI CLINICAL REPORT', pageWidth / 2, y, { align: 'center' });
+    doc.text('MediSphere AI CLINICAL REPORT', pageWidth / 2, y, { align: 'center' });
     y += 8;
 
     doc.setDrawColor(29, 158, 117);
@@ -1063,7 +1063,7 @@ export default function DoctorDashboard() {
     doc.setTextColor(150, 150, 150);
     doc.text('This is an AI-generated consultation report and is intended for clinical review.', margin, y);
     y += 4;
-    doc.text(`Generated on ${new Date().toLocaleDateString()} by MedAstraX AI Scribe companion.`, margin, y);
+    doc.text(`Generated on ${new Date().toLocaleDateString()} by MediSphere AI Scribe companion.`, margin, y);
 
     const filename = `Clinical_Report_${(appt.patientName || 'Patient').replace(/\s+/g, '_')}.pdf`;
     doc.save(filename);
@@ -1089,7 +1089,7 @@ export default function DoctorDashboard() {
         doc.setFont('Helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(150, 150, 150);
-        doc.text(`MedAstraX Previous Prescription Summary - Patient: ${appt.patientName}`, margin, 10);
+        doc.text(`MediSphere Previous Prescription Summary - Patient: ${appt.patientName}`, margin, 10);
         doc.setDrawColor(220, 220, 220);
         doc.line(margin, 12, pageWidth - margin, 12);
         y = 20;
@@ -1099,7 +1099,7 @@ export default function DoctorDashboard() {
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(18);
     doc.setTextColor(29, 158, 117);
-    doc.text('MedAstraX AI PRESCRIPTION SUMMARY', pageWidth / 2, y, { align: 'center' });
+    doc.text('MediSphere AI PRESCRIPTION SUMMARY', pageWidth / 2, y, { align: 'center' });
     y += 8;
 
     doc.setDrawColor(29, 158, 117);
@@ -1231,7 +1231,7 @@ export default function DoctorDashboard() {
     doc.setTextColor(150, 150, 150);
     doc.text('This is an AI-generated analysis of the patient\'s uploaded prescription and is intended for clinical review.', margin, y);
     y += 4;
-    doc.text(`Generated on ${new Date().toLocaleDateString()} by MedAstraX AI Scribe companion.`, margin, y);
+    doc.text(`Generated on ${new Date().toLocaleDateString()} by MediSphere AI Scribe companion.`, margin, y);
 
     const filename = `Prev_Prescription_Summary_${(appt.patientName || 'Patient').replace(/\s+/g, '_')}.pdf`;
     doc.save(filename);
@@ -1352,7 +1352,7 @@ export default function DoctorDashboard() {
             <FiMenu />
           </button>
           <div className="cuims-logo-container" onClick={() => setActiveTab('hospitals')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <img src={logo} alt="MedAstraX" style={{ height: '52px', objectFit: 'contain' }} />
+            <img src={logo} alt="MediSphere" style={{ height: '52px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
           </div>
         </div>
 
@@ -1651,7 +1651,7 @@ export default function DoctorDashboard() {
                 type="button" 
                 className="cuims-icon-btn"
                 title="Active Health Camp Announcement - Click to view details"
-                onClick={() => window.dispatchEvent(new Event('medastrax_reopen_camp_popup'))}
+                onClick={() => window.dispatchEvent(new Event('medisphere_reopen_camp_popup'))}
                 style={{ 
                   fontSize: '1.15rem', 
                   position: 'relative',
@@ -2722,7 +2722,7 @@ export default function DoctorDashboard() {
             }}>
               <div>
                 <h2 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <FiCpu /> MedAstraX AI Consultation Report
+                  <FiCpu /> MediSphere AI Consultation Report
                 </h2>
                 <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.78rem' }}>
                   Scribe report generated for patient <strong>{selectedReportBooking.patientName}</strong>.

@@ -203,7 +203,7 @@ export default function ConsultationRoom() {
         </head>
         <body>
           <div class="header">
-            <h1 class="title">MedAstraX Digital Prescription</h1>
+            <h1 class="title">MediSphere Digital Prescription</h1>
             <p>Booking ID: #${booking.id} | Date: ${booking.bookingDate}</p>
           </div>
           <div class="meta">

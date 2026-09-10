@@ -754,7 +754,7 @@ const EmergencyPage = () => {
                 We Can't Reach Your Location
               </h3>
               <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', color: '#991b1b', padding: '12px 16px', borderRadius: '12px', fontSize: '0.88rem', fontWeight: '600', marginBottom: '20px', lineHeight: '1.5' }}>
-                Sorry! MedAstraX Campus Emergency SOS is strictly restricted to Chandigarh University Campus (Gharuan) & Alpha Chandigarh Hospital route (within 4.5 km).
+                Sorry! MediSphere Campus Emergency SOS is strictly restricted to Chandigarh University Campus (Gharuan) & Alpha Chandigarh Hospital route (within 4.5 km).
               </div>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: '1.6', margin: '0 0 24px 0' }}>
                 Your current location is outside our campus ambulance service boundary. Please use direct national emergency helplines below for instant response:

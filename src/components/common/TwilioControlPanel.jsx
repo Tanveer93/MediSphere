@@ -5,7 +5,7 @@ import { sendTwilioSmsApi, makeTwilioCallApi } from '../../services/twilioApiSer
 
 const TwilioControlPanel = () => {
   const [phoneNumber, setPhoneNumber] = useState('+917988766566');
-  const [message, setMessage] = useState('Hello Rashika! This is a test SMS from MedAstraX.');
+  const [message, setMessage] = useState('Hello Rashika! This is a test SMS from MediSphere.');
   const [callerNumber] = useState('+18167506748');
   
   const [sendingSms, setSendingSms] = useState(false);
@@ -41,7 +41,7 @@ const TwilioControlPanel = () => {
         timestamp: new Date().toLocaleTimeString(),
         data: res
       });
-      toast.success(`📞 Voice Call Initiated to ${phoneNumber}! Speaking: "Hello! This is a test call from MedAstraX."`, { id: 'twilio-status', duration: 5000 });
+      toast.success(`📞 Voice Call Initiated to ${phoneNumber}! Speaking: "Hello! This is a test call from MediSphere."`, { id: 'twilio-status', duration: 5000 });
     } catch (err) {
       console.error('Twilio Voice Call Error:', err);
       toast.error(`❌ Failed to make call: ${err.message}`, { id: 'twilio-status' });
@@ -66,7 +66,7 @@ const TwilioControlPanel = () => {
               T
             </div>
             <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-primary)' }}>
-              MedAstraQ Twilio Integration Engine
+              MediSphere Twilio Integration Engine
             </h3>
           </div>
           <p style={{ margin: '4px 0 0 46px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>

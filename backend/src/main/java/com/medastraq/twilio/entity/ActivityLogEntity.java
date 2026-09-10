@@ -1,4 +1,4 @@
-package com.medastraq.twilio.entity;
+package com.medisphere.twilio.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -17,7 +17,7 @@ const TRAINING_DATA = [
 
   { text: "how to sign up create account", label: 1 },
   { text: "register new patient profile", label: 1 },
-  { text: "join MedAstraX platform register account", label: 1 },
+  { text: "join MediSphere platform register account", label: 1 },
   { text: "set password and sign up user", label: 1 },
 
   { text: "view my medicines active prescriptions", label: 2 },
@@ -70,7 +70,7 @@ Stay healthy with our core wellness guidelines:
 - **Recovery**: Rest is vital. Get 7-8 hours of sleep and use the stress relief practices under [Care Plan](/care-plan).`,
 
   4: `### 🪙 Gamification & Rewards (Offline Mode)
-MedAstraX awards **MedCoins** for healthy habits:
+MediSphere awards **MedCoins** for healthy habits:
 - **Earn**: Complete doctor consultations, order medications, book diagnostic packages, or record health milestones.
 - **Redeem**: Redeem accumulated coins for direct discounts on your future pharmacy checkout orders.
 - Check your rewards balance on the dashboard.`,
@@ -81,7 +81,7 @@ Need assistance? Since you are currently offline, here are quick references:
 - **Help Center**: Visit the [Help Center](/help) for guides.
 - **Contact**: Reach our team by filing a ticket on the [Support Page](/support) or the [Contact Us](/contact) form.`,
 
-  fallback: `### 🤖 MedAstraX Clinical Assistant (Offline)
+  fallback: `### 🤖 MediSphere Clinical Assistant (Offline)
 I see you are currently offline. I can assist you with common platform topics:
 - **Booking** (e.g., "How to book an appointment")
 - **Sign Up** (e.g., "How to register an account")

@@ -1,4 +1,4 @@
-package com.medastraq.twilio.service;
+package com.medisphere.twilio.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

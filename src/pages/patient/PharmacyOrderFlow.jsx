@@ -446,7 +446,7 @@ export default function PharmacyOrderFlow() {
             </div>
 
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(0,217,166,0.15)', color: 'var(--primary)', padding: '6px 16px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 800, marginBottom: '12px' }}>
-              <FiClock size={14} /> MedAstraX Express Campus Delivery
+              <FiClock size={14} /> MediSphere Express Campus Delivery
             </div>
 
             <h2 className="heading-md" style={{ margin: '0 0 8px 0', fontSize: '1.5rem', fontWeight: 800 }}>
@@ -465,7 +465,7 @@ export default function PharmacyOrderFlow() {
                 </div>
                 <div style={{ textAlign: 'left' }}>
                   <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-primary)' }}>Vikram Singh <span style={{ color: '#eab308', fontSize: '0.8rem', marginLeft: '6px' }}>★ 4.9</span></div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>MedAstraX Verified Valet Partner • EV Scooter</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>MediSphere Verified Valet Partner • EV Scooter</div>
                 </div>
               </div>
 

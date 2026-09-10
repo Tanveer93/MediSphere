@@ -20,7 +20,7 @@ import {
 import { FaUserMd, FaUser, FaStore } from 'react-icons/fa';
 import doctorPatientImg from '../assets/university-students-hero.jpg';
 import drAdityaImg from '../assets/dr-aditya.png';
-import MedAstraXLogo from '../assets/medastrax-logo-new.png';
+import MediSphereLogo from '../assets/MediSphere-logo.png';
 import './LandingPage.css';
 import './ContactPage.css';
 
@@ -108,7 +108,7 @@ export default function LandingPage() {
             Technology that <span className="text-accent">heals.</span>
           </h1>
           <p className="hero-subtitle">
-            MedAstraX bridges patients, doctors, and pharmacies together. Book appointments, manage records, and get care — all in one secure platform.
+            MediSphere bridges patients, doctors, and pharmacies together. Book appointments, manage records, and get care — all in one secure platform.
           </p>
           <div className="hero-actions">
             <Link to="/login" className="btn btn-primary btn-lg">
@@ -335,7 +335,7 @@ export default function LandingPage() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="heading-lg">What Our Clients <span className="text-gradient">Say</span></h2>
-          <p className="auth-subtitle">Stories from healthcare institutions that have transformed their operations with MedAstraX</p>
+          <p className="auth-subtitle">Stories from healthcare institutions that have transformed their operations with MediSphere</p>
         </motion.div>
 
         <motion.div 
@@ -363,7 +363,7 @@ export default function LandingPage() {
           <div className="testimonial-right">
             <div className="large-quote-icon">“</div>
             <p className="testimonial-quote-text">
-              "MedAstraX is redefining how healthcare should work in India. Their innovative platforms like Hospital+ and DocAssist are not just improving operational efficiency but also bringing back the focus on patient care."
+              "MediSphere is redefining how healthcare should work in India. Their innovative platforms like Hospital+ and DocAssist are not just improving operational efficiency but also bringing back the focus on patient care."
             </p>
           </div>
         </motion.div>
@@ -405,14 +405,14 @@ export default function LandingPage() {
               <div className="info-icon-box info-icon-coral"><FiMapPin /></div>
               <div className="info-text">
                 <h4>Our Office</h4>
-                <p>MedAstraX HQ, Health Innovation Park,<br />Bengaluru, Karnataka — 560001</p>
+                <p>MediSphere HQ, Health Innovation Park,<br />Bengaluru, Karnataka — 560001</p>
               </div>
             </div>
             <div className="contact-info-card glass-card">
               <div className="info-icon-box info-icon-purple"><FiHeadphones /></div>
               <div className="info-text">
                 <h4>Support</h4>
-                <p>support@MedAstraX.com<br />+91 79887XXXXX</p>
+                <p>support@MediSphere.com<br />+91 79887XXXXX</p>
               </div>
             </div>
             <div className="contact-info-card glass-card">
@@ -425,7 +425,7 @@ export default function LandingPage() {
             <div className="contact-quote-box">
               <span className="contact-quote-mark">"</span>
               <p>Every family deserves trusted health support in their pocket, 24/7.</p>
-              <span className="contact-quote-author">— MedAstraX</span>
+              <span className="contact-quote-author">— MediSphere</span>
             </div>
           </motion.div>
 
@@ -489,7 +489,7 @@ export default function LandingPage() {
           {/* Brand Column */}
           <div className="footer-brand-col">
             <div className="footer-logo-row">
-              <img src={MedAstraXLogo} alt="MedAstraX" className="footer-logo-img" style={{ height: '115px', objectFit: 'contain' }} />
+              <img src={MediSphereLogo} alt="MediSphere" className="footer-logo-img" style={{ height: '115px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
             </div>
             <p className="footer-tagline">Making Quality Healthcare Accessible for Every Family.</p>
             <div className="footer-social-row">
@@ -546,7 +546,7 @@ export default function LandingPage() {
 
         {/* Bottom Bar */}
         <div className="footer-bottom-bar">
-          <p>© 2025 MedAstraX Health IT Pvt. Ltd. All rights reserved.</p>
+          <p>© 2025 MediSphere Health IT Pvt. Ltd. All rights reserved.</p>
           <div className="footer-bottom-links">
             <a href="#">Privacy</a>
             <a href="#">Terms</a>

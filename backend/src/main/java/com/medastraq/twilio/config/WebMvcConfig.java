@@ -1,4 +1,4 @@
-package com.medastraq.twilio.config;
+package com.medisphere.twilio.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

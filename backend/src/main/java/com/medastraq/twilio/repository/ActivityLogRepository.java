@@ -1,6 +1,6 @@
-package com.medastraq.twilio.repository;
+package com.medisphere.twilio.repository;
 
-import com.medastraq.twilio.entity.ActivityLogEntity;
+import com.medisphere.twilio.entity.ActivityLogEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

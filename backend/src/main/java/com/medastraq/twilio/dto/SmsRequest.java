@@ -1,4 +1,4 @@
-package com.medastraq.twilio.dto;
+package com.medisphere.twilio.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

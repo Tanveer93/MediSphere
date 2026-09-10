@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { FiList, FiCheckCircle, FiDollarSign, FiCpu, FiTrendingUp, FiActivity, FiMapPin, FiBell, FiPrinter, FiX, FiPackage, FiMenu, FiLogOut, FiSettings, FiTruck, FiClock, FiHome, FiNavigation } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/MedAstraCU-logo.png';
+import logo from '../../assets/MediSphere-logo.png';
 import '../patient/CuimsDashboard.css';
 
 export default function PharmacyDashboard() {
@@ -183,7 +183,7 @@ export default function PharmacyDashboard() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      window.dispatchEvent(new Event('medastrax_reopen_camp_popup'));
+      window.dispatchEvent(new Event('medisphere_reopen_camp_popup'));
     }, 300);
     return () => clearTimeout(timer);
   }, []);
@@ -278,7 +278,7 @@ export default function PharmacyDashboard() {
     win.document.write(`
       <html>
         <head>
-          <title>MedAstraX Bill - Order #${billOrder?.id}</title>
+          <title>MediSphere Bill - Order #${billOrder?.id}</title>
           <style>
             body { font-family: Arial, sans-serif; padding: 40px; color: #111; }
             h1 { color: #0d9488; }
@@ -612,7 +612,7 @@ export default function PharmacyDashboard() {
             <FiMenu />
           </button>
           <div className="cuims-logo-container" onClick={() => setActiveTab('queue')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <img src={logo} alt="MedAstraX" style={{ height: '52px', objectFit: 'contain' }} />
+            <img src={logo} alt="MediSphere" style={{ height: '52px', objectFit: 'contain', filter: 'hue-rotate(150deg) saturate(2.5) brightness(1.05)' }} />
           </div>
         </div>
 
@@ -622,7 +622,7 @@ export default function PharmacyDashboard() {
             type="button" 
             className="cuims-icon-btn" 
             title="Active Health Camp Announcement - Click to view details"
-            onClick={() => window.dispatchEvent(new Event('medastrax_reopen_camp_popup'))}
+            onClick={() => window.dispatchEvent(new Event('medisphere_reopen_camp_popup'))}
             style={{ 
               fontSize: '1.15rem', 
               position: 'relative',
@@ -813,7 +813,7 @@ export default function PharmacyDashboard() {
                 <div style={{ fontSize: '1.4rem' }}>🛵</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)' }}>Vikram Singh <span style={{ color: '#eab308', fontSize: '0.75rem' }}>★ 4.9</span></div>
-                  <div style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>MedAstraX EV Valet • On the way</div>
+                  <div style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>MediSphere EV Valet • On the way</div>
                 </div>
                 <span style={{ fontSize: '0.72rem', color: 'var(--primary)', fontWeight: 700 }}>ETA 2 mins</span>
               </div>
@@ -936,7 +936,7 @@ export default function PharmacyDashboard() {
             </div>
 
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#f0fdf4', color: '#166534', padding: '6px 16px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 800, marginBottom: '12px' }}>
-              <FiClock size={14} /> MedAstraX Express Campus Delivery
+              <FiClock size={14} /> MediSphere Express Campus Delivery
             </div>
 
             <h2 className="heading-md" style={{ margin: '0 0 8px 0', color: '#0f172a', fontSize: '1.5rem', fontWeight: 800 }}>
@@ -955,7 +955,7 @@ export default function PharmacyDashboard() {
                 </div>
                 <div style={{ textAlign: 'left' }}>
                   <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0f172a' }}>Vikram Singh <span style={{ color: '#ca8a04', fontSize: '0.8rem', marginLeft: '6px' }}>★ 4.9</span></div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b' }}>MedAstraX Verified Valet Partner • EV Scooter</div>
+                  <div style={{ fontSize: '0.78rem', color: '#64748b' }}>MediSphere Verified Valet Partner • EV Scooter</div>
                 </div>
               </div>
 
@@ -1539,7 +1539,7 @@ export default function PharmacyDashboard() {
                 {/* Pharmacy header */}
                 <div style={{ marginBottom: '20px', borderBottom: '2px solid var(--primary)', paddingBottom: '16px' }}>
                   <h1 style={{ fontSize: '1.4rem', fontWeight: 800, margin: '0 0 4px 0' }}>
-                    <span style={{ color: 'var(--primary)' }}>MedAstraX</span> — Tax Invoice
+                    <span style={{ color: 'var(--primary)' }}>MediSphere</span> — Tax Invoice
                   </h1>
                   <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
                     {billOrder.pharmacyName} &nbsp;|&nbsp; GST Reg. No: 27AABCU9603R1ZX
@@ -1608,7 +1608,7 @@ export default function PharmacyDashboard() {
                 </div>
 
                 <p style={{ marginTop: '16px', fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-                  Thank you for using MedAstraX. This is a computer-generated invoice and does not require a signature.
+                  Thank you for using MediSphere. This is a computer-generated invoice and does not require a signature.
                 </p>
               </div>
             </motion.div>

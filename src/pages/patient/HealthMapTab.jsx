@@ -245,7 +245,7 @@ export default function HealthMapTab({ profileData, user }) {
           </svg>
 
           <div className="map-watermark">
-            <FiShield /> Live MedAstraX GIS Map • Sector 140413
+            <FiShield /> Live MediSphere GIS Map • Sector 140413
           </div>
 
           {/* Slide-in Step-by-Step Directions Panel */}

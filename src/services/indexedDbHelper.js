@@ -1,4 +1,4 @@
-const DB_NAME = 'medastrax_offline_db';
+const DB_NAME = 'medisphere_offline_db';
 const DB_VERSION = 1;
 
 function openDB() {

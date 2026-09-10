@@ -112,7 +112,7 @@ export default function BookingPage() {
     }
   };
 
-  const getDoctorBusyStorageKey = (doctorId) => `medastrax_doctor_busy_${doctorId}`;
+  const getDoctorBusyStorageKey = (doctorId) => `medisphere_doctor_busy_${doctorId}`;
 
   const getDoctorBusyStatus = (doctorId) => {
     if (!doctorId) return { mode: 'NONE', date: '' };
@@ -164,7 +164,7 @@ export default function BookingPage() {
 
   const addLocalNotification = (role, note) => {
     try {
-      const key = `medastrax_notifications_${role}`;
+      const key = `medisphere_notifications_${role}`;
       const stored = window.localStorage.getItem(key);
       let list = [];
       if (stored) {
@@ -486,7 +486,7 @@ export default function BookingPage() {
           key: keyId, // public key from backend
           amount: amount * 100, // amount in paise
           currency: "INR",
-          name: "MedAstraX Care",
+          name: "MediSphere Care",
           description: `Consultation Booking at ${hospital.name}`,
           order_id: orderId,
           handler: async function (response) {

@@ -1,4 +1,4 @@
-package com.medastraq.twilio.dto;
+package com.medisphere.twilio.dto;
 
 public class ActivityLog {
     private String id;

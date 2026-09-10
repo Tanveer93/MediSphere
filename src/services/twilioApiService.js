@@ -14,9 +14,9 @@ const api = axios.create({
  * Call Spring Boot Backend: POST /api/twilio/send-sms
  * 
  * @param {string} phoneNumber e.g. "+917988766566"
- * @param {string} message e.g. "Hello Rashika! This is a test SMS from MedAstraQ."
+ * @param {string} message e.g. "Hello Rashika! This is a test SMS from MediSphere."
  */
-export const sendTwilioSmsApi = async (phoneNumber = '+917988766566', message = 'Hello Rashika! This is a verification message from MedAstraX.') => {
+export const sendTwilioSmsApi = async (phoneNumber = '+917988766566', message = 'Hello Rashika! This is a verification message from MediSphere.') => {
   try {
     const response = await api.post('/twilio/send-sms', {
       phoneNumber,
@@ -27,7 +27,7 @@ export const sendTwilioSmsApi = async (phoneNumber = '+917988766566', message = 
     console.warn('Backend API connection warning (using dispatch fallback):', error?.message);
     return {
       success: true,
-      message: 'SMS dispatched via MedAstraX Communication Engine',
+      message: 'SMS dispatched via MediSphere Communication Engine',
       data: {
         messageSid: 'SM' + Math.random().toString(36).substring(2, 12).toUpperCase(),
         toPhoneNumber: phoneNumber,
@@ -48,12 +48,12 @@ export const makeTwilioCallApi = async (phoneNumber = '+917988766566') => {
     console.warn('Backend API connection warning (using voice fallback):', error?.message);
     return {
       success: true,
-      message: 'Voice call initiated via MedAstraX Communication Engine',
+      message: 'Voice call initiated via MediSphere Communication Engine',
       data: {
         callSid: 'CA' + Math.random().toString(36).substring(2, 12).toUpperCase(),
         toPhoneNumber: phoneNumber,
         status: 'CALL_INITIATED',
-        messageSpoken: 'Hello! This is an automated notification from MedAstraX Health Portal.'
+        messageSpoken: 'Hello! This is an automated notification from MediSphere Health Portal.'
       }
     };
   }

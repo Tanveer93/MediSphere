@@ -336,7 +336,7 @@ export default function ConsultationRoom() {
 
         {/* Info */}
         <div>
-          <h2 className="heading-sm" style={{ margin: 0, fontSize: '1.4rem' }}>MedAstraX Clinical Co-Pilot</h2>
+          <h2 className="heading-sm" style={{ margin: 0, fontSize: '1.4rem' }}>MediSphere Clinical Co-Pilot</h2>
           <p style={{ margin: '8px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: '1.5' }}>
             Meeting between <strong>Dr. {booking?.doctorName}</strong> and <strong>{booking?.patientName}</strong> is running in a separate tab.
             Keep this tab open in the background to transcribe the conversation.
@@ -466,7 +466,7 @@ export default function ConsultationRoom() {
             }}>
               <div>
                 <h2 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <FiCpu /> MedAstraX Clinical Report
+                  <FiCpu /> MediSphere Clinical Report
                 </h2>
                 <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.78rem' }}>
                   Scribe report generated for patient <strong>{booking?.patientName}</strong>.

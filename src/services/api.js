@@ -14,7 +14,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('MedAstraX_token') || localStorage.getItem('MedAstraX_token');
+    const token = localStorage.getItem('MediSphere_token') || localStorage.getItem('MediSphere_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -31,16 +31,16 @@ api.interceptors.response.use(
                            error.config?.url?.includes('/auth/signup');
     
     if ((error.response?.status === 401 || error.response?.status === 403) && !isAuthEndpoint) {
-      const token = localStorage.getItem('MedAstraX_token') || localStorage.getItem('MedAstraX_token');
+      const token = localStorage.getItem('MediSphere_token') || localStorage.getItem('MediSphere_token');
       if (token && token.startsWith('mock-jwt-token-')) {
         return Promise.reject(error);
       }
-      localStorage.removeItem('MedAstraX_token');
-      localStorage.removeItem('MedAstraX_token');
-      localStorage.removeItem('MedAstraX_user');
-      localStorage.removeItem('MedAstraX_user');
-      localStorage.removeItem('MedAstraX_active_profile');
-      localStorage.removeItem('MedAstraX_active_profile');
+      localStorage.removeItem('MediSphere_token');
+      localStorage.removeItem('MediSphere_token');
+      localStorage.removeItem('MediSphere_user');
+      localStorage.removeItem('MediSphere_user');
+      localStorage.removeItem('MediSphere_active_profile');
+      localStorage.removeItem('MediSphere_active_profile');
       window.location.href = '/login';
     }
 

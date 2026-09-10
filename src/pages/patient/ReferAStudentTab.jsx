@@ -80,8 +80,8 @@ export default function ReferAStudentTab({ profileData, user }) {
             </h2>
             <p style={{ margin: '4px 0 0 0', fontSize: '0.92rem', opacity: 0.9, lineHeight: 1.4 }}>
               {isFaculty 
-                ? 'Invite fellow faculty members & colleagues to join MedAstraX and earn concession points for healthcare services!'
-                : 'Invite fellow students to join MedAstraX and earn concession points for healthcare services!'}
+                ? 'Invite fellow faculty members & colleagues to join MediSphere and earn concession points for healthcare services!'
+                : 'Invite fellow students to join MediSphere and earn concession points for healthcare services!'}
             </p>
           </div>
         </div>

@@ -319,7 +319,7 @@ export default function MyBookings() {
 
   const fetchBookings = async () => {
     setLoading(true);
-    const localBookings = JSON.parse(localStorage.getItem('medastrax_custom_bookings') || '[]') || [];
+    const localBookings = JSON.parse(localStorage.getItem('medisphere_custom_bookings') || '[]') || [];
     const normalizedLocalBookings = localBookings.map(normalizeLocalBooking);
 
     try {
@@ -462,7 +462,7 @@ export default function MyBookings() {
         doc.setFont('Helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(150, 150, 150);
-        doc.text(`MedAstraX Clinical Report - Patient: ${appt.patientName}`, margin, 10);
+        doc.text(`MediSphere Clinical Report - Patient: ${appt.patientName}`, margin, 10);
         doc.setDrawColor(220, 220, 220);
         doc.line(margin, 12, pageWidth - margin, 12);
         y = 20;
@@ -472,7 +472,7 @@ export default function MyBookings() {
     doc.setFont('Helvetica', 'bold');
     doc.setFontSize(18);
     doc.setTextColor(29, 158, 117);
-    doc.text('MedAstraX AI CLINICAL REPORT', pageWidth / 2, y, { align: 'center' });
+    doc.text('MediSphere AI CLINICAL REPORT', pageWidth / 2, y, { align: 'center' });
     y += 8;
 
     doc.setDrawColor(29, 158, 117);
@@ -604,7 +604,7 @@ export default function MyBookings() {
     doc.setTextColor(150, 150, 150);
     doc.text('This is an AI-generated consultation report and is intended for clinical review.', margin, y);
     y += 4;
-    doc.text(`Generated on ${new Date().toLocaleDateString()} by MedAstraX AI Scribe companion.`, margin, y);
+    doc.text(`Generated on ${new Date().toLocaleDateString()} by MediSphere AI Scribe companion.`, margin, y);
 
     const filename = `Clinical_Report_${(appt.patientName || 'Patient').replace(/\s+/g, '_')}.pdf`;
     doc.save(filename);
@@ -1191,7 +1191,7 @@ export default function MyBookings() {
             }}>
               <div>
                 <h2 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <FiCpu /> MedAstraX AI Consultation Report
+                  <FiCpu /> MediSphere AI Consultation Report
                 </h2>
                 <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.78rem' }}>
                   Scribe report generated for patient <strong>{selectedReportBooking.patientName}</strong>.
