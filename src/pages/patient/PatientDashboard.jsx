@@ -4768,7 +4768,6 @@ function MainDashboardPanel(props) {
               { id: 'emergency', label: 'Emergency SOS', icon: <FiAlertTriangle color="#ef4444" />, action: () => navigate('/emergency'), noChevron: true },
               ...(!isFaculty ? [{ id: 'student-health-portal', label: 'Student Health Portal', icon: <FiShield color="#d97706" />, action: () => navigate('/student-health-portal') }] : []),
               { id: 'health-map', label: 'Campus Health Map', icon: <FiMapPin color="#00d9a6" />, action: () => navigate('/health-map') },
-              { id: 'activity-history', label: 'Activity & Twilio Logs', icon: <FiFileText color="#3b82f6" />, action: () => navigate('/activity-history') },
               { id: 'rewards', label: 'Rewards & Leaderboard', icon: <FiAward color="#1d467c" />, action: () => {
                 navigate('/dashboard');
                 setTimeout(() => {
