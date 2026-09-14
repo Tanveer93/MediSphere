@@ -229,34 +229,43 @@ export default function GlobalQueryBot() {
     }
     
     const isDirectNavigation = 
-      lowerMsg.startsWith('open ') || 
-      lowerMsg.startsWith('go to ') || 
-      lowerMsg.startsWith('take me to ') || 
-      lowerMsg.startsWith('navigate to ') ||
-      lowerMsg === 'emergency' ||
-      lowerMsg === 'sos';
+      lowerMsg.includes('redirect') ||
+      lowerMsg.includes('open') || 
+      lowerMsg.includes('go to') || 
+      lowerMsg.includes('take me to') || 
+      lowerMsg.includes('navigate to') ||
+      lowerMsg.includes('show me') ||
+      lowerMsg.includes('where is') ||
+      lowerMsg.includes('apply') ||
+      lowerMsg.includes('emergency') ||
+      lowerMsg.includes('sos') ||
+      lowerMsg.includes('leave') ||
+      lowerMsg.includes('ambulance') ||
+      lowerMsg.includes('book doctor') ||
+      lowerMsg.includes('appointment') ||
+      lowerMsg.includes('prescription') ||
+      lowerMsg.includes('medicine') ||
+      lowerMsg.includes('mood tracker') ||
+      lowerMsg.includes('stress assessment') ||
+      lowerMsg.includes('symptom checker');
 
     if (isDirectNavigation) {
       const routeIntents = [
-        { keywords: ['emergency', 'sos', 'ambulance'], route: '/emergency', message: '🚨 Triggering Emergency Protocols...' },
-        { keywords: ['book', 'appointment', 'consultation'], route: '/book/HOS101?autoPilot=true', message: '🤖 **Auto-Pilot Engaged:** Navigating to the booking page. I will fill out the details for you now...' },
-        { keywords: ['prescription', 'medicine', 'pharmacy', 'pill', 'dawai'], route: '/dashboard?tab=prescriptions', message: '💊 Opening your prescriptions and pharmacy portal...' },
-        { keywords: ['leave', 'certificate', 'sick leave', 'chutti'], route: '/dashboard?tab=medical-leave', message: '📝 Opening medical leave portal...' },
-        { keywords: ['symptom', 'checker', 'diagnosis', 'diagnose', 'bimari'], route: '/dashboard?tab=symptom-checker', message: '🩺 Opening AI Symptom Checker...' },
-        { keywords: ['dashboard', 'home', 'profile', 'main'], route: '/dashboard', message: '🏠 Taking you to your dashboard...' },
-        { keywords: ['vaccination', 'vaccine', 'immunization', 'tika'], route: '/dashboard?tab=vaccinations', message: '💉 Opening vaccination records...' },
-        { keywords: ['wellness score', 'wellbeing'], route: '/dashboard?tab=wellness-score', message: '🧘‍♀️ Checking your wellness score...' },
-        { keywords: ['map', 'nearby', 'location', 'find', 'rasta'], route: '/dashboard?tab=health-map', message: '🗺️ Opening the health map...' },
-        { keywords: ['my bookings', 'my appointments', 'schedule', 'booking'], route: '/dashboard?tab=bookings', message: '📅 Opening your bookings...' },
-        { keywords: ['care plan', 'care', 'plan'], route: '/dashboard?tab=care-plan', message: '📋 Opening your Personalized Care Plan...' },
-        { keywords: ['complementary checkup', 'free checkup', 'body checkup', 'complementary', 'full body'], route: '/dashboard?tab=full-body-checkup', message: '🎁 Opening Complementary Checkup...' },
-        { keywords: ['reward', 'points', 'leaderboard', 'rank', 'coin'], route: '/dashboard?tab=rewards', message: '🏆 Opening Rewards Leaderboard...' },
-        { keywords: ['refer', 'referral', 'invite', 'dost'], route: '/dashboard?tab=refer-a-student', message: '🤝 Opening Student Referral...' },
-        { keywords: ['student health portal', 'health portal'], route: '/dashboard?tab=student-health-portal', message: '🎓 Opening Student Health Portal...' },
-        { keywords: ['wellness center', 'mental health', 'counselor', 'mood tracker', 'stress', 'depression'], route: '/dashboard?tab=wellness-center', message: '💆 Opening Wellness Center...' },
-        { keywords: ['medicine trends', 'trend', 'trends'], route: '/dashboard?tab=medicine-trends', message: '📈 Opening Medicine Trends...' },
-        { keywords: ['analytics', 'stats', 'statistics', 'graph'], route: '/dashboard?tab=analytics', message: '📊 Opening Health Analytics...' },
-        { keywords: ['faculty portal', 'faculty', 'teacher', 'sir', 'maam'], route: '/dashboard?tab=faculty-portal', message: '👩‍🏫 Opening Faculty Portal...' },
+        { keywords: ['emergency', 'sos', 'ambulance', 'accident'], route: '/emergency', message: '🚨 **Redirecting immediately to Emergency SOS & Ambulance Dispatch...**' },
+        { keywords: ['leave', 'certificate', 'sick leave', 'chutti', 'medical leave'], route: '/medical-leave', message: '📝 **Taking you directly to the Medical Leave Application portal...**' },
+        { keywords: ['book', 'appointment', 'consultation', 'doctor', 'specialist', 'clinic', 'opd'], route: '/dashboard', message: '🩺 **Navigating directly to Campus Doctors & Booking portal...**' },
+        { keywords: ['prescription', 'medicine', 'pharmacy', 'pill', 'dawai', 'order med'], route: '/my-prescriptions', message: '💊 **Opening your Prescriptions & Medicine Orders...**' },
+        { keywords: ['mood tracker', 'mood journal', 'mood', 'feelings'], route: '/wellness-center', message: '🧠 **Taking you directly to the Mood Tracker & Journal...**' },
+        { keywords: ['stress assessment', 'stress level', 'stress test', 'anxiety'], route: '/wellness-center', message: '📊 **Opening Stress Level Assessment...**' },
+        { keywords: ['psychologist', 'counselor', 'counselling', 'mental health', 'wellness center'], route: '/wellness-center', message: '👥 **Opening Campus Psychologist & Wellness Center...**' },
+        { keywords: ['symptom', 'checker', 'diagnosis', 'diagnose', 'body map', 'bimari'], route: '/symptom-checker', message: '🤖 **Opening AI 2D Body Symptom Checker...**' },
+        { keywords: ['care plan', 'diet plan', 'recovery plan'], route: '/care-plan', message: '🥗 **Opening Personalized AI Health Care Plan...**' },
+        { keywords: ['vaccination', 'vaccine', 'immunization', 'tika'], route: '/vaccinations', message: '💉 **Opening Campus Vaccination Records...**' },
+        { keywords: ['health map', 'campus map', 'map', 'nearby', 'location', 'find', 'dispensary'], route: '/health-map', message: '🗺️ **Opening Campus Health Map...**' },
+        { keywords: ['my bookings', 'my appointments', 'schedule', 'booking'], route: '/my-bookings', message: '📅 **Opening My Bookings...**' },
+        { keywords: ['reward', 'points', 'leaderboard', 'rank', 'coin'], route: '/dashboard', message: '🏆 **Opening Rewards & Health Leaderboard...**' },
+        { keywords: ['student health portal', 'health portal', 'blood group record'], route: '/student-health-portal', message: '🎓 **Opening Student Health Portal...**' },
+        { keywords: ['dashboard', 'home', 'profile', 'main'], route: '/dashboard', message: '🏠 **Taking you to your Dashboard...**' }
       ];
 
       let matchedIntent = null;
@@ -272,11 +281,12 @@ export default function GlobalQueryBot() {
           sender: 'ai', 
           text: matchedIntent.message 
         }]);
+        toast.success(matchedIntent.message.replace(/\*\*/g, ''), { duration: 2500 });
         setTimeout(() => {
           setChatOpen(false);
           setSendingChat(false);
           navigate(matchedIntent.route);
-        }, 1500);
+        }, 900);
         return;
       }
     }
@@ -333,9 +343,22 @@ export default function GlobalQueryBot() {
     if (!text) return '';
     const lines = text.split('\n');
     return lines.map((line, index) => {
-      let content = line;
-      content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      let trimmed = line.trim();
+      let content = line
+        .replace(/^#{1,6}\s*/g, '')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\*/g, '');
+
+      // Headings without raw '#'
+      if (/^#{1,6}\s*/.test(trimmed)) {
+        const cleanHeading = trimmed.replace(/^#{1,6}\s*/, '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
+        return (
+          <h4 key={index} style={{ fontSize: '0.98rem', fontWeight: 800, color: '#0f766e', marginTop: '10px', marginBottom: '4px' }}>
+            {cleanHeading}
+          </h4>
+        );
+      }
 
       const linkRegex = /\[(.*?)\]\((.*?)\)/g;
       let match;
@@ -391,24 +414,27 @@ export default function GlobalQueryBot() {
         );
       }
 
-      if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+      // Clean bullet items without double dashes
+      if (trimmed.startsWith('- ') || trimmed.startsWith('* ') || trimmed.startsWith('• ')) {
+        const cleanItem = trimmed.replace(/^[-*•]\s*/, '').replace(/^[-*•]\s*/, '').trim();
         return (
           <li key={index} className="chat-li">
-            {parts.length > 0 ? parts : <span dangerouslySetInnerHTML={{ __html: content.trim().substring(2) }} />}
+            {parts.length > 0 ? parts : <span dangerouslySetInnerHTML={{ __html: cleanItem.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*/g, '') }} />}
           </li>
         );
       }
 
-      if (/^\d+\.\s/.test(line.trim())) {
+      if (/^\d+\.\s/.test(trimmed)) {
+        const cleanItem = trimmed.replace(/^\d+\.\s/, '').trim();
         return (
           <li key={index} className="chat-li-decimal">
-            {parts.length > 0 ? parts : <span dangerouslySetInnerHTML={{ __html: content.trim().replace(/^\d+\.\s/, '') }} />}
+            {parts.length > 0 ? parts : <span dangerouslySetInnerHTML={{ __html: cleanItem.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*/g, '') }} />}
           </li>
         );
       }
 
-      if (line.trim() === '') {
-        return <div key={index} style={{ height: '8px' }} />;
+      if (trimmed === '') {
+        return <div key={index} style={{ height: '6px' }} />;
       }
 
       return (
