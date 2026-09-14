@@ -1193,12 +1193,12 @@ export default function BookingPage() {
           background: rgba(255, 255, 255, 0.02);
           border: 1px solid var(--border-color);
           border-radius: 14px;
-          padding: 18px;
+          padding: 16px;
           cursor: pointer;
           transition: all 0.22s ease;
           display: flex;
           flex-direction: column;
-          gap: 14px;
+          gap: 12px;
           position: relative;
         }
 
@@ -1235,12 +1235,12 @@ export default function BookingPage() {
         .doctor-grid-top-row {
           display: flex;
           align-items: center;
-          gap: 14px;
+          gap: 12px;
         }
 
         .doctor-grid-avatar-wrapper {
-          width: 56px;
-          height: 56px;
+          width: 52px;
+          height: 52px;
           border-radius: 50%;
           overflow: hidden;
           background: rgba(255, 255, 255, 0.05);
@@ -1262,31 +1262,34 @@ export default function BookingPage() {
           flex-direction: column;
           gap: 3px;
           flex: 1;
+          min-width: 0;
         }
 
         .doctor-grid-name {
           font-weight: 700;
           color: var(--text-primary);
-          font-size: 1rem;
+          font-size: 0.96rem;
+          line-height: 1.2;
         }
 
         .specialty-pill {
           display: inline-block;
-          font-size: 0.78rem;
+          font-size: 0.76rem;
           color: var(--primary);
           background: rgba(0, 217, 166, 0.1);
           padding: 2px 8px;
           border-radius: 6px;
           font-weight: 500;
+          width: fit-content;
         }
 
         .doctor-grid-rating {
-          font-size: 0.8rem;
+          font-size: 0.78rem;
           color: var(--text-muted);
           display: flex;
           align-items: center;
           gap: 4px;
-          margin-top: 2px;
+          margin-top: 1px;
         }
 
         .doctor-grid-star {
@@ -1294,33 +1297,57 @@ export default function BookingPage() {
           font-weight: bold;
         }
 
-        .doctor-grid-meta {
+        .doctor-details-box {
           background: rgba(255, 255, 255, 0.02);
-          border-radius: 8px;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 10px;
           padding: 10px 12px;
           display: flex;
           flex-direction: column;
-          gap: 6px;
-          font-size: 0.8rem;
-          color: var(--text-secondary);
+          gap: 8px;
         }
 
-        .doctor-grid-meta .meta-item {
+        .doctor-schedule-row {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          font-size: 0.78rem;
+          gap: 6px;
+        }
+
+        .schedule-days-pill {
+          color: var(--text-primary);
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+
+        .schedule-time-pill {
+          color: var(--text-muted);
+          font-size: 0.75rem;
+          white-space: nowrap;
+        }
+
+        .doctor-pricing-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-top: 6px;
+          border-top: 1px solid rgba(255, 255, 255, 0.04);
           gap: 8px;
         }
 
         .fee-tag {
           color: var(--text-primary);
+          font-size: 0.8rem;
         }
 
         .consult-type-badge {
           background: rgba(255, 255, 255, 0.05);
-          padding: 2px 6px;
+          padding: 2px 7px;
           border-radius: 4px;
-          font-size: 0.75rem;
+          font-size: 0.72rem;
           color: var(--text-secondary);
         }
 
@@ -1328,7 +1355,7 @@ export default function BookingPage() {
           width: 100%;
           padding: 9px 14px;
           border-radius: 8px;
-          font-size: 0.85rem;
+          font-size: 0.84rem;
           font-weight: 600;
           display: flex;
           align-items: center;
@@ -2017,20 +2044,22 @@ export default function BookingPage() {
                                   </div>
                                 </div>
 
-                                <div className="doctor-grid-meta">
-                                  <div className="meta-item">
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <div className="doctor-details-box">
+                                  <div className="doctor-schedule-row">
+                                    <span className="schedule-days-pill">
                                       <FiClock style={{ color: 'var(--primary)' }} />
-                                      {Array.isArray(doc.workingDays) ? doc.workingDays.join(', ') : (doc.workingDays || 'Mon-Fri')}
+                                      {Array.isArray(doc.workingDays) ? doc.workingDays.join(', ') : (doc.workingDays || 'Mon - Fri')}
                                     </span>
-                                    <span>{doc.workingHours || '09:00 AM - 05:00 PM'}</span>
+                                    <span className="schedule-time-pill">
+                                      {doc.workingHours || '09:00 AM - 05:00 PM'}
+                                    </span>
                                   </div>
-                                  <div className="meta-item">
+                                  <div className="doctor-pricing-row">
                                     <span className="fee-tag">
                                       Fee: <strong>{doc.fees === 0 || hospital?.consultationRate === 0 ? 'FREE' : `₹${doc.fees || hospital?.consultationRate || 200}`}</strong>
                                     </span>
                                     <span className="consult-type-badge">
-                                      {doc.onlineConsultation ? '🌐 Online & Clinic' : '🏥 In-Clinic'}
+                                      {doc.onlineConsultation ? '🌐 Online & In-Clinic' : '🏥 In-Clinic'}
                                     </span>
                                   </div>
                                 </div>
