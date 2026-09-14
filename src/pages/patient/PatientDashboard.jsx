@@ -1270,6 +1270,51 @@ function MainDashboardPanel(props) {
   }, [location.pathname, location.search]);
 
   const [cuimsSearch, setCuimsSearch] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [searchSelectedIndex, setSearchSelectedIndex] = useState(0);
+  const searchInputRef = useRef(null);
+
+  const searchableActions = [
+    { id: 'hospitals', title: 'Book Doctor / Campus Clinic', category: 'Clinical', icon: '🩺', desc: 'Find campus doctors, general physicians & specialists', action: () => { setSidebarTab('hospitals'); navigate('/dashboard'); } },
+    { id: 'emergency', title: 'Emergency SOS & Ambulance Dispatch', category: 'Emergency', icon: '🚨', desc: 'Instant SOS alert, ambulance booking & Twilio voice call', action: () => { setSidebarTab('emergency'); navigate('/emergency'); } },
+    { id: 'prescriptions', title: 'My Prescriptions & Medicines', category: 'Pharmacy', icon: '💊', desc: 'View digital prescriptions, dosage reminders & order medicines', action: () => { setSidebarTab('prescriptions'); navigate('/my-prescriptions'); } },
+    { id: 'bookings', title: 'My Appointments & Bookings', category: 'Clinical', icon: '📅', desc: 'View upcoming, completed & scheduled appointments', action: () => { setSidebarTab('bookings'); navigate('/my-bookings'); } },
+    { id: 'symptom-checker', title: 'AI 2D Symptom Checker', category: 'AI Suite', icon: '🤖', desc: 'Interactive visual body map for instant symptom diagnosis', action: () => { setSidebarTab('symptom-checker'); navigate('/symptom-checker'); } },
+    { id: 'care-plan', title: 'AI Health Status & Recovery Care Plan', category: 'AI Suite', icon: '🧠', desc: 'Personalized recovery roadmap and AI diet/care recommendations', action: () => { setSidebarTab('care-plan'); navigate('/care-plan'); } },
+    { id: 'mood-tracker', title: 'Mood Tracker & Journal', category: 'Wellness', icon: '😊', desc: 'Track daily moods, emotional well-being & AI mood advice', action: () => { setSidebarTab('wellness-center'); setWellnessActiveSubTab('mood-tracker'); navigate('/wellness-center'); } },
+    { id: 'stress-assessment', title: 'Stress Level Assessment', category: 'Wellness', icon: '📊', desc: '6-question clinical stress evaluation & breathing timer', action: () => { setSidebarTab('wellness-center'); setWellnessActiveSubTab('stress-assessment'); navigate('/wellness-center'); } },
+    { id: 'counselors', title: 'Connect with Campus Psychologist', category: 'Wellness', icon: '👥', desc: 'Book confidential mental health counselling session', action: () => { setSidebarTab('wellness-center'); setWellnessActiveSubTab('counselors'); navigate('/wellness-center'); } },
+    { id: 'medical-leave', title: isFaculty ? 'Faculty Medical Leave' : 'Student Medical Leave', category: 'Academic', icon: '📝', desc: 'Apply for official medical attendance leave with certificate', action: () => { setSidebarTab('medical-leave'); navigate('/medical-leave'); } },
+    { id: 'vaccinations', title: 'Vaccinations & Immunization', category: 'Clinical', icon: '💉', desc: 'View campus vaccination records and schedule vaccine slots', action: () => { setSidebarTab('vaccinations'); navigate('/vaccinations'); } },
+    { id: 'health-map', title: 'Campus Health Map & Medical Centers', category: 'Campus', icon: '🗺️', desc: 'Navigate dispensaries, ambulances & medical centers across campus', action: () => { setSidebarTab('health-map'); navigate('/health-map'); } },
+    { id: 'rewards', title: 'Rewards & Health Leaderboard', category: 'Engagement', icon: '🏆', desc: 'Check earned wellness points, badges & leader rankings', action: () => { setSidebarTab('rewards'); navigate('/dashboard'); } },
+    { id: 'full-body-checkup', title: 'Complementary Full Body Checkup', category: 'Clinical', icon: '❤️', desc: 'Book semester complementary campus health checkup', action: () => { setSidebarTab('full-body-checkup'); navigate('/dashboard'); } },
+    ...(!isFaculty ? [{ id: 'student-health-portal', title: 'Student Health & Emergency Record', category: 'Portal', icon: '🛡️', desc: 'Access medical history, emergency contacts & blood group ID', action: () => { setSidebarTab('student-health-portal'); navigate('/student-health-portal'); } }] : [])
+  ];
+
+  const filteredSearchActions = cuimsSearch.trim()
+    ? searchableActions.filter(item => 
+        item.title.toLowerCase().includes(cuimsSearch.toLowerCase()) || 
+        item.desc.toLowerCase().includes(cuimsSearch.toLowerCase()) || 
+        item.category.toLowerCase().includes(cuimsSearch.toLowerCase())
+      )
+    : searchableActions;
+
+  // Global Shortcut: Ctrl+K / Cmd+K listener
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+        setSearchFocused(true);
+      } else if (e.key === 'Escape') {
+        setSearchFocused(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const [announcementFilter, setAnnouncementFilter] = useState('ALL');
   const [announcementSearch, setAnnouncementSearch] = useState('');
 
@@ -4559,16 +4604,85 @@ function MainDashboardPanel(props) {
           </div>
         </div>
 
-        {/* CUIMS Search Input */}
-        <div className="cuims-search-container">
+        {/* MediSphere Global Command Search (Ctrl + K) */}
+        <div className="cuims-search-container" style={{ position: 'relative' }}>
           <input 
+            ref={searchInputRef}
             type="text"
             className="cuims-search-input"
-            placeholder="Search doctors, appointments & medical records..."
+            placeholder="Search doctors, SOS, prescriptions, leave & AI tools... (Ctrl + K)"
             value={cuimsSearch}
-            onChange={(e) => setCuimsSearch(e.target.value)}
+            onChange={(e) => {
+              setCuimsSearch(e.target.value);
+              setSearchFocused(true);
+              setSearchSelectedIndex(0);
+            }}
+            onFocus={() => setSearchFocused(true)}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                setSearchSelectedIndex(prev => Math.min(prev + 1, filteredSearchActions.length - 1));
+              } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                setSearchSelectedIndex(prev => Math.max(prev - 1, 0));
+              } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (filteredSearchActions[searchSelectedIndex]) {
+                  filteredSearchActions[searchSelectedIndex].action();
+                  setSearchFocused(false);
+                  setCuimsSearch('');
+                }
+              } else if (e.key === 'Escape') {
+                setSearchFocused(false);
+                searchInputRef.current?.blur();
+              }
+            }}
           />
+          <span className="cuims-search-shortcut-badge">Ctrl K</span>
           <FiSearch className="cuims-search-icon" />
+
+          {/* Autocomplete Quick Action Dropdown Menu */}
+          {searchFocused && (
+            <>
+              <div 
+                style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1050 }} 
+                onClick={() => setSearchFocused(false)} 
+              />
+              <div className="cuims-search-dropdown">
+                <div className="cuims-search-dropdown-header">
+                  <span>{cuimsSearch ? `Search Results (${filteredSearchActions.length})` : 'Quick Navigation Suggestions'}</span>
+                  <span>Press ESC to close</span>
+                </div>
+                {filteredSearchActions.length > 0 ? (
+                  filteredSearchActions.slice(0, 7).map((item, idx) => (
+                    <div 
+                      key={item.id}
+                      className={`cuims-search-item ${idx === searchSelectedIndex ? 'selected' : ''}`}
+                      onClick={() => {
+                        item.action();
+                        setSearchFocused(false);
+                        setCuimsSearch('');
+                      }}
+                      onMouseEnter={() => setSearchSelectedIndex(idx)}
+                    >
+                      <div className="cuims-search-item-left">
+                        <div className="cuims-search-item-icon">{item.icon}</div>
+                        <div>
+                          <div className="cuims-search-item-title">{item.title}</div>
+                          <div className="cuims-search-item-desc">{item.desc}</div>
+                        </div>
+                      </div>
+                      <span className="cuims-search-item-badge">{item.category}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div style={{ padding: '16px', textAlign: 'center', color: '#64748b', fontSize: '0.85rem' }}>
+                    No matching services found. Try typing &apos;doctor&apos;, &apos;ambulance&apos;, &apos;prescription&apos;, or &apos;leave&apos;.
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Header Right Action Icons & User Profile */}
@@ -5023,45 +5137,77 @@ function MainDashboardPanel(props) {
               </div>
 
               {/* Top 5 Quick Action Cards Row (Actual Website Features) */}
+              {/* Top 4 Quick Action Cards Row (Simplified, High-Impact UX) */}
               <div className="cuims-top-cards-row">
-                <div className="cuims-quick-card">
-                  <div className="cuims-quick-card-title">Order Medicines</div>
+                {/* 1. Book Doctor Card */}
+                <div 
+                  className="cuims-quick-card card-doctor" 
+                  onClick={() => { setSidebarTab('hospitals'); navigate('/dashboard'); }}
+                >
+                  <div className="cuims-quick-card-header">
+                    <span className="cuims-quick-card-tag">Campus Care</span>
+                    <div className="cuims-quick-card-icon-wrapper">🩺</div>
+                  </div>
+                  <div>
+                    <h3 className="cuims-quick-card-title">Book Campus Doctor</h3>
+                    <p className="cuims-quick-card-subtitle">Find available specialists, OPD slots & live teleconsultation.</p>
+                  </div>
                   <div className="cuims-quick-card-footer">
-                    <button type="button" className="cuims-quick-card-btn" onClick={() => setSidebarTab('prescriptions')}>ORDER NOW</button>
-                    <div className="cuims-quick-card-icon"><FiShoppingBag /></div>
+                    <button type="button" className="cuims-quick-card-btn">BOOK APPOINTMENT →</button>
                   </div>
                 </div>
 
-                <div className="cuims-quick-card">
-                  <div className="cuims-quick-card-title">My Bookings</div>
+                {/* 2. Emergency SOS Card */}
+                <div 
+                  className="cuims-quick-card card-sos" 
+                  onClick={() => { setSidebarTab('emergency'); navigate('/emergency'); }}
+                >
+                  <div className="cuims-quick-card-header">
+                    <span className="cuims-quick-card-tag">Instant SOS</span>
+                    <div className="cuims-quick-card-icon-wrapper">🚨</div>
+                  </div>
+                  <div>
+                    <h3 className="cuims-quick-card-title" style={{ color: '#be123c' }}>Emergency SOS</h3>
+                    <p className="cuims-quick-card-subtitle">1-Tap ambulance dispatch & automated Twilio voice call alert.</p>
+                  </div>
                   <div className="cuims-quick-card-footer">
-                    <button type="button" className="cuims-quick-card-btn" onClick={() => setSidebarTab('bookings')}>VIEW ALL</button>
-                    <div className="cuims-quick-card-icon" style={{ background: '#e0e7ff', color: '#4f46e5' }}><FiCalendar /></div>
+                    <button type="button" className="cuims-quick-card-btn">TRIGGER SOS 🚨</button>
                   </div>
                 </div>
 
-                <div className="cuims-quick-card">
-                  <div className="cuims-quick-card-title">My Prescriptions</div>
+                {/* 3. My Medicines & Prescriptions Card */}
+                <div 
+                  className="cuims-quick-card card-meds" 
+                  onClick={() => { setSidebarTab('prescriptions'); navigate('/my-prescriptions'); }}
+                >
+                  <div className="cuims-quick-card-header">
+                    <span className="cuims-quick-card-tag">Pharmacy & Rx</span>
+                    <div className="cuims-quick-card-icon-wrapper">💊</div>
+                  </div>
+                  <div>
+                    <h3 className="cuims-quick-card-title">My Medicines & Rx</h3>
+                    <p className="cuims-quick-card-subtitle">Access digital prescriptions, dosage reminders & order refills.</p>
+                  </div>
                   <div className="cuims-quick-card-footer">
-                    <button type="button" className="cuims-quick-card-btn" onClick={() => setSidebarTab('prescriptions')}>ACCESS RECORDS</button>
-                    <div className="cuims-quick-card-icon" style={{ background: '#fef3c7', color: '#d97706' }}><FiFileText /></div>
+                    <button type="button" className="cuims-quick-card-btn">VIEW MEDICINES →</button>
                   </div>
                 </div>
 
-                {/* Featured Online Consult Card */}
-                <div className="cuims-quick-card lms-card">
-                  <div className="cuims-quick-card-title">Online Consult</div>
-                  <div className="cuims-quick-card-footer">
-                    <button type="button" className="cuims-quick-card-btn" onClick={() => setSidebarTab('bookings')}>JOIN NOW</button>
-                    <div className="cuims-quick-card-icon">🩺</div>
+                {/* 4. MediSphere AI Health Suite Card */}
+                <div 
+                  className="cuims-quick-card card-ai" 
+                  onClick={() => { setSidebarTab('symptom-checker'); navigate('/symptom-checker'); }}
+                >
+                  <div className="cuims-quick-card-header">
+                    <span className="cuims-quick-card-tag">AI Health Suite</span>
+                    <div className="cuims-quick-card-icon-wrapper">🤖</div>
                   </div>
-                </div>
-
-                <div className="cuims-quick-card">
-                  <div className="cuims-quick-card-title">Emergency SOS</div>
+                  <div>
+                    <h3 className="cuims-quick-card-title">MediSphere AI Bot</h3>
+                    <p className="cuims-quick-card-subtitle">2D visual symptom checker, recovery roadmap & voice health assistant.</p>
+                  </div>
                   <div className="cuims-quick-card-footer">
-                    <button type="button" className="cuims-quick-card-btn" onClick={() => setSidebarTab('emergency')} style={{ color: '#ef4444' }}>CALL SOS</button>
-                    <div className="cuims-quick-card-icon" style={{ background: '#fee2e2', color: '#ef4444' }}>🚨</div>
+                    <button type="button" className="cuims-quick-card-btn">LAUNCH AI TOOLS →</button>
                   </div>
                 </div>
               </div>

@@ -302,20 +302,21 @@ body:has(.cuims-layout) .main-content {
   width: calc(100% - 60px) !important;
 }
 
-/* Top 5 Quick Action Cards Row */
+/* Top 4 Quick Action Cards Row (Simplified, Modern UX) */
 .cuims-top-cards-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 20px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1100px) {
   .cuims-top-cards-row {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .cuims-top-cards-row {
     grid-template-columns: repeat(1, 1fr);
   }
@@ -323,78 +324,260 @@ body:has(.cuims-layout) .main-content {
 
 .cuims-quick-card {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 20px;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 12px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  gap: 14px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
 }
 
 .cuims-quick-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+  border-color: #cbd5e1;
+}
+
+.cuims-quick-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cuims-quick-card-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.cuims-quick-card:hover .cuims-quick-card-icon-wrapper {
+  transform: scale(1.08);
+}
+
+.cuims-quick-card-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  width: fit-content;
 }
 
 .cuims-quick-card-title {
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: #1e293b;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.cuims-quick-card-subtitle {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 3px 0 0 0;
+  line-height: 1.35;
 }
 
 .cuims-quick-card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid #f1f5f9;
 }
 
 .cuims-quick-card-btn {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  color: #042a59;
-  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  text-decoration: underline;
+  transition: gap 0.2s;
 }
 
-.cuims-quick-card-icon {
+.cuims-quick-card:hover .cuims-quick-card-btn {
+  gap: 9px;
+}
+
+/* Card Variants */
+.cuims-quick-card.card-doctor {
+  border-top: 4px solid #0d9488;
+}
+.cuims-quick-card.card-doctor .cuims-quick-card-icon-wrapper {
+  background: rgba(13, 148, 136, 0.12);
+  color: #0d9488;
+}
+.cuims-quick-card.card-doctor .cuims-quick-card-tag {
+  background: rgba(13, 148, 136, 0.1);
+  color: #0f766e;
+}
+.cuims-quick-card.card-doctor .cuims-quick-card-btn {
+  color: #0d9488;
+}
+
+.cuims-quick-card.card-sos {
+  border-top: 4px solid #f02070;
+  background: linear-gradient(to bottom, #fff8fa, #ffffff);
+}
+.cuims-quick-card.card-sos .cuims-quick-card-icon-wrapper {
+  background: rgba(240, 32, 112, 0.15);
+  color: #f02070;
+  box-shadow: 0 0 12px rgba(240, 32, 112, 0.25);
+}
+.cuims-quick-card.card-sos .cuims-quick-card-tag {
+  background: rgba(240, 32, 112, 0.12);
+  color: #be123c;
+}
+.cuims-quick-card.card-sos .cuims-quick-card-btn {
+  color: #be123c;
+  font-weight: 800;
+}
+
+.cuims-quick-card.card-meds {
+  border-top: 4px solid #0284c7;
+}
+.cuims-quick-card.card-meds .cuims-quick-card-icon-wrapper {
+  background: rgba(2, 132, 199, 0.12);
+  color: #0284c7;
+}
+.cuims-quick-card.card-meds .cuims-quick-card-tag {
+  background: rgba(2, 132, 199, 0.1);
+  color: #0369a1;
+}
+.cuims-quick-card.card-meds .cuims-quick-card-btn {
+  color: #0284c7;
+}
+
+.cuims-quick-card.card-ai {
+  border-top: 4px solid #7c3aed;
+  background: linear-gradient(to bottom, #faf5ff, #ffffff);
+}
+.cuims-quick-card.card-ai .cuims-quick-card-icon-wrapper {
+  background: rgba(124, 58, 237, 0.12);
+  color: #7c3aed;
+}
+.cuims-quick-card.card-ai .cuims-quick-card-tag {
+  background: rgba(124, 58, 237, 0.1);
+  color: #6d28d9;
+}
+.cuims-quick-card.card-ai .cuims-quick-card-btn {
+  color: #7c3aed;
+}
+
+/* Global Command Search Autocomplete Dropdown */
+.cuims-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15);
+  max-height: 380px;
+  overflow-y: auto;
+  z-index: 1100;
+  padding: 8px;
+}
+
+.cuims-search-dropdown-header {
+  padding: 6px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cuims-search-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  margin-bottom: 2px;
+}
+
+.cuims-search-item:hover, .cuims-search-item.selected {
+  background: #f8fafc;
+}
+
+.cuims-search-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cuims-search-item-icon {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: #eff6ff;
-  color: #2563eb;
+  background: #f1f5f9;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
 }
 
-/* Featured LMS Card */
-.cuims-quick-card.lms-card {
-  background: linear-gradient(135deg, #1b385c, #2a4c77);
-  color: #ffffff;
-  border: 2px solid #00c9a7;
-  box-shadow: 0 4px 15px rgba(0, 201, 167, 0.25);
+.cuims-search-item-title {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #0f172a;
 }
 
-.cuims-quick-card.lms-card .cuims-quick-card-title {
-  color: #ffffff;
-  font-size: 1.05rem;
+.cuims-search-item-desc {
+  font-size: 0.74rem;
+  color: #64748b;
+  line-height: 1.2;
 }
 
-.cuims-quick-card.lms-card .cuims-quick-card-btn {
-  color: #ffffff;
+.cuims-search-item-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  background: #e2e8f0;
+  color: #475569;
+  padding: 3px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
 }
 
-.cuims-quick-card.lms-card .cuims-quick-card-icon {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
+.cuims-search-shortcut-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: rgba(100, 116, 139, 0.12);
+  color: #64748b;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+  position: absolute;
+  right: 44px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 /* Banner Row: Weather + Virtual ID Card */
