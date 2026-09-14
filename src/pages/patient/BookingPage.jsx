@@ -1829,21 +1829,12 @@ export default function BookingPage() {
 
                 {/* MedGemma AI Symptom Search & Specialist Recommendation Card */}
                 <div className="medgemma-search-card">
-                  <div className="medgemma-search-header">
-                    <div className="medgemma-badge">
-                      <FiCpu /> MedGemma AI Clinical Search
-                    </div>
-                    <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                      💡 Describe your illness to automatically find matching specialists
-                    </span>
-                  </div>
-
                   <div className="medgemma-search-input-wrapper">
                     <FiSearch style={{ color: 'var(--primary)', fontSize: '1.1rem', flexShrink: 0 }} />
                     <input 
                       type="text"
                       className="medgemma-search-input"
-                      placeholder="Describe symptoms (e.g. high fever, knee joint injury, skin rash, stress, throat pain)..."
+                      placeholder="Describe symptoms or issue (e.g. fever, knee joint injury, skin rash, stress, throat pain)..."
                       value={symptomSearch}
                       onChange={handleSearchChange}
                     />
