@@ -1275,7 +1275,7 @@ function MainDashboardPanel(props) {
   const searchInputRef = useRef(null);
 
   const searchableActions = [
-    { id: 'hospitals', title: 'Book Doctor / Campus Clinic', category: 'Clinical', icon: '🩺', desc: 'Find campus doctors, general physicians & specialists', action: () => { setSidebarTab('hospitals'); navigate('/dashboard'); } },
+    { id: 'hospitals', title: 'Book Doctor / Campus Clinic', category: 'Clinical', icon: '🩺', desc: 'Find campus doctors, general physicians & specialists', action: () => { navigate('/book/HOS101'); } },
     { id: 'emergency', title: 'Emergency SOS & Ambulance Dispatch', category: 'Emergency', icon: '🚨', desc: 'Instant SOS alert, ambulance booking & Twilio voice call', action: () => { setSidebarTab('emergency'); navigate('/emergency'); } },
     { id: 'prescriptions', title: 'My Prescriptions & Medicines', category: 'Pharmacy', icon: '💊', desc: 'View digital prescriptions, dosage reminders & order medicines', action: () => { setSidebarTab('prescriptions'); navigate('/my-prescriptions'); } },
     { id: 'bookings', title: 'My Appointments & Bookings', category: 'Clinical', icon: '📅', desc: 'View upcoming, completed & scheduled appointments', action: () => { setSidebarTab('bookings'); navigate('/my-bookings'); } },
@@ -1843,11 +1843,10 @@ function MainDashboardPanel(props) {
     }
 
     // 2. Doctor Appointments & Clinic Booking
-    if (text.includes('doctor') || text.includes('book appointment') || text.includes('hospital') || text.includes('clinic') || text.includes('specialist') || text.includes('opd')) {
-      speakVoiceFeedback('Opening Campus Doctors and Appointments.');
-      toast.success('🩺 Redirecting to Campus Doctors...', { duration: 2500 });
-      setSidebarTab('hospitals');
-      navigate('/dashboard');
+    if (text.includes('doctor') || text.includes('book appointment') || text.includes('book doctor') || text.includes('hospital') || text.includes('clinic') || text.includes('specialist') || text.includes('opd')) {
+      speakVoiceFeedback('Opening Campus Doctor Appointment Booking.');
+      toast.success('🩺 Opening Doctor Booking...', { duration: 2500 });
+      navigate('/book/HOS101');
       return;
     }
 
@@ -5328,7 +5327,7 @@ function MainDashboardPanel(props) {
                 {/* 1. Book Doctor Card */}
                 <div 
                   className="cuims-quick-card card-doctor" 
-                  onClick={() => { setSidebarTab('hospitals'); navigate('/dashboard'); }}
+                  onClick={() => { navigate('/book/HOS101'); }}
                 >
                   <div className="cuims-quick-card-header">
                     <span className="cuims-quick-card-tag">Campus Care</span>
@@ -5339,7 +5338,9 @@ function MainDashboardPanel(props) {
                     <p className="cuims-quick-card-subtitle">Find available specialists, OPD slots & live teleconsultation.</p>
                   </div>
                   <div className="cuims-quick-card-footer">
-                    <button type="button" className="cuims-quick-card-btn">BOOK APPOINTMENT →</button>
+                    <button type="button" className="cuims-quick-card-btn" onClick={(e) => { e.stopPropagation(); navigate('/book/HOS101'); }}>
+                      BOOK APPOINTMENT →
+                    </button>
                   </div>
                 </div>
 
