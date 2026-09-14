@@ -345,6 +345,101 @@ body:has(.cuims-layout) .main-content {
   width: calc(100% - 60px) !important;
 }
 
+.cuims-sidebar-mobile-backdrop {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(3px);
+  z-index: 9998;
+  display: none;
+}
+
+/* Responsive Mobile Layout (≤900px) */
+@media (max-width: 900px) {
+  .cuims-header {
+    height: 60px !important;
+    padding: 0 12px !important;
+  }
+
+  .cuims-search-container {
+    display: none !important;
+  }
+
+  .cuims-user-info {
+    display: none !important;
+  }
+
+  .cuims-user-chip {
+    padding-left: 0 !important;
+    border-left: none !important;
+  }
+
+  .cuims-logo-container img {
+    height: 42px !important;
+  }
+
+  .cuims-body-wrapper {
+    margin-top: 60px !important;
+    height: auto !important;
+    min-height: calc(100vh - 60px) !important;
+    overflow: visible !important;
+  }
+
+  .cuims-sidebar {
+    position: fixed !important;
+    top: 60px !important;
+    left: -300px !important;
+    width: 280px !important;
+    height: calc(100vh - 60px) !important;
+    z-index: 9999 !important;
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.25) !important;
+    transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .cuims-sidebar:not(.collapsed) {
+    left: 0 !important;
+  }
+
+  .cuims-sidebar.collapsed {
+    left: -300px !important;
+    width: 280px !important;
+  }
+
+  .cuims-main-content,
+  .cuims-sidebar.collapsed + .cuims-main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding: 16px 12px 100px 12px !important;
+    height: auto !important;
+    overflow-y: visible !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .cuims-sidebar-mobile-backdrop {
+    display: block;
+  }
+
+  .cuims-top-cards-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .cuims-three-col-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .cuims-banner-row {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+}
+
 /* Top 4 Quick Action Cards Row (Simplified, Modern UX) */
 .cuims-top-cards-row {
   display: grid;

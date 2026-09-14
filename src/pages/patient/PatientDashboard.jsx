@@ -1196,7 +1196,9 @@ function MainDashboardPanel(props) {
     return () => clearTimeout(timer);
   }, []);
 
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    return typeof window !== 'undefined' ? window.innerWidth < 900 : false;
+  });
   const [sidebarTab, setSidebarTab] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     const tabParam = params.get('tab');
@@ -5219,6 +5221,7 @@ function MainDashboardPanel(props) {
                             e.stopPropagation();
                             setSidebarTab('wellness-center');
                             setWellnessActiveSubTab('counselors');
+                            if (window.innerWidth < 900) setSidebarCollapsed(true);
                             navigate('/wellness-center');
                           }}
                           style={{
@@ -5250,6 +5253,7 @@ function MainDashboardPanel(props) {
                             e.stopPropagation();
                             setSidebarTab('wellness-center');
                             setWellnessActiveSubTab('mood-tracker');
+                            if (window.innerWidth < 900) setSidebarCollapsed(true);
                             navigate('/wellness-center');
                           }}
                           style={{
@@ -5281,6 +5285,7 @@ function MainDashboardPanel(props) {
                             e.stopPropagation();
                             setSidebarTab('wellness-center');
                             setWellnessActiveSubTab('stress-assessment');
+                            if (window.innerWidth < 900) setSidebarCollapsed(true);
                             navigate('/wellness-center');
                           }}
                           style={{
@@ -5317,6 +5322,7 @@ function MainDashboardPanel(props) {
                   className={`cuims-sidebar-item ${sidebarTab === item.id || (sidebarTab === 'order-meds' && item.id === 'prescriptions') ? 'active' : ''}`}
                   onClick={() => {
                     setSidebarTab(item.id);
+                    if (window.innerWidth < 900) setSidebarCollapsed(true);
                     if (item.action) item.action();
                   }}
                   style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
@@ -5331,6 +5337,14 @@ function MainDashboardPanel(props) {
             })}
           </ul>
         </aside>
+
+        {/* Mobile Backdrop when Sidebar is Open */}
+        {!sidebarCollapsed && (
+          <div 
+            className="cuims-sidebar-mobile-backdrop"
+            onClick={() => setSidebarCollapsed(true)}
+          />
+        )}
 
         {/* Main Content Area */}
         <main className="cuims-main-content">
