@@ -126,7 +126,7 @@ body:has(.cuims-layout) .main-content {
   background: #f1f5f9;
   border: 1px solid #e2e8f0;
   border-radius: 20px;
-  padding: 0 44px 0 20px;
+  padding: 0 88px 0 20px;
   font-size: 0.9rem;
   color: #1e293b;
   outline: none;
@@ -141,12 +141,55 @@ body:has(.cuims-layout) .main-content {
 
 .cuims-search-icon {
   position: absolute;
-  right: 16px;
+  right: 14px;
   top: 50%;
   transform: translateY(-50%);
   color: #64748b;
   font-size: 1rem;
   pointer-events: none;
+}
+
+.cuims-search-mic-btn {
+  position: absolute;
+  right: 36px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #475569;
+  font-size: 1.05rem;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.cuims-search-mic-btn:hover {
+  background: rgba(15, 118, 110, 0.12);
+  color: #0f766e;
+}
+
+.cuims-search-mic-btn.listening {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  animation: pulseVoice 1.4s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+@keyframes pulseVoice {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.15);
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
 }
 
 /* Header Right Icons & User Profile */

@@ -1814,6 +1814,172 @@ function MainDashboardPanel(props) {
 
   const SpeechRecognitionAPI = typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition);
 
+  const speakVoiceFeedback = (text) => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.05;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        console.warn('Speech synthesis error:', err);
+      }
+    }
+  };
+
+  const executeVoiceCommand = (rawText) => {
+    if (!rawText || !rawText.trim()) return;
+    const text = rawText.toLowerCase().trim();
+    toast.success(`🎙️ Heard: "${rawText}"`, { duration: 3500 });
+
+    // 1. Emergency SOS & Ambulance Dispatch
+    if (text.includes('emergency') || text.includes('sos') || text.includes('ambulance') || text.includes('accident') || text.includes('urgent')) {
+      speakVoiceFeedback('Redirecting to Emergency SOS and Ambulance dispatch.');
+      toast.success('🚨 Redirecting to Emergency SOS...', { duration: 2500 });
+      setSidebarTab('emergency');
+      navigate('/emergency');
+      return;
+    }
+
+    // 2. Doctor Appointments & Clinic Booking
+    if (text.includes('doctor') || text.includes('book appointment') || text.includes('hospital') || text.includes('clinic') || text.includes('specialist') || text.includes('opd')) {
+      speakVoiceFeedback('Opening Campus Doctors and Appointments.');
+      toast.success('🩺 Redirecting to Campus Doctors...', { duration: 2500 });
+      setSidebarTab('hospitals');
+      navigate('/dashboard');
+      return;
+    }
+
+    // 3. Prescriptions & Medicines / Pharmacy
+    if (text.includes('prescription') || text.includes('medicine') || text.includes('pharmacy') || text.includes('order med') || text.includes('drug') || text.includes('dosage')) {
+      speakVoiceFeedback('Opening Prescriptions and Medicines.');
+      toast.success('💊 Redirecting to Prescriptions & Medicines...', { duration: 2500 });
+      setSidebarTab('prescriptions');
+      navigate('/my-prescriptions');
+      return;
+    }
+
+    // 4. Mood Tracker & Journal
+    if (text.includes('mood') || text.includes('journal') || text.includes('feelings') || text.includes('emotional')) {
+      speakVoiceFeedback('Opening Mood Tracker and Journal.');
+      toast.success('🧠 Redirecting to Mood Tracker...', { duration: 2500 });
+      setSidebarTab('wellness-center');
+      setWellnessActiveSubTab('mood-tracker');
+      navigate('/wellness-center');
+      return;
+    }
+
+    // 5. Stress Level Assessment
+    if (text.includes('stress') || text.includes('anxiety') || text.includes('tension') || text.includes('breathing')) {
+      speakVoiceFeedback('Opening Stress Level Assessment.');
+      toast.success('📊 Redirecting to Stress Assessment...', { duration: 2500 });
+      setSidebarTab('wellness-center');
+      setWellnessActiveSubTab('stress-assessment');
+      navigate('/wellness-center');
+      return;
+    }
+
+    // 6. Campus Psychologist / Counselor
+    if (text.includes('psychologist') || text.includes('counselor') || text.includes('counselling') || text.includes('mental health') || text.includes('wellness center')) {
+      speakVoiceFeedback('Opening Campus Psychologist and Wellness Center.');
+      toast.success('👥 Redirecting to Mental Health & Wellness...', { duration: 2500 });
+      setSidebarTab('wellness-center');
+      setWellnessActiveSubTab('counselors');
+      navigate('/wellness-center');
+      return;
+    }
+
+    // 7. Medical Leave Application
+    if (text.includes('leave') || text.includes('medical leave') || text.includes('attendance') || text.includes('certificate')) {
+      speakVoiceFeedback('Opening Medical Leave Application.');
+      toast.success('📝 Redirecting to Medical Leave...', { duration: 2500 });
+      setSidebarTab('medical-leave');
+      navigate('/medical-leave');
+      return;
+    }
+
+    // 8. AI 2D Body Symptom Checker
+    if (text.includes('symptom') || text.includes('body map') || text.includes('check symptom') || text.includes('diagnosis')) {
+      speakVoiceFeedback('Opening AI 2D Body Symptom Checker.');
+      toast.success('🤖 Redirecting to AI Symptom Checker...', { duration: 2500 });
+      setSidebarTab('symptom-checker');
+      navigate('/symptom-checker');
+      return;
+    }
+
+    // 9. AI Health Care Plan
+    if (text.includes('care plan') || text.includes('diet') || text.includes('recovery plan') || text.includes('nutrition')) {
+      speakVoiceFeedback('Opening AI Health Status and Care Plan.');
+      toast.success('🥗 Redirecting to Care Plan...', { duration: 2500 });
+      setSidebarTab('care-plan');
+      navigate('/care-plan');
+      return;
+    }
+
+    // 10. Vaccinations & Immunization
+    if (text.includes('vaccin') || text.includes('immuniz') || text.includes('injection') || text.includes('dose')) {
+      speakVoiceFeedback('Opening Campus Vaccinations.');
+      toast.success('💉 Redirecting to Vaccinations...', { duration: 2500 });
+      setSidebarTab('vaccinations');
+      navigate('/vaccinations');
+      return;
+    }
+
+    // 11. Campus Health Map
+    if (text.includes('health map') || text.includes('campus map') || text.includes('map') || text.includes('location') || text.includes('dispensary')) {
+      speakVoiceFeedback('Opening Campus Health Map.');
+      toast.success('🗺️ Redirecting to Campus Health Map...', { duration: 2500 });
+      setSidebarTab('health-map');
+      navigate('/health-map');
+      return;
+    }
+
+    // 12. Rewards & Leaderboard
+    if (text.includes('reward') || text.includes('leaderboard') || text.includes('point') || text.includes('badge')) {
+      speakVoiceFeedback('Opening Rewards and Leaderboard.');
+      toast.success('🏆 Redirecting to Rewards & Leaderboard...', { duration: 2500 });
+      setSidebarTab('rewards');
+      navigate('/dashboard');
+      setTimeout(() => {
+        const el = document.getElementById('rewards-leaderboard-section');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+      return;
+    }
+
+    // 13. My Bookings / Appointments
+    if (text.includes('my booking') || text.includes('my appointment') || text.includes('scheduled visit') || text.includes('booking')) {
+      speakVoiceFeedback('Opening My Bookings.');
+      toast.success('📅 Redirecting to My Bookings...', { duration: 2500 });
+      setSidebarTab('bookings');
+      navigate('/my-bookings');
+      return;
+    }
+
+    // 14. Student Health Portal
+    if (text.includes('student health') || text.includes('health portal') || text.includes('blood group') || text.includes('medical record')) {
+      speakVoiceFeedback('Opening Student Health Portal.');
+      toast.success('🛡️ Redirecting to Student Health Portal...', { duration: 2500 });
+      setSidebarTab('student-health-portal');
+      navigate('/student-health-portal');
+      return;
+    }
+
+    // 15. Theme Toggle
+    if (text.includes('dark mode') || text.includes('light mode') || text.includes('theme')) {
+      toggleTheme();
+      speakVoiceFeedback('Switched dashboard theme.');
+      return;
+    }
+
+    // Fallback: search query or open MediSphere AI Assistant
+    speakVoiceFeedback(`Searching MediSphere for ${rawText}`);
+    setCuimsSearch(rawText);
+    setSearchFocused(true);
+    setSidebarTab('hospitals');
+  };
+
   const handleToggleVoiceListening = () => {
     if (!SpeechRecognitionAPI) {
       toast.error('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
@@ -1832,20 +1998,19 @@ function MainDashboardPanel(props) {
 
       rec.onstart = () => {
         setIsVoiceListening(true);
-        toast.success('🎙️ Listening for symptoms... Speak now!', { id: 'voice-active' });
+        toast.success('🎙️ Listening... Say "Redirect to Emergency SOS", "Book Doctor", "My Prescriptions", etc.', { id: 'voice-active', duration: 4000 });
       };
 
       rec.onresult = (event) => {
         const resultText = event.results[0][0].transcript;
         if (resultText && resultText.trim()) {
-          setChatOpen(true);
-          handleSendChat(resultText);
+          executeVoiceCommand(resultText);
         }
       };
 
       rec.onerror = (event) => {
         console.error('Speech recognition error:', event.error);
-        toast.error('Voice input error. Please try typing.', { id: 'voice-active' });
+        toast.error('Voice input error. Please try again.', { id: 'voice-active' });
         setIsVoiceListening(false);
       };
 
@@ -4651,7 +4816,15 @@ function MainDashboardPanel(props) {
               }
             }}
           />
-          <span className="cuims-search-shortcut-badge">Ctrl K</span>
+          <button 
+            type="button"
+            className={`cuims-search-mic-btn ${isVoiceListening ? 'listening' : ''}`}
+            onClick={handleToggleVoiceListening}
+            title={isVoiceListening ? 'Listening... Speak command (e.g. "Redirect to Emergency SOS")' : 'Voice Command: Speak "Redirect to Emergency SOS", "Book Doctor", "My Prescriptions", etc.'}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            {isVoiceListening ? <FiMicOff color="#ffffff" /> : <FiMic />}
+          </button>
           <FiSearch className="cuims-search-icon" />
 
           {/* Autocomplete Quick Action Dropdown Menu */}
