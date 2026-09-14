@@ -191,43 +191,62 @@ export default function BodyMapSymptomFlow() {
     }
   };
 
+  const formatBoldAndItalic = (text) => {
+    if (!text) return '';
+    return text
+      .replace(/^#{1,6}\s*/g, '')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\*/g, ''); // strip any dangling stray asterisks
+  };
+
   const parseMarkdownResponse = (text) => {
     if (!text) return null;
     return text.split('\n').map((line, idx) => {
       let trimmed = line.trim();
-      if (trimmed.startsWith('###')) {
-        return <h3 key={idx} className="heading-sm" style={{ marginTop: '24px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>{trimmed.replace('###', '')}</h3>;
+      
+      // Match any markdown headings (#, ##, ###, ####, #####)
+      if (/^#{1,6}\s*/.test(trimmed)) {
+        const cleanHeading = trimmed.replace(/^#{1,6}\s*/, '').replace(/\*\*/g, '').trim();
+        const level = (trimmed.match(/^#+/) || ['###'])[0].length;
+        if (level === 1) {
+          return <h2 key={idx} className="heading-md text-gradient" style={{ marginTop: '28px', marginBottom: '14px', borderBottom: '1px solid var(--border-color)', paddingBottom: '6px' }}>{cleanHeading}</h2>;
+        } else if (level === 2) {
+          return <h3 key={idx} className="heading-sm" style={{ marginTop: '22px', marginBottom: '10px', color: '#0f766e', fontWeight: 800 }}>{cleanHeading}</h3>;
+        } else {
+          return <h4 key={idx} style={{ fontSize: '1.02rem', fontWeight: 800, color: '#1e3a5f', marginTop: '18px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>{cleanHeading}</h4>;
+        }
       }
-      if (trimmed.startsWith('##')) {
-        return <h2 key={idx} className="heading-md text-gradient" style={{ marginTop: '32px', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '8px' }}>{trimmed.replace('##', '')}</h2>;
-      }
-      if (trimmed.startsWith('#')) {
-        return <h1 key={idx} className="heading-lg" style={{ marginTop: '36px', marginBottom: '20px' }}>{trimmed.replace('#', '')}</h1>;
-      }
+
       if (trimmed.startsWith('-') || trimmed.startsWith('*')) {
-        const clean = trimmed.substring(1).trim();
+        const clean = trimmed.replace(/^[-*]\s*/, '').trim();
         return (
           <li key={idx} style={{ marginLeft: '24px', marginBottom: '8px', listStyleType: 'disc', color: 'var(--text-secondary)' }} 
               dangerouslySetInnerHTML={{ __html: formatBoldAndItalic(clean) }} />
         );
       }
-      if (trimmed === '---') {
-        return <div key={idx} className="divider" />;
+
+      if (/^\d+\.\s*/.test(trimmed)) {
+        const clean = trimmed.replace(/^\d+\.\s*/, '').trim();
+        return (
+          <li key={idx} style={{ marginLeft: '24px', marginBottom: '8px', listStyleType: 'decimal', color: 'var(--text-secondary)' }} 
+              dangerouslySetInnerHTML={{ __html: formatBoldAndItalic(clean) }} />
+        );
       }
+
+      if (trimmed === '---') {
+        return <div key={idx} className="divider" style={{ margin: '16px 0' }} />;
+      }
+
       if (trimmed.length === 0) {
         return <div key={idx} style={{ height: '8px' }} />;
       }
+
       return (
-        <p key={idx} style={{ marginBottom: '12px', color: 'var(--text-secondary)', lineHeight: '1.6' }} 
+        <p key={idx} style={{ marginBottom: '10px', color: 'var(--text-secondary)', lineHeight: '1.6' }} 
            dangerouslySetInnerHTML={{ __html: formatBoldAndItalic(trimmed) }} />
       );
     });
-  };
-
-  const formatBoldAndItalic = (text) => {
-    return text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>');
   };
 
   const renderSvgZone = (id, pointsStr, type = 'polygon', dPath = '') => {

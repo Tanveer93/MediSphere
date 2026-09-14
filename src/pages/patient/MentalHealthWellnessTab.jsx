@@ -431,27 +431,43 @@ Your stress index is elevated. You are carrying a heavy cognitive and emotional 
   const parseMarkdownResponse = (text) => {
     if (!text) return '';
     return text.split('\n').map((line, index) => {
-      let content = line;
-      content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      let trimmed = line.trim();
+      let content = line
+        .replace(/^#{1,6}\s*/g, '')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\*/g, '');
       
-      if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
-        const itemText = line.trim().substring(2);
+      if (/^#{1,6}\s*/.test(trimmed)) {
+        const cleanHeading = trimmed.replace(/^#{1,6}\s*/, '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
+        const level = (trimmed.match(/^#+/) || ['###'])[0].length;
+        if (level <= 2) {
+          return <h4 key={index} style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f766e', marginTop: '16px', marginBottom: '8px' }}>{cleanHeading}</h4>;
+        } else {
+          return <h5 key={index} style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1e3a5f', marginTop: '12px', marginBottom: '6px' }}>{cleanHeading}</h5>;
+        }
+      }
+
+      if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+        const itemText = trimmed.replace(/^[-*]\s*/, '');
         return (
           <li key={index} style={{ marginLeft: '16px', marginBottom: '4px' }} 
-              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>') }} />
+              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*/g, '') }} />
         );
       }
-      if (line.trim().startsWith('####')) {
-        return <h5 key={index} style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1e3a5f', marginTop: '12px', marginBottom: '4px' }}>{line.replace('####', '').trim()}</h5>;
+
+      if (/^\d+\.\s/.test(trimmed)) {
+        const itemText = trimmed.replace(/^\d+\.\s/, '');
+        return (
+          <li key={index} style={{ marginLeft: '16px', marginBottom: '4px', listStyleType: 'decimal' }} 
+              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*/g, '') }} />
+        );
       }
-      if (line.trim().startsWith('###')) {
-        return <h4 key={index} style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f766e', marginTop: '14px', marginBottom: '6px' }}>{line.replace('###', '').trim()}</h4>;
+
+      if (trimmed.startsWith('>')) {
+        return <blockquote key={index} style={{ borderLeft: '4px solid #0f766e', paddingLeft: '12px', color: '#475569', fontStyle: 'italic', margin: '8px 0' }}>{trimmed.replace('>', '').trim()}</blockquote>;
       }
-      if (line.trim().startsWith('>')) {
-        return <blockquote key={index} style={{ borderLeft: '4px solid #0f766e', paddingLeft: '12px', color: '#475569', fontStyle: 'italic', margin: '8px 0' }}>{line.replace('>', '').trim()}</blockquote>;
-      }
-      if (line.trim() === '') {
+      if (trimmed === '') {
         return <div key={index} style={{ height: '6px' }} />;
       }
       return <p key={index} style={{ margin: '0 0 6px 0', fontSize: '0.88rem', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: content }} />;

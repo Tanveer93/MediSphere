@@ -348,27 +348,40 @@ export default function CarePlan() {
     if (!text) return '';
     const lines = text.split('\n');
     return lines.map((line, index) => {
-      let content = line;
-      content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      let trimmed = line.trim();
+      let content = line
+        .replace(/^#{1,6}\s*/g, '')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\*/g, '');
 
-      if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
-        const itemText = line.trim().substring(2);
+      if (/^#{1,6}\s*/.test(trimmed)) {
+        const cleanHeading = trimmed.replace(/^#{1,6}\s*/, '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
+        const level = (trimmed.match(/^#+/) || ['###'])[0].length;
+        if (level <= 2) {
+          return <h3 key={index} style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f766e', marginTop: '16px', marginBottom: '8px' }}>{cleanHeading}</h3>;
+        } else {
+          return <h4 key={index} style={{ fontSize: '0.98rem', fontWeight: 800, color: '#1e3a5f', marginTop: '14px', marginBottom: '6px' }}>{cleanHeading}</h4>;
+        }
+      }
+
+      if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+        const itemText = trimmed.replace(/^[-*]\s*/, '');
         return (
           <li key={index} style={{ marginLeft: '16px', marginBottom: '4px' }}
-              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>') }} />
+              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*/g, '') }} />
         );
       }
 
-      if (/^\d+\.\s/.test(line.trim())) {
-        const itemText = line.trim().replace(/^\d+\.\s/, '');
+      if (/^\d+\.\s/.test(trimmed)) {
+        const itemText = trimmed.replace(/^\d+\.\s/, '');
         return (
           <li key={index} style={{ marginLeft: '16px', marginBottom: '4px', listStyleType: 'decimal' }}
-              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>') }} />
+              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*/g, '') }} />
         );
       }
 
-      if (line.trim() === '') {
+      if (trimmed === '') {
         return <div key={index} style={{ height: '8px' }} />;
       }
 

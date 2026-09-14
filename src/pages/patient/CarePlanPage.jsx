@@ -149,42 +149,47 @@ function renderMarkdown(text) {
 
   const inlineFormat = (str) =>
     str
+      .replace(/^#{1,6}\s*/g, '')
       .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text-primary)">$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>');
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\*/g, '');
 
   lines.forEach((raw, idx) => {
-    const line = raw;
+    const trimmed = raw.trim();
 
-    if (line.startsWith('## ')) {
+    if (/^#{1,6}\s*/.test(trimmed)) {
       flushList();
-      elements.push(
-        <h3 key={idx} style={{ margin: '20px 0 8px', fontSize: '1.05rem', fontWeight: 700, color: 'var(--primary-dark)', letterSpacing: '-0.01em' }}>
-          {line.replace('## ', '')}
-        </h3>
-      );
-    } else if (line.startsWith('### ')) {
-      flushList();
-      elements.push(
-        <h4 key={idx} style={{ margin: '16px 0 6px', fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-          {line.replace('### ', '')}
-        </h4>
-      );
-    } else if (/^[-*]\s/.test(line.trim())) {
+      const cleanHeading = trimmed.replace(/^#{1,6}\s*/, '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
+      const level = (trimmed.match(/^#+/) || ['###'])[0].length;
+      if (level <= 2) {
+        elements.push(
+          <h3 key={idx} style={{ margin: '20px 0 8px', fontSize: '1.05rem', fontWeight: 700, color: 'var(--primary-dark)', letterSpacing: '-0.01em' }}>
+            {cleanHeading}
+          </h3>
+        );
+      } else {
+        elements.push(
+          <h4 key={idx} style={{ margin: '16px 0 6px', fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+            {cleanHeading}
+          </h4>
+        );
+      }
+    } else if (/^[-*]\s/.test(trimmed)) {
       if (listType !== 'ul') flushList();
       listType = 'ul';
-      listItems.push(inlineFormat(line.trim().replace(/^[-*]\s/, '')));
-    } else if (/^\d+\.\s/.test(line.trim())) {
+      listItems.push(inlineFormat(trimmed.replace(/^[-*]\s/, '')));
+    } else if (/^\d+\.\s/.test(trimmed)) {
       if (listType !== 'ol') flushList();
       listType = 'ol';
-      listItems.push(inlineFormat(line.trim().replace(/^\d+\.\s/, '')));
-    } else if (line.trim() === '') {
+      listItems.push(inlineFormat(trimmed.replace(/^\d+\.\s/, '')));
+    } else if (trimmed === '') {
       flushList();
       elements.push(<div key={idx} style={{ height: 6 }} />);
     } else {
       flushList();
       elements.push(
         <p key={idx} style={{ margin: '4px 0', lineHeight: 1.7, color: 'var(--text-secondary)', fontSize: '0.9rem' }}
-          dangerouslySetInnerHTML={{ __html: inlineFormat(line) }} />
+          dangerouslySetInnerHTML={{ __html: inlineFormat(raw) }} />
       );
     }
   });

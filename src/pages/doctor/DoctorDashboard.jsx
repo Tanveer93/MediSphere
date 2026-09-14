@@ -854,28 +854,45 @@ export default function DoctorDashboard() {
     if (!text) return '';
     const lines = text.split('\n');
     return lines.map((line, index) => {
-      let content = line;
-      content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      let trimmed = line.trim();
+      let content = line
+        .replace(/^#{1,6}\s*/g, '')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\*/g, '');
 
-      if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
-        const itemText = line.trim().substring(2);
+      if (/^#{1,6}\s*/.test(trimmed)) {
+        const cleanHeading = trimmed.replace(/^#{1,6}\s*/, '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
+        const level = (trimmed.match(/^#+/) || ['###'])[0].length;
+        if (level <= 2) {
+          return <h4 key={index} style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f766e', marginTop: '14px', marginBottom: '6px' }}>{cleanHeading}</h4>;
+        } else {
+          return <h5 key={index} style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1e3a5f', marginTop: '10px', marginBottom: '4px' }}>{cleanHeading}</h5>;
+        }
+      }
+
+      if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+        const itemText = trimmed.replace(/^[-*]\s*/, '');
         return (
           <li key={index} style={{ marginLeft: '16px', marginBottom: '4px' }}
-              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>') }} />
+              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*/g, '') }} />
         );
       }
 
-      if (/^\d+\.\s/.test(line.trim())) {
-        const itemText = line.trim().substring(line.trim().indexOf(' ') + 1);
+      if (/^\d+\.\s/.test(trimmed)) {
+        const itemText = trimmed.substring(trimmed.indexOf(' ') + 1);
         return (
-          <li key={index} style={{ marginLeft: '16px', marginBottom: '4px' }}
-              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>') }} />
+          <li key={index} style={{ marginLeft: '16px', marginBottom: '4px', listStyleType: 'decimal' }}
+              dangerouslySetInnerHTML={{ __html: itemText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\*/g, '') }} />
         );
+      }
+
+      if (trimmed === '') {
+        return <div key={index} style={{ height: '6px' }} />;
       }
 
       return (
-        <p key={index} style={{ marginBottom: '8px' }}
+        <p key={index} style={{ marginBottom: '8px', lineHeight: '1.5' }}
            dangerouslySetInnerHTML={{ __html: content }} />
       );
     });
