@@ -34,6 +34,8 @@ export default function SignupPage() {
     age: '',
     gender: '',
     bloodGroup: '',
+    height: '',
+    weight: '',
     emergencyNumber: '',
     preferredLanguage: '',
     existingMedicalCondition: '',
@@ -761,7 +763,7 @@ export default function SignupPage() {
 
   const roles = [
     { key: 'PATIENT', label: 'Student', icon: <FaUser />, desc: 'Campus student health portal & checkups' },
-    { key: 'FACULTY', label: 'Teacher / Faculty', icon: <FaUser />, desc: 'Faculty occupational health & checkup benefits' },
+    { key: 'FACULTY', label: 'Faculty', icon: <FaUser />, desc: 'Faculty occupational health & checkup benefits' },
     { key: 'DOCTOR', label: 'Campus Doctor', icon: <FaUserMd />, desc: 'Campus clinic doctors & consultations' },
     { key: 'PHARMACY', label: 'Pharmacy', icon: <FaStore />, desc: 'View prescriptions & set prices' },
     { key: 'HOSPITAL', label: 'Hospital / Health Center', icon: <FaHospital />, desc: 'Campus health center & hospital bed listings' },
@@ -1077,6 +1079,34 @@ export default function SignupPage() {
                         <option value="O+">O+</option>
                         <option value="O-">O-</option>
                       </select>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                      <div className="form-group">
+                        <label className="form-label">Height (cm)</label>
+                        <input
+                          type="number"
+                          className="form-input"
+                          placeholder="e.g. 170"
+                          value={formData.height}
+                          onChange={(e) => updateField('height', e.target.value)}
+                          min="30"
+                          max="250"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Weight (kg)</label>
+                        <input
+                          type="number"
+                          className="form-input"
+                          placeholder="e.g. 65"
+                          value={formData.weight}
+                          onChange={(e) => updateField('weight', e.target.value)}
+                          min="10"
+                          max="300"
+                        />
+                      </div>
                     </div>
 
                     <div className="form-group">

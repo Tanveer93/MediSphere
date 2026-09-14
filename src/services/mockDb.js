@@ -1909,7 +1909,7 @@ Creating an account on MediSphere is quick and tailored to your role:
 
 1. **Go to Sign Up**: Click on **[Sign Up](/signup)** in the top navigation bar.
 2. **Select Your Role**:
-   - 🧑‍🦱 **Student / Teacher**: Book doctor appointments, manage care plans, order medicines, and track wellness.
+   - 🧑‍🦱 **Student / Faculty**: Book doctor appointments, manage care plans, order medicines, and track wellness.
    - 👨‍⚕️ **Doctor**: Manage appointment queues, conduct video consultations, and use AI prescription scribes.
    - 🏥 **Hospital / Clinic**: Oversee doctor rosters, emergency beds, and patient checkups.
    - 💊 **Pharmacy**: Receive digitized prescriptions and manage medicine dispatch.
@@ -1928,7 +1928,7 @@ Creating an account on MediSphere is quick and tailored to your role:
 
 To log into your account:
 1. Visit the **[Login Page](/login)**.
-2. Select your registered role (**Student / Teacher**, **Doctor**, **Hospital**, **Pharmacy**, or **Lab**).
+2. Select your registered role (**Student / Faculty**, **Doctor**, **Hospital**, **Pharmacy**, or **Lab**).
 3. Enter your email/phone and password, or use quick Google One-Tap authentication.
 4. You will be redirected directly to your customized healthcare dashboard!
 
@@ -2132,7 +2132,7 @@ Your mental wellbeing is just as important as your physical health:
 Hello! I am **Astra**, your AI healthcare assistant. Here is how I can help you:
 
 - 📅 **[Book Doctor Appointment](/dashboard)**: Find specialists and schedule video or in-clinic visits.
-- 🔐 **[Account & Sign Up](/signup)**: Register as Student, Teacher, Doctor, Hospital, Pharmacy, or Lab.
+- 🔐 **[Account & Sign Up](/signup)**: Register as Student, Faculty, Doctor, Hospital, Pharmacy, or Lab.
 - 💊 **[Pharmacy & Medicines](/my-prescriptions)**: Upload prescriptions and order medicines with generic savings.
 - 📋 **[Personalized Care Plan](/dashboard?tab=care-plan)**: Track daily medication schedules and dosage reminders.
 - 🏆 **[Health Rewards](/dashboard?tab=rewards)**: Earn MedCoins through daily wellness checklists.

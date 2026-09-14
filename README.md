@@ -1,23 +1,6 @@
 # 🏥 MediSphere — Next-Gen AI Campus Healthcare & Clinical Telemedicine Ecosystem
-
-<div align="center">
-
-![MediSphere Banner](https://img.shields.io/badge/MediSphere-Smart%20Healthcare%20Platform-06b6d4?style=for-the-badge&logo=mediamarkt&logoColor=white)
-
-[![React](https://img.shields.io/badge/React-19.2-61dafb?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-8.1-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-4.22-FF6F00?style=flat-square&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/js)
-[![Twilio Voice](https://img.shields.io/badge/Twilio%20Voice-Live%20Dispatch-F22F46?style=flat-square&logo=twilio&logoColor=white)](https://www.twilio.com/)
-[![Framer Motion](https://img.shields.io/badge/Framer%20Motion-12.4-black?style=flat-square&logo=framer&logoColor=white)](https://www.framer.com/motion/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-
 *An intelligent, unified healthcare management platform empowering campus communities, patients, doctors, and hospital administrators with AI-assisted triage, live emergency dispatch, teleconsultation, and mental wellness tracking.*
 
-[Features](#-key-features) • [Architecture](#-system-architecture) • [Portals](#-multi-portal-ecosystem) • [Tech Stack](#-tech-stack) • [Quick Start](#-quick-start) • [Demo Logins](#-demo-credentials)
-
-</div>
-
----
 
 ## 📌 Overview
 
