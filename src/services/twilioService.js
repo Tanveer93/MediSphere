@@ -1,9 +1,9 @@
 import api from './api';
 
-const getSid = () => import.meta.env.VITE_TWILIO_ACCOUNT_SID || 'ACcc950277cdc90642cbfcdc92366e10d3';
-const getToken = () => import.meta.env.VITE_TWILIO_AUTH_TOKEN || '20f177587a33537d59fee0fad118176c';
-const getPhone = () => import.meta.env.VITE_TWILIO_PHONE_NUMBER || '+17372508034';
-const getEmergencyPhone = () => import.meta.env.VITE_TWILIO_EMERGENCY_TARGET_NUMBER || '+919041990211';
+const getSid = () => import.meta.env.VITE_TWILIO_ACCOUNT_SID || 'ACfcc55c926026a0bf8e3da4c04b7b6b2e';
+const getToken = () => import.meta.env.VITE_TWILIO_AUTH_TOKEN || '9a52078fc68b7250a8b0eaefe3c6b5a4';
+const getPhone = () => import.meta.env.VITE_TWILIO_PHONE_NUMBER || '+18167506748';
+const getEmergencyPhone = () => import.meta.env.VITE_TWILIO_EMERGENCY_TARGET_NUMBER || '+917988766566';
 
 export const TWILIO_CONFIG = {
   accountSid: getSid(),
@@ -17,7 +17,7 @@ export function formatPhoneNumber(phone) {
   const digits = String(phone).replace(/\D/g, '');
   if (digits.length === 10) return `+91${digits}`;
   if (digits.length === 12 && digits.startsWith('91')) return `+${digits}`;
-  return `+91${digits.slice(-10) || '9041990211'}`;
+  return `+91${digits.slice(-10) || '7988766566'}`;
 };
 
 export async function sendTwilioSMS(params = {}) {
