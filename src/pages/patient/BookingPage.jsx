@@ -1034,12 +1034,11 @@ export default function BookingPage() {
 
         /* MedGemma AI Symptom Search Box */
         .medgemma-search-card {
-          background: linear-gradient(135deg, rgba(0, 217, 166, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);
-          border: 1px solid rgba(0, 217, 166, 0.3);
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid var(--border-color);
           border-radius: 14px;
           padding: 18px 20px;
           margin-bottom: 22px;
-          box-shadow: 0 4px 24px rgba(0, 217, 166, 0.05);
           position: relative;
         }
 
@@ -1056,8 +1055,8 @@ export default function BookingPage() {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          background: rgba(0, 217, 166, 0.15);
-          border: 1px solid rgba(0, 217, 166, 0.35);
+          background: rgba(0, 217, 166, 0.12);
+          border: none;
           color: var(--primary);
           font-size: 0.78rem;
           font-weight: 700;
@@ -1070,7 +1069,7 @@ export default function BookingPage() {
           display: flex;
           align-items: center;
           background: rgba(255, 255, 255, 0.03);
-          border: 1.5px solid rgba(0, 217, 166, 0.35);
+          border: 1px solid var(--border-color);
           border-radius: 10px;
           padding: 4px 8px 4px 12px;
           gap: 8px;
