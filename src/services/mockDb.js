@@ -520,8 +520,8 @@ const defaultDb = {
       specialization: 'Eye & ENT Specialist',
       rating: 4.9,
       reviewsCount: 184,
-      hospitalId: 4,
-      fees: 250,
+      hospitalId: 1,
+      fees: 200,
       avatarUrl: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=150',
       workingDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       workingHours: '09:00 AM - 05:00 PM',
@@ -534,8 +534,8 @@ const defaultDb = {
       specialization: 'Gynaecology & Obstetrics',
       rating: 4.8,
       reviewsCount: 142,
-      hospitalId: 4,
-      fees: 250,
+      hospitalId: 1,
+      fees: 200,
       avatarUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=150',
       workingDays: ['Mon', 'Wed', 'Thu', 'Fri'],
       workingHours: '10:00 AM - 04:00 PM',
@@ -590,8 +590,8 @@ const defaultDb = {
       specialization: 'Pulmonologist & Asthma Care',
       rating: 4.8,
       reviewsCount: 96,
-      hospitalId: 4,
-      fees: 300,
+      hospitalId: 1,
+      fees: 200,
       avatarUrl: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=150',
       workingDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       workingHours: '09:00 AM - 05:00 PM',
@@ -604,11 +604,25 @@ const defaultDb = {
       specialization: 'Psychiatrist & Mental Wellness',
       rating: 4.9,
       reviewsCount: 145,
-      hospitalId: 3,
-      fees: 500,
+      hospitalId: 1,
+      fees: 200,
       avatarUrl: 'https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&q=80&w=150',
       workingDays: ['Mon', 'Wed', 'Thu', 'Fri'],
       workingHours: '10:00 AM - 05:00 PM',
+      onlineConsultation: true,
+      inPersonConsultation: true
+    },
+    {
+      id: 11,
+      name: 'Dr. Radhika Poonia',
+      specialization: 'Pediatrician & Child Health',
+      rating: 4.8,
+      reviewsCount: 89,
+      hospitalId: 1,
+      fees: 200,
+      avatarUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=150',
+      workingDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+      workingHours: '09:00 AM - 04:00 PM',
       onlineConsultation: true,
       inPersonConsultation: true
     }
@@ -1244,7 +1258,13 @@ export const mockDb = {
     getDoctors: async (id) => {
       await delay(250);
       const db = getDb();
-      return db.doctors.filter(d => d.hospitalId === parseInt(id));
+      const numId = parseInt(id);
+      if (isNaN(numId) || numId === 1 || id === 'HOS101') {
+        const matched = db.doctors.filter(d => d.hospitalId === 1);
+        return matched.length > 0 ? matched : db.doctors;
+      }
+      const matched = db.doctors.filter(d => d.hospitalId === numId);
+      return matched.length > 0 ? matched : db.doctors;
     },
     verify: async (id, verified) => {
       await delay(200);

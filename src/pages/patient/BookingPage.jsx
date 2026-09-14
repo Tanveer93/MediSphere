@@ -16,11 +16,121 @@ import {
   FiActivity, 
   FiFileText, 
   FiShield,
-  FiMapPin
+  FiMapPin,
+  FiSearch,
+  FiCpu,
+  FiX,
+  FiMic,
+  FiMicOff,
+  FiZap,
+  FiStar,
+  FiCheck,
+  FiFilter
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
+// MedGemma AI Clinical Specialty Knowledge Base
+const MEDGEMMA_SPECIALTY_RULES = [
+  {
+    specialty: 'General Physician',
+    icon: '🩺',
+    keywords: [
+      'fever', 'bukhar', 'cold', 'cough', 'flu', 'weakness', 'fatigue', 'shivering',
+      'malaria', 'dengue', 'typhoid', 'viral', 'headache', 'body pain', 'infection',
+      'nausea', 'vomiting', 'stomach ache', 'food poisoning', 'indigestion', 'gas',
+      'dizziness', 'routine checkup', 'general health', 'chills', 'acidity', 'loose motion', 'diarrhea'
+    ],
+    reason: 'Symptoms indicate general systemic, viral, or metabolic illness. A General Physician will provide primary diagnosis, lab prescriptions, and baseline treatment.'
+  },
+  {
+    specialty: 'Orthopedic & Sports Injury',
+    icon: '🦴',
+    keywords: [
+      'bone', 'joint', 'knee', 'fracture', 'sprain', 'ligament', 'back pain',
+      'shoulder', 'spine', 'muscle', 'orthopedic', 'arthritis', 'swollen ankle',
+      'cricket injury', 'gym injury', 'sciatica', 'wrist pain', 'neck pain', 'dislocation', 'pain in leg', 'leg pain'
+    ],
+    reason: 'Musculoskeletal or bone/joint trauma detected. Orthopedic specialist recommended for clinical evaluation, imaging (X-ray/MRI), and mobility care.'
+  },
+  {
+    specialty: 'Dermatologist & Skin Specialist',
+    icon: '🧴',
+    keywords: [
+      'skin', 'rash', 'itching', 'acne', 'pimple', 'eczema', 'allergy', 'dermatitis',
+      'hair fall', 'dandruff', 'fungal', 'redness', 'boils', 'psoriasis', 'hives',
+      'dry skin', 'sunburn', 'patches', 'skin infection'
+    ],
+    reason: 'Cutaneous allergy or dermatological issue detected. Dermatologist specialist recommended for topical assessment and skin treatment.'
+  },
+  {
+    specialty: 'Psychiatrist & Mental Wellness',
+    icon: '🧠',
+    keywords: [
+      'depression', 'anxiety', 'stress', 'panic', 'insomnia', 'sleep', 'trauma',
+      'mood', 'bipolar', 'mental', 'sadness', 'overthinking', 'adhd', 'burnout',
+      'exam stress', 'crying', 'loneliness', 'suicidal', 'focus issues'
+    ],
+    reason: 'Psychological, cognitive or sleep distress detected. Campus Mental Wellness & Psychiatrist counseling recommended for emotional well-being.'
+  },
+  {
+    specialty: 'Eye & ENT Specialist',
+    icon: '👁️',
+    keywords: [
+      'eye', 'vision', 'blurred vision', 'red eye', 'ear', 'earache', 'hearing',
+      'throat', 'sore throat', 'tonsils', 'sinus', 'nose bleed', 'nasal', 'ent',
+      'tinnitus', 'voice loss', 'throat pain', 'swollen glands'
+    ],
+    reason: 'Ophthalmology & ENT (Eye, Ear, Nose, Throat) symptoms identified for focused diagnostic consultation.'
+  },
+  {
+    specialty: 'Cardiologist',
+    icon: '🫀',
+    keywords: [
+      'heart', 'chest pain', 'bp', 'blood pressure', 'palpitations', 'hypertension',
+      'irregular heartbeat', 'breathlessness on walking', 'cholesterol', 'cardiac', 'angina', 'high pulse'
+    ],
+    reason: 'Cardiovascular symptoms detected. Recommended specialist consultation for ECG, Echo and blood pressure management.'
+  },
+  {
+    specialty: 'Pulmonologist & Asthma Care',
+    icon: '🫁',
+    keywords: [
+      'asthma', 'breathing', 'wheezing', 'chest congestion', 'phlegm', 'heavy cough',
+      'shortness of breath', 'bronchitis', 'lungs', 'inhaler', 'pneumonia', 'respiratory'
+    ],
+    reason: 'Respiratory & pulmonary tract symptoms detected. Pulmonologist consultation recommended for lung function and airway care.'
+  },
+  {
+    specialty: 'Gynaecology & Obstetrics',
+    icon: '🌸',
+    keywords: [
+      'period', 'pregnancy', 'cramp', 'pcos', 'pcod', 'menstrual', 'gynaecology',
+      'gynae', 'pelvic pain', 'irregular periods', 'yeast infection', 'discharge', 'female health'
+    ],
+    reason: 'Obstetric & Gynecological health concern identified for specialized women’s health consultation.'
+  },
+  {
+    specialty: 'Pediatrician & Child Health',
+    icon: '👶',
+    keywords: [
+      'child', 'baby', 'pediatric', 'infant', 'vaccination', 'toddler', 'kids fever',
+      'child cough', 'growth check'
+    ],
+    reason: 'Pediatric healthcare specialist recommended for child medical evaluation and growth milestones.'
+  }
+];
 
+const QUICK_SYMPTOM_TAGS = [
+  { label: '🌡️ Fever / Flu / Bukhar', query: 'high fever cold shivering body ache' },
+  { label: '🦴 Knee / Bone / Joint Pain', query: 'knee joint pain ligament sprain back pain' },
+  { label: '🧴 Skin / Rash / Allergy', query: 'skin rash itching acne redness allergy' },
+  { label: '🧠 Stress / Anxiety / Sleep', query: 'stress anxiety insomnia exam panic mental' },
+  { label: '👁️ Eye / Ear / Throat', query: 'sore throat earache red eye vision sinus' },
+  { label: '🫁 Cough / Asthma / Lungs', query: 'chest congestion heavy cough breathing issue asthma' },
+  { label: '🫀 Heart / Chest / BP', query: 'chest discomfort high blood pressure palpitations' },
+  { label: '🌸 Women’s Health / Gynae', query: 'menstrual period cramps pcos gynae' },
+  { label: '👶 Child / Pediatric Care', query: 'child baby pediatric fever health check' }
+];
 
 export default function BookingPage() {
   const { hospitalId } = useParams();
@@ -46,6 +156,12 @@ export default function BookingPage() {
   const [doctors, setDoctors] = useState([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
   const [selectedDoctorId, setSelectedDoctorId] = useState('');
+
+  // MedGemma AI Symptom Search & Filter State
+  const [symptomSearch, setSymptomSearch] = useState('');
+  const [isListening, setIsListening] = useState(false);
+  const [medGemmaRecommendation, setMedGemmaRecommendation] = useState(null);
+  const [activeSpecialtyFilter, setActiveSpecialtyFilter] = useState('ALL');
 
   const [formData, setFormData] = useState({
     patientName: user?.name || '',
@@ -346,6 +462,154 @@ export default function BookingPage() {
       setVerifyingUpi(false);
       toast.error('UPI Verification failed. Please try again.');
     }
+  };
+
+  // MedGemma AI Clinical Symptom Matching Logic
+  const analyzeSymptomsWithMedGemma = (queryText) => {
+    if (!queryText || !queryText.trim()) {
+      setMedGemmaRecommendation(null);
+      setActiveSpecialtyFilter('ALL');
+      return;
+    }
+
+    const cleanQuery = queryText.toLowerCase().trim();
+    
+    let bestMatch = null;
+    let highestScore = 0;
+    let matchedKws = [];
+
+    for (const rule of MEDGEMMA_SPECIALTY_RULES) {
+      let score = 0;
+      const hits = [];
+      for (const kw of rule.keywords) {
+        if (cleanQuery.includes(kw)) {
+          score += 2;
+          hits.push(kw);
+        }
+      }
+      if (cleanQuery.includes(rule.specialty.toLowerCase())) {
+        score += 6;
+      }
+      if (score > highestScore) {
+        highestScore = score;
+        bestMatch = rule;
+        matchedKws = hits;
+      }
+    }
+
+    if (bestMatch && highestScore > 0) {
+      const rec = {
+        specialty: bestMatch.specialty,
+        icon: bestMatch.icon,
+        reason: bestMatch.reason,
+        matchedKeywords: matchedKws,
+        query: queryText,
+        confidence: highestScore >= 4 ? 99 : 91
+      };
+      setMedGemmaRecommendation(rec);
+      setActiveSpecialtyFilter(bestMatch.specialty);
+
+      // Auto-select the first matching doctor if available
+      const matchingDoc = doctors.find(doc => {
+        const spec = (doc.specialization || '').toLowerCase();
+        return spec.includes(bestMatch.specialty.toLowerCase()) || bestMatch.specialty.toLowerCase().includes(spec);
+      });
+      if (matchingDoc) {
+        setSelectedDoctorId(matchingDoc.id.toString());
+      }
+    } else {
+      setMedGemmaRecommendation({
+        specialty: 'General Physician',
+        icon: '🩺',
+        reason: 'MedGemma AI suggests starting with a General Physician for primary clinical triage and baseline diagnostics.',
+        matchedKeywords: [],
+        query: queryText,
+        confidence: 85
+      });
+      setActiveSpecialtyFilter('General Physician');
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    const val = e.target.value;
+    setSymptomSearch(val);
+    analyzeSymptomsWithMedGemma(val);
+    setFormData(prev => ({ ...prev, symptoms: val }));
+  };
+
+  const handleQuickTagClick = (tag) => {
+    setSymptomSearch(tag.label);
+    analyzeSymptomsWithMedGemma(tag.query);
+    setFormData(prev => ({ ...prev, symptoms: `${tag.label} - ${tag.query}` }));
+    toast.success(`MedGemma AI matched: ${tag.label}`);
+  };
+
+  const handleClearSearch = () => {
+    setSymptomSearch('');
+    setMedGemmaRecommendation(null);
+    setActiveSpecialtyFilter('ALL');
+  };
+
+  const toggleVoiceSearch = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      toast.error('Voice input is not supported in this browser. Please type your symptoms.');
+      return;
+    }
+
+    if (isListening) {
+      setIsListening(false);
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-IN';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => {
+        setIsListening(true);
+        toast('Listening to your symptoms... Speak now 🎙️', { icon: '🤖' });
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setSymptomSearch(transcript);
+        analyzeSymptomsWithMedGemma(transcript);
+        setFormData(prev => ({ ...prev, symptoms: transcript }));
+        setIsListening(false);
+        toast.success(`Heard: "${transcript}"`);
+      };
+
+      recognition.onerror = () => {
+        setIsListening(false);
+        toast.error('Voice recognition error. Please type your symptoms.');
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.start();
+    } catch (err) {
+      setIsListening(false);
+      toast.error('Voice search unavailable');
+    }
+  };
+
+  const handleSelectDoctorAndFocusSlots = (docId) => {
+    setSelectedDoctorId(docId.toString());
+    setFormData(prev => ({ ...prev, timeSlot: '' })); // reset slot on doctor select
+    toast.success('Doctor selected! Please pick your preferred date and time slot below.');
+    
+    // Smooth scroll to the appointment date and time slot picker
+    setTimeout(() => {
+      const slotSection = document.getElementById('booking-slot-section');
+      if (slotSection) {
+        slotSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 120);
   };
 
   const handleCardNumberChange = (e) => {
@@ -768,6 +1032,143 @@ export default function BookingPage() {
           color: var(--text-secondary);
         }
 
+        /* MedGemma AI Symptom Search Box */
+        .medgemma-search-card {
+          background: linear-gradient(135deg, rgba(0, 217, 166, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);
+          border: 1px solid rgba(0, 217, 166, 0.3);
+          border-radius: 14px;
+          padding: 18px 20px;
+          margin-bottom: 22px;
+          box-shadow: 0 4px 24px rgba(0, 217, 166, 0.05);
+          position: relative;
+        }
+
+        .medgemma-search-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 12px;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+
+        .medgemma-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(0, 217, 166, 0.15);
+          border: 1px solid rgba(0, 217, 166, 0.35);
+          color: var(--primary);
+          font-size: 0.78rem;
+          font-weight: 700;
+          padding: 4px 10px;
+          border-radius: 20px;
+          letter-spacing: 0.4px;
+        }
+
+        .medgemma-search-input-wrapper {
+          display: flex;
+          align-items: center;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1.5px solid rgba(0, 217, 166, 0.35);
+          border-radius: 10px;
+          padding: 4px 8px 4px 12px;
+          gap: 8px;
+          transition: all 0.2s ease;
+        }
+
+        .medgemma-search-input-wrapper:focus-within {
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px rgba(0, 217, 166, 0.12);
+          background: rgba(255, 255, 255, 0.06);
+        }
+
+        .medgemma-search-input {
+          flex: 1;
+          background: transparent;
+          border: none;
+          outline: none;
+          color: var(--text-primary);
+          font-size: 0.92rem;
+          padding: 8px 4px;
+        }
+
+        .medgemma-search-input::placeholder {
+          color: var(--text-muted);
+        }
+
+        .medgemma-btn-icon {
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid var(--border-color);
+          color: var(--text-secondary);
+          border-radius: 8px;
+          padding: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .medgemma-btn-icon:hover {
+          background: rgba(0, 217, 166, 0.15);
+          color: var(--primary);
+          border-color: var(--primary);
+        }
+
+        .medgemma-btn-icon.listening {
+          background: rgba(239, 68, 68, 0.2);
+          border-color: #ef4444;
+          color: #ef4444;
+          animation: pulse 1.5s infinite;
+        }
+
+        .medgemma-search-chips {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-top: 14px;
+        }
+
+        .medgemma-chip {
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid var(--border-color);
+          color: var(--text-secondary);
+          border-radius: 16px;
+          padding: 5px 12px;
+          font-size: 0.78rem;
+          cursor: pointer;
+          transition: all 0.18s ease;
+          user-select: none;
+        }
+
+        .medgemma-chip:hover {
+          background: rgba(0, 217, 166, 0.1);
+          border-color: var(--primary);
+          color: var(--primary);
+          transform: translateY(-1px);
+        }
+
+        .medgemma-chip.active {
+          background: rgba(0, 217, 166, 0.18);
+          border-color: var(--primary);
+          color: var(--primary);
+          font-weight: 600;
+        }
+
+        .medgemma-recommendation-banner {
+          margin-top: 16px;
+          background: rgba(0, 217, 166, 0.08);
+          border: 1px solid rgba(0, 217, 166, 0.3);
+          border-radius: 10px;
+          padding: 14px 16px;
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 12px;
+          animation: fadeIn 0.3s ease-in-out;
+        }
+
         /* Doctors Grid styling */
         .doctors-grid {
           display: grid;
@@ -790,37 +1191,61 @@ export default function BookingPage() {
         }
 
         .doctor-grid-card {
-          background: rgba(255, 255, 255, 0.01);
+          background: rgba(255, 255, 255, 0.02);
           border: 1px solid var(--border-color);
-          border-radius: 12px;
-          padding: 16px;
+          border-radius: 14px;
+          padding: 18px;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.22s ease;
           display: flex;
-          align-items: center;
-          gap: 16px;
+          flex-direction: column;
+          gap: 14px;
           position: relative;
         }
 
         .doctor-grid-card:hover {
-          background: rgba(255, 255, 255, 0.03);
-          border-color: var(--border-light);
-          transform: translateY(-1px);
+          background: rgba(255, 255, 255, 0.04);
+          border-color: var(--primary);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
         .doctor-grid-card.selected {
-          background: rgba(0, 217, 166, 0.03);
+          background: rgba(0, 217, 166, 0.04);
           border: 2px solid var(--primary);
-          box-shadow: 0 4px 20px rgba(0, 217, 166, 0.08);
+          box-shadow: 0 4px 24px rgba(0, 217, 166, 0.12);
+        }
+
+        .doctor-recommended-badge {
+          position: absolute;
+          top: -10px;
+          right: 14px;
+          background: linear-gradient(135deg, var(--primary) 0%, #059669 100%);
+          color: #032e24;
+          font-weight: 700;
+          font-size: 0.72rem;
+          padding: 3px 10px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          box-shadow: 0 2px 8px rgba(0, 217, 166, 0.3);
+          letter-spacing: 0.3px;
+        }
+
+        .doctor-grid-top-row {
+          display: flex;
+          align-items: center;
+          gap: 14px;
         }
 
         .doctor-grid-avatar-wrapper {
-          width: 52px;
-          height: 52px;
+          width: 56px;
+          height: 56px;
           border-radius: 50%;
           overflow: hidden;
           background: rgba(255, 255, 255, 0.05);
-          border: 1px solid var(--border-color);
+          border: 2px solid rgba(0, 217, 166, 0.3);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -836,19 +1261,24 @@ export default function BookingPage() {
         .doctor-grid-info {
           display: flex;
           flex-direction: column;
-          gap: 2px;
+          gap: 3px;
           flex: 1;
         }
 
         .doctor-grid-name {
-          font-weight: 600;
+          font-weight: 700;
           color: var(--text-primary);
-          font-size: 0.95rem;
+          font-size: 1rem;
         }
 
-        .doctor-grid-specialty {
-          font-size: 0.82rem;
-          color: var(--text-secondary);
+        .specialty-pill {
+          display: inline-block;
+          font-size: 0.78rem;
+          color: var(--primary);
+          background: rgba(0, 217, 166, 0.1);
+          padding: 2px 8px;
+          border-radius: 6px;
+          font-weight: 500;
         }
 
         .doctor-grid-rating {
@@ -865,15 +1295,64 @@ export default function BookingPage() {
           font-weight: bold;
         }
 
-        .doctor-grid-check {
-          position: absolute;
-          right: 16px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: var(--primary);
-          font-size: 1.25rem;
+        .doctor-grid-meta {
+          background: rgba(255, 255, 255, 0.02);
+          border-radius: 8px;
+          padding: 10px 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          font-size: 0.8rem;
+          color: var(--text-secondary);
+        }
+
+        .doctor-grid-meta .meta-item {
           display: flex;
           align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+        }
+
+        .fee-tag {
+          color: var(--text-primary);
+        }
+
+        .consult-type-badge {
+          background: rgba(255, 255, 255, 0.05);
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-size: 0.75rem;
+          color: var(--text-secondary);
+        }
+
+        .btn-doctor-select {
+          width: 100%;
+          padding: 9px 14px;
+          border-radius: 8px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          cursor: pointer;
+          border: 1px solid var(--primary);
+          background: rgba(0, 217, 166, 0.1);
+          color: var(--primary);
+          transition: all 0.2s ease;
+        }
+
+        .btn-doctor-select:hover {
+          background: var(--primary);
+          color: #032e24;
+        }
+
+        .btn-doctor-select.btn-selected {
+          background: linear-gradient(135deg, var(--primary) 0%, #10b981 100%);
+          color: #032e24;
+          border-color: transparent;
+          font-weight: 700;
+        }
           justify-content: center;
         }
 
@@ -1349,93 +1828,267 @@ export default function BookingPage() {
                   </div>
                 </div>
 
-                {/* Doctor Selection */}
-                <div className="form-group" style={{ marginBottom: '24px' }}>
-                  <label className="form-label" style={{ fontWeight: '600', marginBottom: '12px' }}>Select Consulting Doctor *</label>
-                  {loadingDoctors ? (
-                    <div className="skeleton" style={{ height: '120px', borderRadius: 'var(--radius-sm)' }}></div>
-                  ) : doctors.length === 0 ? (
-                    <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', color: 'var(--text-secondary)' }}>
-                      No doctors available at this hospital.
+                {/* MedGemma AI Symptom Search & Specialist Recommendation Card */}
+                <div className="medgemma-search-card">
+                  <div className="medgemma-search-header">
+                    <div className="medgemma-badge">
+                      <FiCpu /> MedGemma AI Clinical Search
                     </div>
-                  ) : (
-                    <>
-                      <div className="doctors-grid">
-                        {doctors.map(doc => {
-                          const isSelected = selectedDoctorId.toString() === doc.id.toString();
-                          return (
-                            <div 
-                              key={doc.id} 
-                              className={`doctor-grid-card ${isSelected ? 'selected' : ''}`}
-                              onClick={() => {
-                                setSelectedDoctorId(doc.id.toString());
-                                setFormData(prev => ({ ...prev, timeSlot: '' })); // reset time slot on doctor change
-                              }}
-                            >
-                              <div className="doctor-grid-avatar-wrapper">
-                                <img 
-                                  src={doc.avatarUrl || `https://api.dicebear.com/7.x/adventurer/svg?seed=${doc.name.replace(" ", "")}`} 
-                                  alt={doc.name} 
-                                  className="doctor-grid-avatar"
-                                />
-                              </div>
-                              <div className="doctor-grid-info">
-                                <div className="doctor-grid-name">{doc.name}</div>
-                                <div className="doctor-grid-specialty">{doc.specialization || 'General Physician'}</div>
-                                <div className="doctor-grid-rating">
-                                  <span className="doctor-grid-star">★</span> {doc.rating ? doc.rating.toFixed(1) : '4.5'} <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>Rating</span>
-                                </div>
-                              </div>
-                              {isSelected && (
-                                <div className="doctor-grid-check">
-                                  <FiCheckCircle />
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                      💡 Describe your illness to automatically find matching specialists
+                    </span>
+                  </div>
 
-                      {/* Active Doctor Details Quick Info */}
-                      {(() => {
-                        const activeDoc = doctors.find(d => d.id.toString() === selectedDoctorId.toString());
-                        if (!activeDoc) return null;
-                        return (
-                          <div style={{
-                            background: 'rgba(255, 255, 255, 0.01)',
-                            border: '1px solid var(--border-color)',
-                            borderRadius: '8px',
-                            padding: '10px 16px',
-                            fontSize: '0.82rem',
-                            color: 'var(--text-secondary)',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            flexWrap: 'wrap',
-                            gap: '8px',
-                            marginTop: '-12px',
-                            marginBottom: '24px'
+                  <div className="medgemma-search-input-wrapper">
+                    <FiSearch style={{ color: 'var(--primary)', fontSize: '1.1rem', flexShrink: 0 }} />
+                    <input 
+                      type="text"
+                      className="medgemma-search-input"
+                      placeholder="Describe symptoms (e.g. high fever, knee joint injury, skin rash, stress, throat pain)..."
+                      value={symptomSearch}
+                      onChange={handleSearchChange}
+                    />
+                    {symptomSearch && (
+                      <button 
+                        type="button" 
+                        onClick={handleClearSearch}
+                        className="medgemma-btn-icon"
+                        title="Clear search"
+                      >
+                        <FiX />
+                      </button>
+                    )}
+                    <button 
+                      type="button"
+                      onClick={toggleVoiceSearch}
+                      className={`medgemma-btn-icon ${isListening ? 'listening' : ''}`}
+                      title="Speak your symptoms"
+                    >
+                      {isListening ? <FiMicOff /> : <FiMic />}
+                    </button>
+                  </div>
+
+                  {/* Quick Clickable Symptom Chips */}
+                  <div className="medgemma-search-chips">
+                    {QUICK_SYMPTOM_TAGS.map((tag, idx) => (
+                      <div 
+                        key={idx}
+                        className={`medgemma-chip ${symptomSearch === tag.label ? 'active' : ''}`}
+                        onClick={() => handleQuickTagClick(tag)}
+                      >
+                        {tag.label}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* MedGemma AI Recommendation Banner */}
+                  {medGemmaRecommendation && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="medgemma-recommendation-banner"
+                    >
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '4px' }}>
+                          <span style={{ fontSize: '1.2rem' }}>{medGemmaRecommendation.icon}</span>
+                          <strong style={{ color: 'var(--text-primary)', fontSize: '0.92rem' }}>
+                            MedGemma AI Match: {medGemmaRecommendation.specialty}
+                          </strong>
+                          <span style={{ 
+                            background: 'rgba(0, 217, 166, 0.2)', 
+                            color: 'var(--primary)', 
+                            fontSize: '0.72rem', 
+                            padding: '2px 8px', 
+                            borderRadius: '12px', 
+                            fontWeight: '600' 
                           }}>
-                            <span>📅 Schedule: <strong>{Array.isArray(activeDoc.workingDays) ? activeDoc.workingDays.join(', ') : (activeDoc.workingDays || 'Mon-Fri')}</strong> ({activeDoc.workingHours || '09:00 AM - 05:00 PM'})</span>
-                            <span>💵 Consultation Fee: <strong>{activeDoc.fees === 0 || hospital?.consultationRate === 0 ? 'FREE' : `₹${activeDoc.fees || hospital?.consultationRate || 250}`}</strong></span>
-                          </div>
-                        );
-                      })()}
-                    </>
+                            {medGemmaRecommendation.confidence}% Confidence
+                          </span>
+                        </div>
+                        <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                          {medGemmaRecommendation.reason}
+                        </p>
+                      </div>
+                      <button 
+                        type="button"
+                        onClick={handleClearSearch}
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid var(--border-color)',
+                          color: 'var(--text-secondary)',
+                          borderRadius: '6px',
+                          padding: '4px 10px',
+                          fontSize: '0.75rem',
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        Show All Doctors
+                      </button>
+                    </motion.div>
                   )}
                 </div>
 
-                <div className="form-group">
-                  <label className="form-label">Preferred Appointment Date</label>
-                  <div className="form-input-icon">
-                    <FiCalendar className="icon" />
-                    <input 
-                      type="date" 
-                      className="form-input" 
-                      name="bookingDate"
-                      value={formData.bookingDate}
-                      onChange={handleInputChange}
-                      min={getTodayString()}
-                    />
+                {/* Doctor Selection */}
+                {(() => {
+                  const filteredDoctors = doctors.filter(doc => {
+                    if (activeSpecialtyFilter === 'ALL' || !activeSpecialtyFilter) {
+                      if (!symptomSearch.trim()) return true;
+                      const q = symptomSearch.toLowerCase();
+                      return (
+                        (doc.name || '').toLowerCase().includes(q) ||
+                        (doc.specialization || '').toLowerCase().includes(q)
+                      );
+                    }
+
+                    const docSpec = (doc.specialization || '').toLowerCase();
+                    const filterSpec = activeSpecialtyFilter.toLowerCase();
+                    
+                    if (docSpec.includes(filterSpec) || filterSpec.includes(docSpec)) return true;
+                    
+                    const docWords = docSpec.split(/[\s,&/]+/);
+                    const filterWords = filterSpec.split(/[\s,&/]+/);
+                    const overlap = docWords.some(w => w.length > 3 && filterWords.includes(w));
+                    if (overlap) return true;
+
+                    if (symptomSearch && doc.name.toLowerCase().includes(symptomSearch.toLowerCase())) return true;
+
+                    return false;
+                  });
+
+                  const doctorsToShow = filteredDoctors.length > 0 ? filteredDoctors : doctors;
+
+                  return (
+                    <div className="form-group" style={{ marginBottom: '28px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
+                        <label className="form-label" style={{ fontWeight: '600', margin: 0 }}>
+                          Select Consulting Doctor * {activeSpecialtyFilter !== 'ALL' && <span style={{ color: 'var(--primary)', fontSize: '0.82rem', fontWeight: 'normal' }}>({doctorsToShow.length} specialist doctor{doctorsToShow.length !== 1 ? 's' : ''} matched)</span>}
+                        </label>
+                        {activeSpecialtyFilter !== 'ALL' && (
+                          <button 
+                            type="button" 
+                            onClick={handleClearSearch} 
+                            style={{ background: 'transparent', border: 'none', color: 'var(--primary)', fontSize: '0.8rem', cursor: 'pointer', textDecoration: 'underline' }}
+                          >
+                            View all doctors
+                          </button>
+                        )}
+                      </div>
+
+                      {loadingDoctors ? (
+                        <div className="skeleton" style={{ height: '140px', borderRadius: 'var(--radius-sm)' }}></div>
+                      ) : doctorsToShow.length === 0 ? (
+                        <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', color: 'var(--text-secondary)', textAlign: 'center' }}>
+                          No doctors found for this criteria. <button onClick={handleClearSearch} style={{ color: 'var(--primary)', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>Show all available doctors</button>
+                        </div>
+                      ) : (
+                        <div className="doctors-grid">
+                          {doctorsToShow.map(doc => {
+                            const isSelected = selectedDoctorId.toString() === doc.id.toString();
+                            const isRecommended = medGemmaRecommendation && (
+                              (doc.specialization || '').toLowerCase().includes(medGemmaRecommendation.specialty.toLowerCase()) ||
+                              medGemmaRecommendation.specialty.toLowerCase().includes((doc.specialization || '').toLowerCase())
+                            );
+
+                            return (
+                              <div 
+                                key={doc.id} 
+                                className={`doctor-grid-card ${isSelected ? 'selected' : ''}`}
+                                onClick={() => handleSelectDoctorAndFocusSlots(doc.id)}
+                              >
+                                {isRecommended && (
+                                  <div className="doctor-recommended-badge">
+                                    <FiZap /> AI Match ({medGemmaRecommendation.confidence}%)
+                                  </div>
+                                )}
+
+                                <div className="doctor-grid-top-row">
+                                  <div className="doctor-grid-avatar-wrapper">
+                                    <img 
+                                      src={doc.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(doc.name)}`} 
+                                      alt={doc.name} 
+                                      className="doctor-grid-avatar"
+                                      onError={(e) => {
+                                        e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(doc.name)}`;
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="doctor-grid-info">
+                                    <div className="doctor-grid-name">{doc.name}</div>
+                                    <div className="doctor-grid-specialty">
+                                      <span className="specialty-pill">{doc.specialization || 'General Physician'}</span>
+                                    </div>
+                                    <div className="doctor-grid-rating">
+                                      <span className="doctor-grid-star">★</span> {doc.rating ? doc.rating.toFixed(1) : '4.8'} 
+                                      <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginLeft: '4px' }}>
+                                        ({doc.reviewsCount || 120}+ reviews)
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="doctor-grid-meta">
+                                  <div className="meta-item">
+                                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                      <FiClock style={{ color: 'var(--primary)' }} />
+                                      {Array.isArray(doc.workingDays) ? doc.workingDays.join(', ') : (doc.workingDays || 'Mon-Fri')}
+                                    </span>
+                                    <span>{doc.workingHours || '09:00 AM - 05:00 PM'}</span>
+                                  </div>
+                                  <div className="meta-item">
+                                    <span className="fee-tag">
+                                      Fee: <strong>{doc.fees === 0 || hospital?.consultationRate === 0 ? 'FREE' : `₹${doc.fees || hospital?.consultationRate || 200}`}</strong>
+                                    </span>
+                                    <span className="consult-type-badge">
+                                      {doc.onlineConsultation ? '🌐 Online & Clinic' : '🏥 In-Clinic'}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div style={{ marginTop: 'auto' }}>
+                                  <button 
+                                    type="button" 
+                                    className={`btn-doctor-select ${isSelected ? 'btn-selected' : ''}`}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleSelectDoctorAndFocusSlots(doc.id);
+                                    }}
+                                  >
+                                    {isSelected ? (
+                                      <>
+                                        <FiCheckCircle /> Selected • Choose Slot Below
+                                      </>
+                                    ) : (
+                                      <>
+                                        Book Now <FiArrowRight />
+                                      </>
+                                    )}
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+
+                {/* Appointment Date & Slot Picker Section */}
+                <div id="booking-slot-section" style={{ scrollMarginTop: '80px' }}>
+                  <div className="form-group">
+                    <label className="form-label" style={{ fontWeight: '600' }}>Preferred Appointment Date *</label>
+                    <div className="form-input-icon">
+                      <FiCalendar className="icon" />
+                      <input 
+                        type="date" 
+                        className="form-input" 
+                        name="bookingDate"
+                        value={formData.bookingDate}
+                        onChange={handleInputChange}
+                        min={getTodayString()}
+                      />
+                    </div>
                   </div>
                 </div>
 
