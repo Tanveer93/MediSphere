@@ -1854,8 +1854,15 @@ export default function DoctorDashboard() {
                           {getConditionBadge(appt)}
                         </div>
 
-                        <h3 className="heading-sm" style={{ margin: '0 0 4px 0', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <FiUser size={16} /> {appt.patientName}
+                        <h3 className="heading-sm" style={{ margin: '0 0 4px 0', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                          <FiUser size={16} /> 
+                          {appt.isAnonymous || appt.notes?.includes('[ANONYMOUS CONSULTATION') ? (
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: 'rgba(139, 92, 246, 0.15)', color: '#c084fc', border: '1px solid rgba(139, 92, 246, 0.3)', padding: '2px 8px', borderRadius: '6px', fontSize: '0.85rem', fontWeight: 700 }}>
+                              🎭 Anonymous Case ({appt.anonymousAlias || (appt.notes?.match(/Alias:\s*([A-Z0-9-]+)/)?.[1]) || 'ANON-CASE'})
+                            </span>
+                          ) : (
+                            <span>{appt.patientName}</span>
+                          )}
                           <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 'normal' }}>
                             ({appt.gender || 'N/A'}, Age {appt.age || 'N/A'})
                           </span>
@@ -2150,7 +2157,15 @@ export default function DoctorDashboard() {
                         <tr key={appt.id} style={{ borderBottom: '1px solid var(--border-color)', transition: 'background 0.2s', ':hover': { background: 'var(--bg-secondary)' } }}>
                           <td data-label="Patient Info" style={{ padding: '16px 20px' }}>
                             <div className="td-value">
-                              <div style={{ fontWeight: '600', color: 'var(--text-primary)', marginBottom: '4px' }}>{appt.patientName}</div>
+                              <div style={{ fontWeight: '600', color: 'var(--text-primary)', marginBottom: '4px' }}>
+                                {appt.isAnonymous || appt.notes?.includes('[ANONYMOUS CONSULTATION') ? (
+                                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#c084fc' }}>
+                                    🎭 Anonymous Case ({appt.anonymousAlias || (appt.notes?.match(/Alias:\s*([A-Z0-9-]+)/)?.[1]) || 'ANON'})
+                                  </span>
+                                ) : (
+                                  appt.patientName
+                                )}
+                              </div>
                               <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{appt.gender || 'N/A'}, Age {appt.age || 'N/A'}</div>
                             </div>
                           </td>

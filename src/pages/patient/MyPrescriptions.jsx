@@ -22,6 +22,7 @@ import {
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import { fileAPI } from '../../services/api';
+import PrescriptionQRModal from '../../components/patient/PrescriptionQRModal';
 
 export default function MyPrescriptions() {
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ export default function MyPrescriptions() {
   const [selectedLabTests, setSelectedLabTests] = useState('');
   const [summaryTab, setSummaryTab] = useState('patient');
   const [uploadingAttachmentId, setUploadingAttachmentId] = useState(null);
+  const [selectedRxForQR, setSelectedRxForQR] = useState(null);
 
   const parseSummary = (text) => {
     if (!text) return { technician: '', doctor: '', patient: '' };
@@ -586,6 +588,14 @@ export default function MyPrescriptions() {
                       </button>
 
                       <button 
+                        onClick={() => setSelectedRxForQR(p)}
+                        className="btn btn-outline btn-sm"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', height: '32px', fontSize: '0.8rem', color: '#38bdf8', borderColor: 'rgba(56, 189, 248, 0.4)', background: 'rgba(56, 189, 248, 0.05)' }}
+                      >
+                        🔲 Verify QR
+                      </button>
+
+                      <button 
                         onClick={() => handleDownloadPDF(p)}
                         className="btn btn-outline btn-sm"
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', height: '32px', fontSize: '0.8rem', color: 'var(--primary)', borderColor: 'rgba(0,217,166,0.3)' }}
@@ -992,6 +1002,13 @@ export default function MyPrescriptions() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Prescription Cryptographic QR Authenticity Verification Modal */}
+      <PrescriptionQRModal
+        isOpen={!!selectedRxForQR}
+        onClose={() => setSelectedRxForQR(null)}
+        prescription={selectedRxForQR}
+      />
 
     </div>
   );

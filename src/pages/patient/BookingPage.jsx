@@ -185,7 +185,9 @@ export default function BookingPage() {
     cardName: '',
     cardNumber: '',
     cardExpiry: '',
-    cardCvv: ''
+    cardCvv: '',
+    isAnonymous: false,
+    anonymousAlias: ''
   });
 
   useEffect(() => {
@@ -756,15 +758,19 @@ export default function BookingPage() {
           handler: async function (response) {
             const verifyToast = toast.loading('Verifying transaction details...');
             try {
+              const finalNotes = formData.isAnonymous 
+                ? `[ANONYMOUS CONSULTATION - Alias: ${formData.anonymousAlias || 'ANON-CASE'}] Assessment details - Duration: ${formData.duration}. Allergies: ${formData.allergies}. Medications: ${formData.medications}. First time: ${formData.firstTime}. Patient Notes: ${formData.notes}`
+                : `Assessment details - Duration: ${formData.duration}. Allergies: ${formData.allergies}. Medications: ${formData.medications}. First time: ${formData.firstTime}. Patient Notes: ${formData.notes}`;
+
               const verifyPayload = {
                 hospitalId: hospital.id,
                 doctorId: activeDocId,
                 bookingDate: formData.bookingDate,
                 timeSlot: formData.timeSlot,
                 type: formData.type,
-                notes: `Assessment details - Duration: ${formData.duration}. Allergies: ${formData.allergies}. Medications: ${formData.medications}. First time: ${formData.firstTime}. Patient Notes: ${formData.notes}`,
-                patientName: formData.patientName,
-                patientPhone: formData.patientPhone,
+                notes: finalNotes,
+                patientName: formData.isAnonymous ? `Anonymous (${formData.anonymousAlias || 'Ghost ID'})` : formData.patientName,
+                patientPhone: formData.isAnonymous ? 'Masked (Privacy Shield)' : formData.patientPhone,
                 age: parseInt(formData.age),
                 gender: formData.gender,
                 symptoms: formData.symptoms,
@@ -772,7 +778,9 @@ export default function BookingPage() {
                 razorpayPaymentId: response.razorpay_payment_id,
                 razorpayOrderId: response.razorpay_order_id,
                 razorpaySignature: response.razorpay_signature,
-                familyMemberId: activeProfile ? activeProfile.id : null
+                familyMemberId: activeProfile ? activeProfile.id : null,
+                isAnonymous: formData.isAnonymous,
+                anonymousAlias: formData.anonymousAlias
               };
               
               await paymentAPI.verifyPayment(verifyPayload);
@@ -785,7 +793,7 @@ export default function BookingPage() {
                 };
                 const doctorNote = {
                   title: 'New Booking',
-                  message: `${formData.patientName} booked ${formData.bookingDate} ${formData.timeSlot} at ${hospital.name}.`,
+                  message: `${formData.isAnonymous ? `Anonymous Case (${formData.anonymousAlias})` : formData.patientName} booked ${formData.bookingDate} ${formData.timeSlot} at ${hospital.name}.`,
                   time: 'Just now'
                 };
                 addLocalNotification('PATIENT', patientNote);
@@ -804,8 +812,8 @@ export default function BookingPage() {
             }
           },
           prefill: {
-            name: formData.patientName,
-            contact: formData.patientPhone,
+            name: formData.isAnonymous ? `Ghost Student (${formData.anonymousAlias})` : formData.patientName,
+            contact: formData.isAnonymous ? '0000000000' : formData.patientPhone,
             email: user?.email || ''
           },
           notes: {
@@ -836,7 +844,9 @@ export default function BookingPage() {
         const loadingToast = toast.loading('Confirming your booking...');
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        const packedNotes = `Assessment details - Duration: ${formData.duration}. Allergies: ${formData.allergies}. Medications: ${formData.medications}. First time: ${formData.firstTime}. Patient Notes: ${formData.notes}`;
+        const packedNotes = formData.isAnonymous
+          ? `[ANONYMOUS CONSULTATION - Alias: ${formData.anonymousAlias || 'ANON-CASE'}] Assessment details - Duration: ${formData.duration}. Allergies: ${formData.allergies}. Medications: ${formData.medications}. First time: ${formData.firstTime}. Patient Notes: ${formData.notes}`
+          : `Assessment details - Duration: ${formData.duration}. Allergies: ${formData.allergies}. Medications: ${formData.medications}. First time: ${formData.firstTime}. Patient Notes: ${formData.notes}`;
 
         const bookingPayload = {
           hospitalId: hospital.id,
@@ -845,14 +855,16 @@ export default function BookingPage() {
           timeSlot: formData.timeSlot,
           type: formData.type,
           notes: packedNotes,
-          patientName: formData.patientName,
-          patientPhone: formData.patientPhone,
+          patientName: formData.isAnonymous ? `Anonymous (${formData.anonymousAlias || 'Ghost ID'})` : formData.patientName,
+          patientPhone: formData.isAnonymous ? 'Masked (Privacy Shield)' : formData.patientPhone,
           age: parseInt(formData.age),
           gender: formData.gender,
           symptoms: formData.symptoms,
           paymentMethod: 'CASH',
           paymentStatus: 'PENDING',
-          familyMemberId: activeProfile ? activeProfile.id : null
+          familyMemberId: activeProfile ? activeProfile.id : null,
+          isAnonymous: formData.isAnonymous,
+          anonymousAlias: formData.anonymousAlias
         };
 
         await bookingAPI.create(bookingPayload);
@@ -865,7 +877,7 @@ export default function BookingPage() {
           };
           const doctorNote = {
             title: 'New Booking',
-            message: `${formData.patientName} booked ${formData.bookingDate} ${formData.timeSlot} at ${hospital.name}.`,
+            message: `${formData.isAnonymous ? `Anonymous Case (${formData.anonymousAlias})` : formData.patientName} booked ${formData.bookingDate} ${formData.timeSlot} at ${hospital.name}.`,
             time: 'Just now'
           };
           addLocalNotification('PATIENT', patientNote);
@@ -1873,12 +1885,75 @@ export default function BookingPage() {
                   </div>
                   <div>
                     <div style={{ fontWeight: '600', color: 'var(--text-primary)' }}>
-                      Booking for {formData.patientName || 'Patient'}
+                      Booking for {formData.isAnonymous ? `🎭 Anonymous Case (${formData.anonymousAlias || 'Ghost ID'})` : (formData.patientName || 'Patient')}
                     </div>
                     <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      {formData.gender ? `${formData.gender}, ` : ''}{formData.age ? `Age ${formData.age}` : ''} {formData.patientPhone ? `• Phone: ${formData.patientPhone}` : ''}
+                      {formData.isAnonymous 
+                        ? 'Your name, contact details, and student roll number will be masked from the doctor & college administration.' 
+                        : `${formData.gender ? `${formData.gender}, ` : ''}${formData.age ? `Age ${formData.age}` : ''} ${formData.patientPhone ? `• Phone: ${formData.patientPhone}` : ''}`}
                     </div>
                   </div>
+                </div>
+
+                {/* Anonymous / Stealth Consultation Mode Toggle */}
+                <div style={{
+                  background: formData.isAnonymous 
+                    ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.1))' 
+                    : 'rgba(255, 255, 255, 0.02)',
+                  border: formData.isAnonymous ? '1px solid rgba(139, 92, 246, 0.4)' : '1px solid var(--border-color)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: '16px 20px',
+                  marginBottom: '24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '16px',
+                  transition: 'all 0.3s ease'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{
+                      fontSize: '1.4rem',
+                      background: formData.isAnonymous ? 'rgba(139, 92, 246, 0.25)' : 'rgba(255,255,255,0.05)',
+                      padding: '8px',
+                      borderRadius: '10px'
+                    }}>
+                      🎭
+                    </div>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontWeight: 700, fontSize: '0.95rem', color: formData.isAnonymous ? '#c084fc' : 'var(--text-primary)' }}>
+                          Anonymous Consultation Mode (Stealth Ghost ID)
+                        </span>
+                        {formData.isAnonymous && (
+                          <span style={{ background: '#7c3aed', color: '#fff', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '10px', fontWeight: 700 }}>
+                            ACTIVE ({formData.anonymousAlias})
+                          </span>
+                        )}
+                      </div>
+                      <p style={{ margin: '4px 0 0 0', fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                        Recommended for sexual health, mental wellness, substance use, or sensitive concerns. The doctor only sees your temporary Case Alias, preserving 100% campus privacy.
+                      </p>
+                    </div>
+                  </div>
+                  <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                    <input
+                      type="checkbox"
+                      checked={formData.isAnonymous}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        const alias = checked ? `ANON-${Math.floor(1000 + Math.random() * 9000)}` : '';
+                        setFormData(prev => ({
+                          ...prev,
+                          isAnonymous: checked,
+                          anonymousAlias: alias
+                        }));
+                        if (checked) {
+                          toast.success(`Anonymous mode activated! Ghost Case ID: ${alias} assigned 🎭`);
+                        }
+                      }}
+                      style={{ width: '20px', height: '20px', accentColor: '#8b5cf6', cursor: 'pointer' }}
+                    />
+                  </label>
                 </div>
 
                 {/* MedGemma AI Symptom Search & Specialist Recommendation Card */}
