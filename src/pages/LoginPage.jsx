@@ -347,6 +347,7 @@ export default function LoginPage() {
 
         {/* Role tabs */}
         <div
+          className="auth-role-tabs"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',

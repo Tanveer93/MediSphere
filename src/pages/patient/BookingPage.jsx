@@ -1538,6 +1538,33 @@ export default function BookingPage() {
           }
         }
 
+        @media (max-width: 600px) {
+          .booking-steps-nav {
+            margin-bottom: 24px;
+            gap: 4px;
+          }
+          .booking-steps-nav::before {
+            top: 16px;
+          }
+          .step-indicator {
+            width: auto;
+            flex: 1;
+          }
+          .step-bubble {
+            width: 32px;
+            height: 32px;
+            font-size: 0.8rem;
+          }
+          .step-label {
+            font-size: 0.65rem;
+            max-width: 64px;
+            line-height: 1.1;
+          }
+          .radio-card-group {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
         /* select option color override */
         select.form-input option {
           background-color: #FFFFFF !important;

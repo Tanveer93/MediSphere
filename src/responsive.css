@@ -1431,3 +1431,205 @@ th {
     font-size: 16px !important;
   }
 }
+
+/* ─────────────────────────────────────────
+   26. MOBILE PHONE OPTIMIZATION & DEPLOYMENT ENHANCEMENTS (≤768px & ≤480px)
+───────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Prevent horizontal stretch globally */
+  html, body, #root, .main-content, .page-container, .landing-page, .auth-page, .dashboard-main, .emergency-page-container {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Auth Pages Mobile Layout */
+  .auth-page {
+    padding: 24px 12px !important;
+    min-height: 100vh !important;
+  }
+
+  .auth-card,
+  .signup-card {
+    padding: 24px 16px !important;
+    max-width: 100% !important;
+    border-radius: 18px !important;
+  }
+
+  .auth-logo-img {
+    height: 90px !important;
+    max-height: 90px !important;
+  }
+
+  .auth-role-tabs {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 4px !important;
+  }
+
+  .auth-role-tabs .tab-item {
+    font-size: 0.78rem !important;
+    padding: 8px 4px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    min-height: 52px !important;
+  }
+
+  .auth-role-tabs .tab-item span {
+    margin-left: 0 !important;
+    font-size: 0.74rem !important;
+  }
+
+  /* Mobile Captcha Layout */
+  .captcha-v2-body {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .captcha-canvas-wrapper {
+    width: 100% !important;
+    max-width: 260px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Booking Page Mobile Layout */
+  .booking-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .booking-sidebar {
+    width: 100% !important;
+    max-width: 100% !important;
+    position: static !important;
+  }
+
+  .doctors-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .doctor-grid-card {
+    padding: 14px !important;
+  }
+
+  /* Emergency Page Mobile Layout */
+  .emergency-page-container {
+    padding: 20px 12px !important;
+    max-width: 100% !important;
+  }
+
+  .emergency-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .countdown-wrapper {
+    padding: 30px 0 !important;
+  }
+
+  .countdown-card {
+    padding: 28px 16px !important;
+    max-width: 100% !important;
+  }
+
+  .countdown-number {
+    font-size: 3.8rem !important;
+    margin: 16px 0 !important;
+  }
+
+  /* Teleconsultation Room Mobile Layout */
+  .companion-card {
+    padding: 20px 14px !important;
+    max-width: 100% !important;
+  }
+
+  .companion-card > div[style*="display: flex"][style*="gap: 16px"] {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  /* Floating Action Buttons Positioning (Prevent Overlap on Phones) */
+  .sos-dashboard-fab {
+    bottom: 16px !important;
+    left: 16px !important;
+    right: auto !important;
+    z-index: 9990 !important;
+  }
+
+  .medgamma-symptom-checker-fab,
+  .medgamma-fab {
+    bottom: 16px !important;
+    right: 16px !important;
+    left: auto !important;
+    width: 52px !important;
+    height: 52px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    z-index: 9991 !important;
+  }
+
+  .global-query-bot-container {
+    bottom: 80px !important;
+    right: 16px !important;
+    left: auto !important;
+    z-index: 9989 !important;
+  }
+
+  /* Chat Panels on Mobile */
+  .chat-panel,
+  .global-chat-panel {
+    position: fixed !important;
+    top: 70px !important;
+    bottom: 16px !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: calc(100vw - 24px) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: calc(100vh - 90px) !important;
+    border-radius: 18px !important;
+    z-index: 9999 !important;
+  }
+
+  /* Universal Modal / Popup Width Protection */
+  .modal-content,
+  .mock-rzp-modal,
+  .camp-popup-card {
+    width: calc(100vw - 24px) !important;
+    max-width: 100% !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    margin: 10px auto !important;
+    padding: 18px 14px !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .auth-role-tabs {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .auth-role-tabs .tab-item {
+    min-height: 46px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .auth-title {
+    font-size: 1.4rem !important;
+  }
+
+  .auth-subtitle {
+    font-size: 0.8rem !important;
+  }
+
+  .countdown-number {
+    font-size: 3.2rem !important;
+  }
+}
