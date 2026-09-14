@@ -1830,20 +1830,30 @@ function MainDashboardPanel(props) {
 
   const executeVoiceCommand = (rawText) => {
     if (!rawText || !rawText.trim()) return;
-    const text = rawText.toLowerCase().trim();
+    const cleanText = rawText.toLowerCase().trim();
+    // Also stripped text without prefixes like "redirect to", "open", "take me to"
+    const coreText = cleanText
+      .replace(/^(please\s+|can\s+you\s+|kindly\s+)?(redirect\s+to|navigate\s+to|open\s+up|open\s+|take\s+me\s+to|go\s+to|show\s+me\s+|bring\s+up|chalo\s+|kholo\s+|le\s+jao\s+|dikhaye\s+|dikhao\s+)/gi, '')
+      .trim();
+
     toast.success(`🎙️ Heard: "${rawText}"`, { duration: 3500 });
 
+    const matches = (keywords) => {
+      return keywords.some(kw => cleanText.includes(kw) || coreText.includes(kw));
+    };
+
     // 1. Emergency SOS & Ambulance Dispatch
-    if (text.includes('emergency') || text.includes('sos') || text.includes('ambulance') || text.includes('accident') || text.includes('urgent')) {
+    if (matches(['emergency', 'sos', 'ambulance', 'accident', 'urgent', 'trauma', 'critical', 'khatra', 'madad', 'call ambulance'])) {
       speakVoiceFeedback('Redirecting to Emergency SOS and Ambulance dispatch.');
       toast.success('🚨 Redirecting to Emergency SOS...', { duration: 2500 });
       setSidebarTab('emergency');
       navigate('/emergency');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
     // 2. Doctor Appointments & Clinic Booking
-    if (text.includes('doctor') || text.includes('book appointment') || text.includes('book doctor') || text.includes('hospital') || text.includes('clinic') || text.includes('specialist') || text.includes('opd')) {
+    if (matches(['doctor', 'book doctor', 'appointment', 'book appointment', 'consultation', 'specialist', 'clinic', 'opd', 'physician', 'hospital', 'hospitals', 'consult doctor', 'campus doctor', 'daktar', 'checkup'])) {
       speakVoiceFeedback('Opening Campus Doctor Appointment Booking.');
       toast.success('🩺 Opening Doctor Booking...', { duration: 2500 });
       navigate('/book/HOS101');
@@ -1851,91 +1861,113 @@ function MainDashboardPanel(props) {
     }
 
     // 3. Prescriptions & Medicines / Pharmacy
-    if (text.includes('prescription') || text.includes('medicine') || text.includes('pharmacy') || text.includes('order med') || text.includes('drug') || text.includes('dosage')) {
+    if (matches(['prescription', 'prescriptions', 'medicine', 'medicines', 'meds', 'pharmacy', 'pill', 'pills', 'dawai', 'dawa', 'dawaii', 'order med', 'drug', 'drugs', 'rx', 'dosage', 'medical store'])) {
       speakVoiceFeedback('Opening Prescriptions and Medicines.');
       toast.success('💊 Redirecting to Prescriptions & Medicines...', { duration: 2500 });
       setSidebarTab('prescriptions');
       navigate('/my-prescriptions');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
-    // 4. Mood Tracker & Journal
-    if (text.includes('mood') || text.includes('journal') || text.includes('feelings') || text.includes('emotional')) {
-      speakVoiceFeedback('Opening Mood Tracker and Journal.');
-      toast.success('🧠 Redirecting to Mood Tracker...', { duration: 2500 });
-      setSidebarTab('wellness-center');
-      setWellnessActiveSubTab('mood-tracker');
-      navigate('/wellness-center');
-      return;
-    }
-
-    // 5. Stress Level Assessment
-    if (text.includes('stress') || text.includes('anxiety') || text.includes('tension') || text.includes('breathing')) {
-      speakVoiceFeedback('Opening Stress Level Assessment.');
-      toast.success('📊 Redirecting to Stress Assessment...', { duration: 2500 });
-      setSidebarTab('wellness-center');
-      setWellnessActiveSubTab('stress-assessment');
-      navigate('/wellness-center');
-      return;
-    }
-
-    // 6. Campus Psychologist / Counselor
-    if (text.includes('psychologist') || text.includes('counselor') || text.includes('counselling') || text.includes('mental health') || text.includes('wellness center')) {
-      speakVoiceFeedback('Opening Campus Psychologist and Wellness Center.');
-      toast.success('👥 Redirecting to Mental Health & Wellness...', { duration: 2500 });
-      setSidebarTab('wellness-center');
-      setWellnessActiveSubTab('counselors');
-      navigate('/wellness-center');
-      return;
-    }
-
-    // 7. Medical Leave Application
-    if (text.includes('leave') || text.includes('medical leave') || text.includes('attendance') || text.includes('certificate')) {
-      speakVoiceFeedback('Opening Medical Leave Application.');
-      toast.success('📝 Redirecting to Medical Leave...', { duration: 2500 });
-      setSidebarTab('medical-leave');
-      navigate('/medical-leave');
-      return;
-    }
-
-    // 8. AI 2D Body Symptom Checker
-    if (text.includes('symptom') || text.includes('body map') || text.includes('check symptom') || text.includes('diagnosis')) {
+    // 4. AI 2D Body Map / Symptom Checker
+    if (matches(['symptom', 'symptoms', 'symptom checker', 'body map', '2d body map', '2d map', 'diagnosis', 'diagnose', 'check symptom', 'bimari', 'body check'])) {
       speakVoiceFeedback('Opening AI 2D Body Symptom Checker.');
       toast.success('🤖 Redirecting to AI Symptom Checker...', { duration: 2500 });
       setSidebarTab('symptom-checker');
       navigate('/symptom-checker');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
-    // 9. AI Health Care Plan
-    if (text.includes('care plan') || text.includes('diet') || text.includes('recovery plan') || text.includes('nutrition')) {
+    // 5. AI Health Care Plan
+    if (matches(['care plan', 'care', 'diet plan', 'diet', 'recovery plan', 'nutrition', 'health plan', 'meal plan', 'workout plan', 'diet chart'])) {
       speakVoiceFeedback('Opening AI Health Status and Care Plan.');
       toast.success('🥗 Redirecting to Care Plan...', { duration: 2500 });
       setSidebarTab('care-plan');
       navigate('/care-plan');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
-    // 10. Vaccinations & Immunization
-    if (text.includes('vaccin') || text.includes('immuniz') || text.includes('injection') || text.includes('dose')) {
+    // 6. Medical Leave Application
+    if (matches(['leave', 'medical leave', 'sick leave', 'attendance', 'certificate', 'medical certificate', 'chutti', 'leave application', 'apply leave'])) {
+      speakVoiceFeedback('Opening Medical Leave Application.');
+      toast.success('📝 Redirecting to Medical Leave...', { duration: 2500 });
+      setSidebarTab('medical-leave');
+      navigate('/medical-leave');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 7. Mood Tracker & Journal
+    if (matches(['mood', 'mood tracker', 'journal', 'feelings', 'emotional', 'mood journal'])) {
+      speakVoiceFeedback('Opening Mood Tracker and Journal.');
+      toast.success('🧠 Redirecting to Mood Tracker...', { duration: 2500 });
+      setSidebarTab('wellness-center');
+      setWellnessActiveSubTab('mood-tracker');
+      setWellnessDropdownOpen(true);
+      navigate('/wellness-center');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 8. Stress Level Assessment
+    if (matches(['stress', 'stress assessment', 'stress level', 'stress test', 'anxiety', 'tension', 'breathing test'])) {
+      speakVoiceFeedback('Opening Stress Level Assessment.');
+      toast.success('📊 Redirecting to Stress Assessment...', { duration: 2500 });
+      setSidebarTab('wellness-center');
+      setWellnessActiveSubTab('stress-assessment');
+      setWellnessDropdownOpen(true);
+      navigate('/wellness-center');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 9. Campus Psychologist & Mental Wellness
+    if (matches(['psychologist', 'counselor', 'counseling', 'counselling', 'mental health', 'wellness center', 'wellness', 'therapist', 'therapy', 'mental wellness'])) {
+      speakVoiceFeedback('Opening Campus Psychologist and Wellness Center.');
+      toast.success('👥 Redirecting to Mental Health & Wellness...', { duration: 2500 });
+      setSidebarTab('wellness-center');
+      setWellnessActiveSubTab('counselors');
+      setWellnessDropdownOpen(true);
+      navigate('/wellness-center');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 10. Campus Vaccinations & Immunization
+    if (matches(['vaccin', 'vaccine', 'vaccines', 'vaccination', 'vaccinations', 'immuniz', 'immunization', 'injection', 'dose', 'tika', 'flu shot', 'booster'])) {
       speakVoiceFeedback('Opening Campus Vaccinations.');
       toast.success('💉 Redirecting to Vaccinations...', { duration: 2500 });
       setSidebarTab('vaccinations');
       navigate('/vaccinations');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
     // 11. Campus Health Map
-    if (text.includes('health map') || text.includes('campus map') || text.includes('map') || text.includes('location') || text.includes('dispensary')) {
+    if (matches(['health map', 'campus map', 'map', 'nearby', 'location', 'dispensary', 'first aid', 'route', 'rasta'])) {
       speakVoiceFeedback('Opening Campus Health Map.');
       toast.success('🗺️ Redirecting to Campus Health Map...', { duration: 2500 });
       setSidebarTab('health-map');
       navigate('/health-map');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
-    // 12. Rewards & Leaderboard
-    if (text.includes('reward') || text.includes('leaderboard') || text.includes('point') || text.includes('badge')) {
+    // 12. My Bookings / Appointments
+    if (matches(['my booking', 'my bookings', 'my appointment', 'my appointments', 'scheduled visit', 'past bookings', 'upcoming appointment'])) {
+      speakVoiceFeedback('Opening My Bookings.');
+      toast.success('📅 Redirecting to My Bookings...', { duration: 2500 });
+      setSidebarTab('bookings');
+      navigate('/my-bookings');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 13. Rewards & Leaderboard
+    if (matches(['reward', 'rewards', 'leaderboard', 'points', 'point', 'badge', 'badges', 'rank', 'ranking', 'coin', 'coins', 'streak'])) {
       speakVoiceFeedback('Opening Rewards and Leaderboard.');
       toast.success('🏆 Redirecting to Rewards & Leaderboard...', { duration: 2500 });
       setSidebarTab('rewards');
@@ -1947,28 +1979,98 @@ function MainDashboardPanel(props) {
       return;
     }
 
-    // 13. My Bookings / Appointments
-    if (text.includes('my booking') || text.includes('my appointment') || text.includes('scheduled visit') || text.includes('booking')) {
-      speakVoiceFeedback('Opening My Bookings.');
-      toast.success('📅 Redirecting to My Bookings...', { duration: 2500 });
-      setSidebarTab('bookings');
-      navigate('/my-bookings');
-      return;
-    }
-
     // 14. Student Health Portal
-    if (text.includes('student health') || text.includes('health portal') || text.includes('blood group') || text.includes('medical record')) {
+    if (matches(['student health', 'student portal', 'health portal', 'blood group', 'medical record', 'health card', 'health id'])) {
       speakVoiceFeedback('Opening Student Health Portal.');
       toast.success('🛡️ Redirecting to Student Health Portal...', { duration: 2500 });
       setSidebarTab('student-health-portal');
       navigate('/student-health-portal');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
-    // 15. Theme Toggle
-    if (text.includes('dark mode') || text.includes('light mode') || text.includes('theme')) {
+    // 15. Complementary / Full Body Checkup
+    if (matches(['full body', 'full body checkup', 'body checkup', 'complementary', 'complementary checkup', 'free checkup', 'complete checkup'])) {
+      speakVoiceFeedback('Opening Complementary Checkup.');
+      toast.success('🩺 Redirecting to Complementary Checkup...', { duration: 2500 });
+      setSidebarTab('full-body-checkup');
+      navigate('/dashboard');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 16. Health Analytics & Reports
+    if (matches(['analytic', 'analytics', 'health analytics', 'stats', 'statistics', 'graph', 'health report', 'chart', 'vitals'])) {
+      speakVoiceFeedback('Opening Health Analytics.');
+      toast.success('📊 Redirecting to Health Analytics...', { duration: 2500 });
+      setSidebarTab('analytics');
+      navigate('/analytics');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 17. Medicine & Illness Trends
+    if (matches(['medicine trend', 'medicine trends', 'disease trend', 'illness trend', 'trends', 'trend', 'outbreak'])) {
+      speakVoiceFeedback('Opening Medicine Trends.');
+      toast.success('📈 Redirecting to Medicine Trends...', { duration: 2500 });
+      setSidebarTab('medicine-trends');
+      navigate('/medicine-trends');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 18. Wellness Score
+    if (matches(['wellness score', 'health score', 'wellbeing score', 'my score', 'fitness score'])) {
+      speakVoiceFeedback('Opening Wellness Score.');
+      toast.success('💯 Redirecting to Wellness Score...', { duration: 2500 });
+      setSidebarTab('wellness-score');
+      navigate('/wellness-score');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 19. Refer a Student / Friend
+    if (matches(['refer', 'referral', 'refer a student', 'invite', 'invite friend', 'dost'])) {
+      speakVoiceFeedback('Opening Refer a Student.');
+      toast.success('🤝 Redirecting to Refer a Student...', { duration: 2500 });
+      setSidebarTab('refer-a-student');
+      navigate('/refer-a-student');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 20. Faculty Portal
+    if (matches(['faculty', 'faculty portal', 'teacher', 'prof', 'professor'])) {
+      speakVoiceFeedback('Opening Faculty Portal.');
+      toast.success('🎓 Redirecting to Faculty Portal...', { duration: 2500 });
+      setSidebarTab('faculty-portal');
+      navigate('/faculty-portal');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // 21. MediSphere AI Bot / Chatbot
+    if (matches(['bot', 'ai bot', 'medi bot', 'assistant', 'chat', 'chatbot', 'ask ai', 'astra'])) {
+      speakVoiceFeedback('Opening MediSphere AI Clinical Assistant.');
+      toast.success('🤖 Opening MediSphere AI Assistant...', { duration: 2500 });
+      setChatOpen(true);
+      return;
+    }
+
+    // 22. Theme Toggle
+    if (matches(['dark mode', 'light mode', 'theme', 'toggle theme', 'night mode'])) {
       toggleTheme();
       speakVoiceFeedback('Switched dashboard theme.');
+      return;
+    }
+
+    // 23. Home / Main Dashboard
+    if (matches(['home', 'dashboard', 'homepage', 'main menu', 'overview'])) {
+      speakVoiceFeedback('Taking you to Dashboard Home.');
+      toast.success('🏠 Taking you to Dashboard...', { duration: 2500 });
+      setSidebarTab('hospitals');
+      navigate('/dashboard');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -1976,7 +2078,6 @@ function MainDashboardPanel(props) {
     speakVoiceFeedback(`Searching MediSphere for ${rawText}`);
     setCuimsSearch(rawText);
     setSearchFocused(true);
-    setSidebarTab('hospitals');
   };
 
   const handleToggleVoiceListening = () => {
@@ -1993,7 +2094,7 @@ function MainDashboardPanel(props) {
       const rec = new SpeechRecognitionAPI();
       rec.continuous = false;
       rec.interimResults = false;
-      rec.lang = 'en-US';
+      rec.lang = navigator.language && navigator.language.startsWith('en') ? navigator.language : 'en-IN';
 
       rec.onstart = () => {
         setIsVoiceListening(true);

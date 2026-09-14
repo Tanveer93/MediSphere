@@ -251,21 +251,27 @@ export default function GlobalQueryBot() {
 
     if (isDirectNavigation) {
       const routeIntents = [
-        { keywords: ['emergency', 'sos', 'ambulance', 'accident'], route: '/emergency', message: '🚨 **Redirecting immediately to Emergency SOS & Ambulance Dispatch...**' },
-        { keywords: ['leave', 'certificate', 'sick leave', 'chutti', 'medical leave'], route: '/medical-leave', message: '📝 **Taking you directly to the Medical Leave Application portal...**' },
-        { keywords: ['book', 'appointment', 'consultation', 'doctor', 'specialist', 'clinic', 'opd'], route: '/dashboard', message: '🩺 **Navigating directly to Campus Doctors & Booking portal...**' },
-        { keywords: ['prescription', 'medicine', 'pharmacy', 'pill', 'dawai', 'order med'], route: '/my-prescriptions', message: '💊 **Opening your Prescriptions & Medicine Orders...**' },
-        { keywords: ['mood tracker', 'mood journal', 'mood', 'feelings'], route: '/wellness-center', message: '🧠 **Taking you directly to the Mood Tracker & Journal...**' },
-        { keywords: ['stress assessment', 'stress level', 'stress test', 'anxiety'], route: '/wellness-center', message: '📊 **Opening Stress Level Assessment...**' },
-        { keywords: ['psychologist', 'counselor', 'counselling', 'mental health', 'wellness center'], route: '/wellness-center', message: '👥 **Opening Campus Psychologist & Wellness Center...**' },
-        { keywords: ['symptom', 'checker', 'diagnosis', 'diagnose', 'body map', 'bimari'], route: '/symptom-checker', message: '🤖 **Opening AI 2D Body Symptom Checker...**' },
-        { keywords: ['care plan', 'diet plan', 'recovery plan'], route: '/care-plan', message: '🥗 **Opening Personalized AI Health Care Plan...**' },
-        { keywords: ['vaccination', 'vaccine', 'immunization', 'tika'], route: '/vaccinations', message: '💉 **Opening Campus Vaccination Records...**' },
-        { keywords: ['health map', 'campus map', 'map', 'nearby', 'location', 'find', 'dispensary'], route: '/health-map', message: '🗺️ **Opening Campus Health Map...**' },
-        { keywords: ['my bookings', 'my appointments', 'schedule', 'booking'], route: '/my-bookings', message: '📅 **Opening My Bookings...**' },
-        { keywords: ['reward', 'points', 'leaderboard', 'rank', 'coin'], route: '/dashboard', message: '🏆 **Opening Rewards & Health Leaderboard...**' },
-        { keywords: ['student health portal', 'health portal', 'blood group record'], route: '/student-health-portal', message: '🎓 **Opening Student Health Portal...**' },
-        { keywords: ['dashboard', 'home', 'profile', 'main'], route: '/dashboard', message: '🏠 **Taking you to your Dashboard...**' }
+        { keywords: ['emergency', 'sos', 'ambulance', 'accident', 'urgent', 'trauma', 'critical', 'khatra', 'madad', 'help'], route: '/emergency', message: '🚨 **Redirecting immediately to Emergency SOS & Ambulance Dispatch...**' },
+        { keywords: ['doctor', 'book doctor', 'appointment', 'book appointment', 'consultation', 'specialist', 'clinic', 'opd', 'physician', 'hospital', 'campus doctor', 'daktar', 'checkup'], route: '/book/HOS101', message: '🩺 **Navigating directly to Campus Doctors & Booking portal...**' },
+        { keywords: ['prescription', 'prescriptions', 'medicine', 'medicines', 'meds', 'pharmacy', 'pill', 'pills', 'dawai', 'dawa', 'dawaii', 'order med', 'drug', 'drugs', 'rx', 'dosage'], route: '/my-prescriptions', message: '💊 **Opening your Prescriptions & Medicine Orders...**' },
+        { keywords: ['leave', 'medical leave', 'sick leave', 'attendance', 'certificate', 'medical certificate', 'chutti', 'leave application', 'apply leave'], route: '/medical-leave', message: '📝 **Taking you directly to the Medical Leave Application portal...**' },
+        { keywords: ['mood tracker', 'mood journal', 'mood', 'feelings', 'emotional'], route: '/wellness-center', message: '🧠 **Taking you directly to the Mood Tracker & Journal...**' },
+        { keywords: ['stress assessment', 'stress level', 'stress test', 'stress', 'anxiety', 'tension'], route: '/wellness-center', message: '📊 **Opening Stress Level Assessment...**' },
+        { keywords: ['psychologist', 'counselor', 'counseling', 'counselling', 'mental health', 'wellness center', 'wellness', 'therapist', 'therapy', 'mental wellness'], route: '/wellness-center', message: '👥 **Opening Campus Psychologist & Wellness Center...**' },
+        { keywords: ['symptom', 'symptoms', 'symptom checker', 'body map', '2d body map', '2d map', 'diagnosis', 'diagnose', 'check symptom', 'bimari', 'body check'], route: '/symptom-checker', message: '🤖 **Opening AI 2D Body Symptom Checker...**' },
+        { keywords: ['care plan', 'care', 'diet plan', 'diet', 'recovery plan', 'nutrition', 'health plan', 'meal plan', 'workout plan'], route: '/care-plan', message: '🥗 **Opening Personalized AI Health Care Plan...**' },
+        { keywords: ['vaccination', 'vaccine', 'vaccines', 'vaccinations', 'immunization', 'injection', 'dose', 'tika', 'flu shot', 'booster'], route: '/vaccinations', message: '💉 **Opening Campus Vaccination Records...**' },
+        { keywords: ['health map', 'campus map', 'map', 'nearby', 'location', 'dispensary', 'first aid', 'route', 'rasta'], route: '/health-map', message: '🗺️ **Opening Campus Health Map...**' },
+        { keywords: ['my bookings', 'my booking', 'my appointment', 'my appointments', 'scheduled visit', 'past bookings', 'upcoming appointment'], route: '/my-bookings', message: '📅 **Opening My Bookings...**' },
+        { keywords: ['reward', 'rewards', 'leaderboard', 'points', 'point', 'badge', 'badges', 'rank', 'ranking', 'coin', 'coins', 'streak'], route: '/dashboard?tab=rewards', message: '🏆 **Opening Rewards & Health Leaderboard...**' },
+        { keywords: ['student health portal', 'student portal', 'student health', 'health portal', 'blood group', 'medical record', 'health card'], route: '/student-health-portal', message: '🎓 **Opening Student Health Portal...**' },
+        { keywords: ['complementary checkup', 'free checkup', 'body checkup', 'complementary', 'full body', 'full body checkup'], route: '/dashboard?tab=full-body-checkup', message: '🩺 **Opening Complementary Checkup...**' },
+        { keywords: ['analytics', 'health analytics', 'stats', 'statistics', 'graph', 'health report', 'chart', 'vitals'], route: '/analytics', message: '📊 **Opening Health Analytics...**' },
+        { keywords: ['medicine trends', 'medicine trend', 'disease trend', 'illness trend', 'trends', 'trend', 'outbreak'], route: '/medicine-trends', message: '📈 **Opening Medicine & Illness Trends...**' },
+        { keywords: ['wellness score', 'health score', 'wellbeing score', 'fitness score'], route: '/wellness-score', message: '💯 **Opening Wellness Score...**' },
+        { keywords: ['refer', 'referral', 'refer a student', 'invite', 'invite friend', 'dost'], route: '/refer-a-student', message: '🤝 **Opening Student Referral...**' },
+        { keywords: ['faculty portal', 'faculty', 'teacher', 'prof', 'professor'], route: '/faculty-portal', message: '🎓 **Opening Faculty Portal...**' },
+        { keywords: ['dashboard', 'home', 'profile', 'main', 'homepage', 'overview'], route: '/dashboard', message: '🏠 **Taking you to your Dashboard...**' }
       ];
 
       let matchedIntent = null;

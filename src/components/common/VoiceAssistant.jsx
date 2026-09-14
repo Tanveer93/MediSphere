@@ -132,45 +132,48 @@ export default function VoiceAssistant() {
       return;
     }
 
+    const cleanText = text.toLowerCase().trim();
+    const coreText = cleanText
+      .replace(/^(please\s+|can\s+you\s+|kindly\s+)?(redirect\s+to|navigate\s+to|open\s+up|open\s+|take\s+me\s+to|go\s+to|show\s+me\s+|bring\s+up|chalo\s+|kholo\s+|le\s+jao\s+|dikhaye\s+|dikhao\s+)/gi, '')
+      .trim();
+
     const routeIntents = [
-      { keywords: ['emergency', 'sos', 'ambulance', 'help'], route: '/emergency', message: 'Triggering Emergency Protocols...' },
-      { keywords: ['book', 'appointment', 'consultation'], route: '/book/HOS101?autoPilot=true', message: 'Navigating to hospitals for booking...' },
-      { keywords: ['prescription', 'medicine', 'pharmacy', 'pill', 'dawai'], route: '/dashboard?tab=prescriptions', message: 'Opening your prescriptions...' },
-      { keywords: ['leave', 'certificate', 'sick leave', 'chutti'], route: '/dashboard?tab=medical-leave', message: 'Opening medical leave portal...' },
-      { keywords: ['symptom', 'checker', 'diagnosis', 'diagnose', 'bimari'], route: '/dashboard?tab=symptom-checker', message: 'Opening AI Symptom Checker...' },
-      { keywords: ['dashboard', 'home', 'profile', 'main'], route: '/dashboard', message: 'Taking you to your dashboard...' },
-      { keywords: ['vaccination', 'vaccine', 'immunization', 'tika'], route: '/dashboard?tab=vaccinations', message: 'Opening vaccination records...' },
-      { keywords: ['wellness score', 'wellbeing'], route: '/dashboard?tab=wellness-score', message: 'Checking your wellness score...' },
-      { keywords: ['map', 'nearby', 'location', 'find', 'rasta'], route: '/dashboard?tab=health-map', message: 'Opening the health map...' },
-      { keywords: ['my bookings', 'my appointments', 'schedule', 'booking'], route: '/dashboard?tab=bookings', message: 'Opening your bookings...' },
-      { keywords: ['care plan', 'care', 'plan'], route: '/dashboard?tab=care-plan', message: 'Opening your Personalized Care Plan...' },
-      { keywords: ['complementary checkup', 'free checkup', 'body checkup', 'complementary', 'full body'], route: '/dashboard?tab=full-body-checkup', message: 'Opening Complementary Checkup...' },
-      { keywords: ['reward', 'points', 'leaderboard', 'rank', 'coin'], route: '/dashboard?tab=rewards', message: 'Opening Rewards Leaderboard...' },
-      { keywords: ['refer', 'referral', 'invite', 'dost'], route: '/dashboard?tab=refer-a-student', message: 'Opening Student Referral...' },
-      { keywords: ['student health portal', 'health portal'], route: '/dashboard?tab=student-health-portal', message: 'Opening Student Health Portal...' },
-      { keywords: ['wellness center', 'mental health', 'counselor', 'mood tracker', 'stress', 'depression'], route: '/dashboard?tab=wellness-center', message: 'Opening Wellness Center...' },
-      { keywords: ['medicine trends', 'trend', 'trends'], route: '/dashboard?tab=medicine-trends', message: 'Opening Medicine Trends...' },
-      { keywords: ['analytics', 'stats', 'statistics', 'graph'], route: '/dashboard?tab=analytics', message: 'Opening Health Analytics...' },
-      { keywords: ['faculty portal', 'faculty', 'teacher', 'sir', 'maam'], route: '/dashboard?tab=faculty-portal', message: 'Opening Faculty Portal...' },
+      { keywords: ['emergency', 'sos', 'ambulance', 'accident', 'urgent', 'trauma', 'critical', 'khatra', 'madad', 'help'], route: '/emergency', message: 'Triggering Emergency SOS & Ambulance Protocols...' },
+      { keywords: ['doctor', 'book doctor', 'appointment', 'book appointment', 'consultation', 'specialist', 'clinic', 'opd', 'physician', 'hospital', 'campus doctor', 'daktar', 'checkup'], route: '/book/HOS101', message: 'Navigating to Campus Doctor Booking...' },
+      { keywords: ['prescription', 'prescriptions', 'medicine', 'medicines', 'meds', 'pharmacy', 'pill', 'pills', 'dawai', 'dawa', 'dawaii', 'order med', 'drug', 'drugs', 'rx', 'dosage'], route: '/my-prescriptions', message: 'Opening your Prescriptions & Medicines...' },
+      { keywords: ['leave', 'medical leave', 'sick leave', 'attendance', 'certificate', 'medical certificate', 'chutti', 'leave application', 'apply leave'], route: '/medical-leave', message: 'Opening Medical Leave Portal...' },
+      { keywords: ['symptom', 'symptoms', 'symptom checker', 'body map', '2d body map', '2d map', 'diagnosis', 'diagnose', 'check symptom', 'bimari', 'body check'], route: '/symptom-checker', message: 'Opening AI 2D Body Symptom Checker...' },
+      { keywords: ['care plan', 'care', 'diet plan', 'diet', 'recovery plan', 'nutrition', 'health plan', 'meal plan', 'workout plan'], route: '/care-plan', message: 'Opening your Personalized AI Health Care Plan...' },
+      { keywords: ['mood', 'mood tracker', 'journal', 'feelings', 'emotional', 'mood journal'], route: '/wellness-center', message: 'Opening Mood Tracker & Journal...' },
+      { keywords: ['stress', 'stress assessment', 'stress level', 'stress test', 'anxiety', 'tension', 'breathing test'], route: '/wellness-center', message: 'Opening Stress Level Assessment...' },
+      { keywords: ['wellness center', 'wellness', 'mental health', 'psychologist', 'counselor', 'counseling', 'counselling', 'therapist', 'therapy', 'mental wellness'], route: '/wellness-center', message: 'Opening Campus Psychologist & Wellness Center...' },
+      { keywords: ['vaccination', 'vaccine', 'vaccines', 'vaccinations', 'immunization', 'injection', 'dose', 'tika', 'flu shot', 'booster'], route: '/vaccinations', message: 'Opening Vaccination Records...' },
+      { keywords: ['health map', 'campus map', 'map', 'nearby', 'location', 'dispensary', 'first aid', 'route', 'rasta'], route: '/health-map', message: 'Opening Campus Health Map...' },
+      { keywords: ['my bookings', 'my booking', 'my appointment', 'my appointments', 'scheduled visit', 'past bookings', 'upcoming appointment'], route: '/my-bookings', message: 'Opening My Bookings...' },
+      { keywords: ['reward', 'rewards', 'leaderboard', 'points', 'point', 'badge', 'badges', 'rank', 'ranking', 'coin', 'coins', 'streak'], route: '/dashboard?tab=rewards', message: 'Opening Rewards & Leaderboard...' },
+      { keywords: ['student health portal', 'student portal', 'student health', 'health portal', 'blood group', 'medical record', 'health card'], route: '/student-health-portal', message: 'Opening Student Health Portal...' },
+      { keywords: ['complementary checkup', 'free checkup', 'body checkup', 'complementary', 'full body', 'full body checkup'], route: '/dashboard?tab=full-body-checkup', message: 'Opening Complementary Checkup...' },
+      { keywords: ['analytics', 'health analytics', 'stats', 'statistics', 'graph', 'health report', 'chart', 'vitals'], route: '/analytics', message: 'Opening Health Analytics...' },
+      { keywords: ['medicine trends', 'medicine trend', 'disease trend', 'illness trend', 'trends', 'trend', 'outbreak'], route: '/medicine-trends', message: 'Opening Medicine & Illness Trends...' },
+      { keywords: ['wellness score', 'health score', 'wellbeing score', 'fitness score'], route: '/wellness-score', message: 'Opening Wellness Score...' },
+      { keywords: ['refer', 'referral', 'refer a student', 'invite', 'invite friend', 'dost'], route: '/refer-a-student', message: 'Opening Student Referral...' },
+      { keywords: ['faculty portal', 'faculty', 'teacher', 'prof', 'professor'], route: '/faculty-portal', message: 'Opening Faculty Portal...' },
+      { keywords: ['dashboard', 'home', 'profile', 'main', 'homepage', 'overview'], route: '/dashboard', message: 'Taking you to Dashboard Home...' }
     ];
 
     let matchedIntent = null;
     for (const intent of routeIntents) {
-      if (intent.keywords.some(keyword => text.includes(keyword))) {
+      if (intent.keywords.some(keyword => cleanText.includes(keyword) || coreText.includes(keyword))) {
         matchedIntent = intent;
         break;
       }
     }
 
     if (matchedIntent) {
-      if (matchedIntent.route.includes('/book')) {
-        convStateRef.current = 'ASKING_SYMPTOMS';
-        speak("Sure, I can book an appointment. What is your main medical issue or symptom?");
-        return;
-      }
-      
-      toast.success(`Executing command: ${matchedIntent.message}`, { duration: 4000 });
+      toast.success(`Executing: ${matchedIntent.message}`, { duration: 3500 });
+      speak(matchedIntent.message);
       navigate(matchedIntent.route);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
