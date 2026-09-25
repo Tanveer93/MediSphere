@@ -15,6 +15,7 @@ public class BackgroundJobService {
     public static class JobState {
         public String id;
         public String name;
+        public String status;
         public String result;
         public String errorReason;
         public long createdAt;
@@ -49,6 +50,7 @@ public class BackgroundJobService {
             state.status = "COMPLETED";
             state.result = "Generated comprehensive summary report successfully.";
         } catch (Exception e) {
+            state.status = "FAILED";
             state.errorReason = e.getMessage();
         }
     }
@@ -59,6 +61,7 @@ public class BackgroundJobService {
 
     public void retryJob(String jobId) {
         JobState state = jobStore.get(jobId);
+        if (state != null) {
             state.status = "PENDING";
             state.errorReason = null;
             processJobAsync(jobId);
