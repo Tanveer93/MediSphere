@@ -7,7 +7,7 @@ import {
   FiUpload, FiChevronRight, FiMapPin, FiHeart, FiDollarSign, FiLogOut 
 } from 'react-icons/fi';
 import { FaStethoscope, FaFlask, FaClinicMedical } from 'react-icons/fa';
-import logo from '../assets/medisphere-logo-new.png';
+import logo from '../assets/MediSphere-logo-new.png';
 import './DashboardPage.css';
 
 export default function DashboardPage() {

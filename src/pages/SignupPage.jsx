@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiArrowLeft, FiUser, FiPhone, FiMapPin, FiCheck, FiShield, FiRefreshCw, FiGift } from 'react-icons/fi';
 import { FaHeartbeat, FaUserMd, FaUser, FaStore, FaHospital, FaFlask } from 'react-icons/fa';
 import './Auth.css';
-import logo from '../assets/medisphere-logo-new.png';
+import logo from '../assets/MediSphere-logo-new.png';
 
 const cleanPhoneNumber = (val) => {
   if (!val) return '';
